@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessManagement\Facebook.cs" />
+    <Compile Include="BusinessManagement\Question.cs" />
+    <Compile Include="BusinessManagement\Transac.cs" />
+    <Compile Include="BusinessManagement\User.cs" />
     <Compile Include="DataAccess\Question.cs" />
     <Compile Include="DataAccess\Transac.cs" />
     <Compile Include="DataAccess\User.cs" />
