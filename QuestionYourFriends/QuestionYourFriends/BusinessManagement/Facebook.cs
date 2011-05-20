@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Facebook;
-using Facebook.Web;
+﻿using Facebook.Web;
 
 
 namespace QuestionYourFriends.BusinessManagement
 {
-    public class Facebook
+    public static class Facebook
     {
         /// <summary>
         /// Info User
         /// http://developers.facebook.com/docs/reference/api/
         /// </summary>
         /// <returns></returns>
-        public static dynamic getUserInfo()
+        public static dynamic GetUserInfo()
         {
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("me");
@@ -28,7 +23,7 @@ namespace QuestionYourFriends.BusinessManagement
         /// Facebook id of friend in data.id
         /// </summary>
         /// <returns>Json Array</returns>
-        public static dynamic getUserFriends()
+        public static dynamic GetUserFriends()
         {
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("/me/friends");

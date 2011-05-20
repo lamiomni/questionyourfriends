@@ -1,108 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
-    public class User
+    public static class User
     {
-        public static bool CreateUser(int fid)
+        public static bool CreateUser(QuestionYourFriendsEntities qyfEntities, int fid)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.User user = model.Users.CreateObject();
+                QuestionYourFriendsDataAccess.User user = qyfEntities.Users.CreateObject();
                 user.fid = fid;
                 user.activated = true;
                 user.credit_amount = 0;
-                model.SaveChanges();
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool CreateUser(QuestionYourFriendsDataAccess.User user)
+        public static bool CreateUser(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                model.Users.AddObject(user);
-                model.SaveChanges();
+                qyfEntities.Users.AddObject(user);
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool DeleteUser(long id)
+        public static bool DeleteUser(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                model.DeleteObject(model.Users.Where(x => x.id == id).FirstOrDefault());
-                model.SaveChanges();
+                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.id == id).FirstOrDefault());
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool UpdateUser(QuestionYourFriendsDataAccess.User user)
+        public static bool UpdateUser(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.User userFound = model.Users.Where(x => x.id == user.id).FirstOrDefault();
+                QuestionYourFriendsDataAccess.User userFound = qyfEntities.Users.Where(x => x.id == user.id).FirstOrDefault();
                 if (userFound != null)
                 {
                     userFound.fid = user.fid;
                     userFound.credit_amount = user.credit_amount;
                     userFound.activated = user.activated;
-             
-                    model.SaveChanges();
+
+                    qyfEntities.SaveChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
 
         }
 
-        public static QuestionYourFriendsDataAccess.User GetUser(long id)
+        public static QuestionYourFriendsDataAccess.User GetUser(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Users.Where(x => x.id == id).FirstOrDefault();
+                return qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
             }
         }
 
-        public static List<QuestionYourFriendsDataAccess.User> GetListUser()
+        public static List<QuestionYourFriendsDataAccess.User> GetListUser(QuestionYourFriendsEntities qyfEntities)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Users.ToList();
+                return qyfEntities.Users.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.User>();
             }
         }
-
     }
 }

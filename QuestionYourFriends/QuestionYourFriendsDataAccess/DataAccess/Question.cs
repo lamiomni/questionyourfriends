@@ -1,73 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
-    public class Question
+    public static class Question
     {
-        public static bool CreateQuestion(int id_owner, int id_receiver, string text, int anom_price, int private_price, DateTime date_pub)
+        public static bool CreateQuestion(QuestionYourFriendsEntities qyfEntities, int idOwner, int idReceiver,
+                                          string text, int anomPrice, int privatePrice, DateTime datePub)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.Question question = model.Questions.CreateObject();
-                question.id_owner = id_owner;
-                question.id_receiver = id_receiver;
+                QuestionYourFriendsDataAccess.Question question = qyfEntities.Questions.CreateObject();
+                question.id_owner = idOwner;
+                question.id_receiver = idReceiver;
                 question.text = text;
                 question.answer = null;
-                question.anom_price = anom_price;
-                question.private_price = private_price;
+                question.anom_price = anomPrice;
+                question.private_price = privatePrice;
                 question.undesirable = false;
-                question.date_pub = date_pub;
+                question.date_pub = datePub;
                 question.date_answer = null;
                 question.deleted = false;
-                model.SaveChanges();
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool CreateQuestion(QuestionYourFriendsDataAccess.Question question)
+        public static bool CreateQuestion(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
         {
             try
             {
-
-                var model = new QuestionYourFriendsEntities();
-                model.Questions.AddObject(question);
-                model.SaveChanges();
+                qyfEntities.Questions.AddObject(question);
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool DeleteQuestion(long id)
+        public static bool DeleteQuestion(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                model.DeleteObject(model.Questions.Where(x => x.id == id).FirstOrDefault());
-                model.SaveChanges();
+                qyfEntities.DeleteObject(qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault());
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool UpdateQuestion(QuestionYourFriendsDataAccess.Question question)
+        public static bool UpdateQuestion(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.Question questionFound = model.Questions.Where(x => x.id == question.id).FirstOrDefault();
+                QuestionYourFriendsDataAccess.Question questionFound = qyfEntities.Questions.Where(x => x.id == question.id).FirstOrDefault();
                 if (questionFound != null)
                 {
                     questionFound.id_owner = question.id_owner;
@@ -80,41 +80,42 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     questionFound.date_pub = question.date_pub;
                     questionFound.date_answer = question.date_answer;
                     questionFound.deleted = question.deleted;
-             
-                    model.SaveChanges();
+
+                    qyfEntities.SaveChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
 
         }
 
-        public static QuestionYourFriendsDataAccess.Question GetQuestion(long id)
+        public static QuestionYourFriendsDataAccess.Question GetQuestion(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Questions.Where(x => x.id == id).FirstOrDefault();
+                return qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
             }
         }
 
-        public static List<QuestionYourFriendsDataAccess.Question> GetListQuestion()
+        public static List<QuestionYourFriendsDataAccess.Question> GetListQuestion(QuestionYourFriendsEntities qyfEntities)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Questions.ToList();
+                return qyfEntities.Questions.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
