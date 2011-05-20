@@ -61,10 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSources\RandomEnumSource.cs" />
     <Compile Include="DataSources\RandomLongSource.cs" />
     <Compile Include="DataSources\RandomBooleanSource.cs" />
     <Compile Include="DataSources\RandomIntegerSource.cs" />
-    <Compile Include="DataSources\RandomSqlRowDataSource.cs" />
+    <Compile Include="DataSources\RandomSqlDataSource.cs" />
     <Compile Include="QyfExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
