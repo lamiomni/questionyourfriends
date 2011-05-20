@@ -50,6 +50,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     transacFound.amount = transac.amount;
                     transacFound.status = transac.status;
                     transacFound.userId = transac.userId;
+                    transacFound.type = transac.type;
+                    transacFound.questionId = transac.questionId;
              
                     model.SaveChanges();
                     return true;

@@ -55,6 +55,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     questionFound.undesirable = question.undesirable;
                     questionFound.date_pub = question.date_pub;
                     questionFound.date_answer = question.date_answer;
+                    questionFound.deleted = question.deleted;
              
                     model.SaveChanges();
                     return true;
