@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Web.DynamicData;
+using System.Web.UI;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd
 {
-    public partial class _Default : System.Web.UI.Page
+    public partial class _Default : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

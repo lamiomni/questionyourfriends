@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Data;
 using AutoPoco;
 using AutoPoco.DataSources;
 using AutoPoco.Engine;
-using QuestionsYourFriendsDataAccessPoco;
-using QuestionsYourFriendsDataGen.DataSources;
+using QuestionYourFriendsDataAccessPoco;
+using QuestionYourFriendsDataGen.DataSources;
 
-namespace QuestionsYourFriendsDataGen
+namespace QuestionYourFriendsDataGen
 {
     public class Program
     {

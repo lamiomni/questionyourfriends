@@ -1,15 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Web.DynamicData;
 using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.Expressions;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.PageTemplates
 {
-    public partial class List : System.Web.UI.Page
+    public partial class List : Page
     {
         protected MetaTable table;
 

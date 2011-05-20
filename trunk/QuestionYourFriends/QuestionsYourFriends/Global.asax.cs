@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace qyf
+namespace QuestionYourFriends
 {
     // Remarque : pour obtenir des instructions sur l'activation du mode classique IIS6 ou IIS7, 
     // visitez http://go.microsoft.com/?LinkId=9394801

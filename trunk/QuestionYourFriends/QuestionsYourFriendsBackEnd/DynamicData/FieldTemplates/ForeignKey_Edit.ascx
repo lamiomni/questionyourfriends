@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" CodeBehind="ForeignKey_Edit.ascx.cs" Inherits="QuestionsYourFriendsBackEnd.ForeignKey_EditField" %>
+﻿<%@ Control Language="C#" CodeBehind="ForeignKey_Edit.ascx.cs" Inherits="QuestionYourFriendsBackEnd.DynamicData.FieldTemplates.ForeignKey_EditField" %>
 
 <asp:DropDownList ID="DropDownList1" runat="server" CssClass="DDDropDown">
 </asp:DropDownList>

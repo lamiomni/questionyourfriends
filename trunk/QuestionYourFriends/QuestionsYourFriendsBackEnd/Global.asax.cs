@@ -2,9 +2,9 @@
 using System.Web;
 using System.Web.DynamicData;
 using System.Web.Routing;
-using QuestionsYourFriendsDataAccess;
+using QuestionYourFriendsDataAccess;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd
 {
     public class Global : HttpApplication
     {

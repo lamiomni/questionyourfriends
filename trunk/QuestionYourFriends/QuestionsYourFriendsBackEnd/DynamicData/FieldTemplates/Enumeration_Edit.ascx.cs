@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 using System.Web.DynamicData;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
-    public partial class Enumeration_EditField : System.Web.DynamicData.FieldTemplateUserControl
+    public partial class Enumeration_EditField : FieldTemplateUserControl
     {
         private Type _enumType;
 

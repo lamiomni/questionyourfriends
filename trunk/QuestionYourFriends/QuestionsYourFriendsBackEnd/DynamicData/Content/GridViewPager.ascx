@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" CodeBehind="GridViewPager.ascx.cs" Inherits="QuestionsYourFriendsBackEnd.GridViewPager" %>
+﻿<%@ Control Language="C#" CodeBehind="GridViewPager.ascx.cs" Inherits="QuestionYourFriendsBackEnd.DynamicData.Content.GridViewPager" %>
 
 <div class="DDPager">
     <span class="DDFloatLeft">

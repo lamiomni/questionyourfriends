@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web.DynamicData;
-using System.Web.UI.WebControls;
+﻿using System.Web.UI;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd
 {
-    public partial class Site : System.Web.UI.MasterPage
+    public partial class Site : MasterPage
     {
 
     }

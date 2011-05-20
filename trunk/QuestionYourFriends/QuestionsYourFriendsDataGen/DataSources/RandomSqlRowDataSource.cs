@@ -3,7 +3,7 @@ using System.Data.Objects;
 using System.Linq;
 using AutoPoco.Engine;
 
-namespace QuestionsYourFriendsDataGen.DataSources
+namespace QuestionYourFriendsDataGen.DataSources
 {
     public class RandomSqlRowDataSource<T> : DatasourceBase<T> where T : class
     {

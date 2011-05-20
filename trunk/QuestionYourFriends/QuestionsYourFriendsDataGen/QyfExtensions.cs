@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QuestionsYourFriendsDataGen
+namespace QuestionYourFriendsDataGen
 {
-    public static class Extensions
+    public static class QyfExtensions
     {
         private static readonly Random Rnd = new Random();
 

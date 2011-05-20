@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using qyf.Models;
+using QuestionYourFriends.Models;
 
-namespace qyf.Controllers
+namespace QuestionYourFriends.Controllers
 {
 
     [HandleError]

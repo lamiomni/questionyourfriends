@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.EntityTemplates
 {
-    public partial class Default_EditEntityTemplate : System.Web.DynamicData.EntityTemplateUserControl
+    public partial class Default_EditEntityTemplate : EntityTemplateUserControl
     {
         private MetaColumn currentColumn;
 
