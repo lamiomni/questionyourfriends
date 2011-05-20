@@ -13,7 +13,7 @@
 
         <div id="header">
             <div id="title">
-                <h1>Mon application MVC</h1>
+                <h1>Question your friends</h1>
             </div>
               
             <div id="logindisplay">
@@ -23,8 +23,11 @@
             <div id="menucontainer">
             
                 <ul id="menu">              
-                    <li><%: Html.ActionLink("Accueil", "Index", "Home")%></li>
-                    <li><%: Html.ActionLink("À propos de", "About", "Home")%></li>
+                    <!--<li><%: Html.ActionLink("Accueil", "Index", "Home")%></li>
+                    <li><%: Html.ActionLink("À propos de", "About", "Home")%></li>-->
+                    <li><%: Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
+                    <li><%: Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
+                    <li><%: Html.ActionLink("Poser une question", "Index", "Ask")%></li>
                 </ul>
             
             </div>
