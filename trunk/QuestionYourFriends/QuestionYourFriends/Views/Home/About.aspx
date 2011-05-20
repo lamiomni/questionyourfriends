@@ -7,6 +7,9 @@
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>À propos de</h2>
     <p>
-        Placez le contenu ici.
+        <h2>
+        Hello
+        <%: ViewData["Firstname"]%>
+        <%: ViewData["Lastname"]%>!</h2>
     </p>
 </asp:Content>
