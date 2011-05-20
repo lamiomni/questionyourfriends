@@ -1,5 +1,6 @@
 ﻿using System;
 //using System.Diagnostics;
+using System.Globalization;
 using AutoPoco;
 using AutoPoco.DataSources;
 using AutoPoco.Engine;
@@ -12,9 +13,12 @@ namespace QuestionYourFriendsDataGen
     {
         private static QuestionYourFriendsPocoEntities _qyfe;
         private static IGenerationSession _session;
+        private const float Version = 1.0f;
 
         static void Main()
         {
+            Console.WriteLine(string.Format(new CultureInfo("en-US"), "  === Qyf DataGen v.{0:0.0} ===", Version));
+            Console.WriteLine();
             _qyfe = new QuestionYourFriendsPocoEntities();
 
             // Perform factory set up (once for entire test run)
@@ -51,21 +55,21 @@ namespace QuestionYourFriendsDataGen
             // Generate one of these per test (factory will be a static variable most likely)
             _session = factory.CreateSession();
 
-            Console.WriteLine(@"Cleaning database:");
+            Console.WriteLine(@"    Cleaning database:");
             CleanDb();
             Console.WriteLine();
 
-            Console.WriteLine(@"Generating data:");
+            Console.WriteLine(@"    Generating data:");
             AddData();
             Console.WriteLine();
 
-            Console.Write(@"Generation done, press enter to exit...");
+            Console.Write(@"  Generation done, press enter to exit...");
             Console.ReadLine();
         }
 
         public static void CleanDb()
         {
-            Console.Write(@"- Transactions.");
+            Console.Write(@"      - Transactions");
             var transactions = _qyfe.Transacs;
             Console.Write(@".");
             int i = 0;
@@ -74,9 +78,11 @@ namespace QuestionYourFriendsDataGen
                 _qyfe.Transacs.DeleteObject(transaction);
                 i++;
             }
-            Console.WriteLine(string.Format(". {0} transactions deleted", i));
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            Console.WriteLine(string.Format(". {0} transactions deleted.", i));
 
-            Console.Write(@"- Questions.");
+            Console.Write(@"      - Questions");
             var questions = _qyfe.Questions;
             Console.Write(@".");
             i = 0;
@@ -85,20 +91,22 @@ namespace QuestionYourFriendsDataGen
                 _qyfe.Questions.DeleteObject(question);
                 i++;
             }
-            Console.WriteLine(string.Format(". {0} questions deleted", i));
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            Console.WriteLine(string.Format(". {0} questions deleted.", i));
 
-            Console.Write(@"- Users");
+            Console.Write(@"      - Users");
             var users = _qyfe.Users;
             Console.Write(@".");
+            i = 0;
             foreach (var user in users)
             {
                 _qyfe.Users.DeleteObject(user);
                 i++;
             }
             Console.Write(@".");
-
             _qyfe.SaveChanges();
-            Console.WriteLine(string.Format(". {0} users deleted", i));
+            Console.WriteLine(string.Format(". {0} users deleted.", i));
         }
 
         public static void AddData()
@@ -107,19 +115,21 @@ namespace QuestionYourFriendsDataGen
             const int nbTransac = 300;
             const int nbQuestion = 200;
 
-            Console.Write(@"- Users");
+            Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser).Get();
             Console.Write(@".");
+            int i = 0;
             foreach (var user in users)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3}", user.id, user.credit_amount, user.activated, user.fid));
                 _qyfe.Users.AddObject(user);
+                i++;
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
-            Console.WriteLine(@".");
+            Console.WriteLine(string.Format(". {0} users generated.", i));
 
-            Console.Write(@"- Questions");
+            Console.Write(@"      - Questions");
             var lis = new LoremIpsumSource();
             var rnd = new Random(1337);
             var questions = _session.List<Question>(nbQuestion)
@@ -132,27 +142,31 @@ namespace QuestionYourFriendsDataGen
                 .All()
                     .Get();
             Console.Write(@".");
+            i = 0;
             foreach (var question in questions)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8} - {9}", question.id, question.anom_price, question.answer, question.date_answer, question.date_pub,
                 //    question.id_owner, question.id_receiver, question.private_price, question.text, question.undesirable)); 
                 _qyfe.Questions.AddObject(question);
+                i++;
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
-            Console.WriteLine(@".");
+            Console.WriteLine(string.Format(". {0} questions generated.", i));
 
-            Console.Write(@"- Transacs");
+            Console.Write(@"      - Transacs");
             var transacs = _session.List<Transac>(nbTransac).Get();
             Console.Write(@".");
+            i = 0;
             foreach (var transac in transacs)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4}", transac.id, transac.fid, transac.amount, transac.status, transac.userId));
                 _qyfe.Transacs.AddObject(transac);
+                i++;
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
-            Console.WriteLine(@".");
+            Console.WriteLine(string.Format(". {0} transactions generated.", i));
         }
     }
 }
