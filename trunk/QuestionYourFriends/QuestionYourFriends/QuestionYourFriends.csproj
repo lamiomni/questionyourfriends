@@ -80,7 +80,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessManagement\Context.cs" />
     <Compile Include="BusinessManagement\Facebook.cs" />
+    <Compile Include="BusinessManagement\Question.cs" />
+    <Compile Include="BusinessManagement\Transac.cs" />
+    <Compile Include="BusinessManagement\User.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AskController.cs" />
     <Compile Include="Controllers\FriendsQuestionsController.cs" />

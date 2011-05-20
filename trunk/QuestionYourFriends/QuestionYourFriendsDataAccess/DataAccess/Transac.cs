@@ -1,69 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
-    public class Transac
+    public static class Transac
     {
-        public static bool CreateTransac(int fid, int amount, int userId, string type, int questionId)
+        public static bool CreateTransac(QuestionYourFriendsEntities qyfEntities, int fid, int amount, int userId,
+                                         string type, int questionId)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.Transac transac = model.Transacs.CreateObject();
+                QuestionYourFriendsDataAccess.Transac transac = qyfEntities.Transacs.CreateObject();
                 transac.fid = fid;
                 transac.amount = amount;
                 transac.status = "Ok";
                 transac.userId = userId;
                 transac.type = type;
                 transac.questionId = questionId;
-                model.SaveChanges();
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool CreateTransac(QuestionYourFriendsDataAccess.Transac transac)
+        public static bool CreateTransac(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
             {
-
-                var model = new QuestionYourFriendsEntities();
-                model.Transacs.AddObject(transac);
-                model.SaveChanges();
+                qyfEntities.Transacs.AddObject(transac);
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool DeleteTransac(long id)
+        public static bool DeleteTransac(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                model.DeleteObject(model.Transacs.Where(x => x.id == id).FirstOrDefault());
-                model.SaveChanges();
+                qyfEntities.DeleteObject(qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault());
+                qyfEntities.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static bool UpdateTransac(QuestionYourFriendsDataAccess.Transac transac)
+        public static bool UpdateTransac(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                QuestionYourFriendsDataAccess.Transac transacFound = model.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
+                QuestionYourFriendsDataAccess.Transac transacFound = qyfEntities.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
                 if (transacFound != null)
                 {
                     transacFound.fid = transac.fid;
@@ -72,40 +72,41 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     transacFound.userId = transac.userId;
                     transacFound.type = transac.type;
                     transacFound.questionId = transac.questionId;
-             
-                    model.SaveChanges();
+
+                    qyfEntities.SaveChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return false;
             }
         }
 
-        public static QuestionYourFriendsDataAccess.Transac GetTransac(long id)
+        public static QuestionYourFriendsDataAccess.Transac GetTransac(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Transacs.Where(x => x.id == id).FirstOrDefault();
+                return qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return null;
             }
         }
 
-        public static List<QuestionYourFriendsDataAccess.Transac> GetListTransac()
+        public static List<QuestionYourFriendsDataAccess.Transac> GetListTransac(QuestionYourFriendsEntities qyfEntities)
         {
             try
             {
-                var model = new QuestionYourFriendsEntities();
-                return model.Transacs.ToList();
+                return qyfEntities.Transacs.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Transac>();
             }
         }

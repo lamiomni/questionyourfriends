@@ -84,7 +84,7 @@
     <ProjectReference Include="..\QuestionYourFriendsDataAccess\QuestionYourFriendsDataAccess.csproj">
       <Project>{C754053F-D1AD-469D-806A-63A8C580CD3A}</Project>
       <Name>QuestionYourFriendsDataAccess</Name>
-      <Private>False</Private>
+      <Private>True</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
