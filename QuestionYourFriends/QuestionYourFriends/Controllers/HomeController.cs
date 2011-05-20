@@ -3,6 +3,7 @@ using Facebook;
 using Facebook.Web;
 using Facebook.Web.Mvc;
 using System.Configuration;
+using QuestionYourFriends;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -21,15 +22,12 @@ namespace QuestionYourFriends.Controllers
         public ActionResult About()
         {
 
-            dynamic result = QuestionYourFriendsDataAccess.BusinessManagement.Facebook.getUserInfo();
+            dynamic result = BusinessManagement.Facebook.getUserInfo();
             ViewData["Firstname"] = (string)result.first_name;
             ViewData["Lastname"] = (string)result.last_name;
-            dynamic myInfo = QuestionYourFriendsDataAccess.BusinessManagement.Facebook.getUserFriends();
-            Response.Write(result);
-            foreach (dynamic friend in myInfo.data)
-            {
-                Response.Write("Name: " + friend.name + "<br/>Facebook id: " + friend.id + "<br/><br/>");
-            }
+
+
+            
             return View();
         }
     }
