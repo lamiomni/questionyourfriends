@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace QuestionYourFriendsDataAccessPoco
+namespace QuestionYourFriendsDataAccess
 {
     public partial class Question
     {

@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsDataAcce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsBackEnd", "QuestionYourFriendsBackEnd\QuestionYourFriendsBackEnd.csproj", "{3AC569CC-401C-4B55-835E-DC2D99103094}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsDataAccessPoco", "QuestionYourFriendsDataAccessPoco\QuestionYourFriendsDataAccessPoco.csproj", "{870E4F76-CBD6-4B32-8233-D036DF1B48A6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,16 +73,6 @@ Global
 		{3AC569CC-401C-4B55-835E-DC2D99103094}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3AC569CC-401C-4B55-835E-DC2D99103094}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3AC569CC-401C-4B55-835E-DC2D99103094}.Release|x86.ActiveCfg = Release|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{870E4F76-CBD6-4B32-8233-D036DF1B48A6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
