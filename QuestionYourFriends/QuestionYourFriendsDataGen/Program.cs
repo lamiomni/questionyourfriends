@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Diagnostics;
 using System.Globalization;
 using AutoPoco;
 using AutoPoco.DataSources;
@@ -69,9 +68,9 @@ namespace QuestionYourFriendsDataGen
 
         public static void CleanDb()
         {
-            Console.Write(@"      - Transactions");
+            // Clean transactions
+            Console.Write(@"      - Transactions.");
             var transactions = _qyfe.Transacs;
-            Console.Write(@".");
             int i = 0;
             foreach (var transaction in transactions)
             {
@@ -82,9 +81,10 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(string.Format(". {0} transactions deleted.", i));
 
-            Console.Write(@"      - Questions");
+
+            // Clean questions
+            Console.Write(@"      - Questions.");
             var questions = _qyfe.Questions;
-            Console.Write(@".");
             i = 0;
             foreach (var question in questions)
             {
@@ -95,9 +95,10 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(string.Format(". {0} questions deleted.", i));
 
-            Console.Write(@"      - Users");
+
+            // Clean users
+            Console.Write(@"      - Users..");
             var users = _qyfe.Users;
-            Console.Write(@".");
             i = 0;
             foreach (var user in users)
             {
@@ -115,13 +116,14 @@ namespace QuestionYourFriendsDataGen
             const int nbTransac = 300;
             const int nbQuestion = 200;
 
+
+            // Add users
             Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser).Get();
             Console.Write(@".");
             int i = 0;
             foreach (var user in users)
             {
-                //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3}", user.id, user.credit_amount, user.activated, user.fid));
                 _qyfe.Users.AddObject(user);
                 i++;
             }
@@ -129,6 +131,8 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(string.Format(". {0} users generated.", i));
 
+
+            // Add questions
             Console.Write(@"      - Questions");
             var lis = new LoremIpsumSource();
             var rnd = new Random(1337);
@@ -145,8 +149,6 @@ namespace QuestionYourFriendsDataGen
             i = 0;
             foreach (var question in questions)
             {
-                //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8} - {9}", question.id, question.anom_price, question.answer, question.date_answer, question.date_pub,
-                //    question.id_owner, question.id_receiver, question.private_price, question.text, question.undesirable)); 
                 _qyfe.Questions.AddObject(question);
                 i++;
             }
@@ -154,13 +156,14 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(string.Format(". {0} questions generated.", i));
 
+
+            // Add transactions
             Console.Write(@"      - Transacs");
             var transacs = _session.List<Transac>(nbTransac).Get();
             Console.Write(@".");
             i = 0;
             foreach (var transac in transacs)
             {
-                //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4}", transac.id, transac.fid, transac.amount, transac.status, transac.userId));
                 _qyfe.Transacs.AddObject(transac);
                 i++;
             }

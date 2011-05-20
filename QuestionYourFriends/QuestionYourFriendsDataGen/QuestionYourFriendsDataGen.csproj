@@ -66,9 +66,9 @@
     <Compile Include="DataSources\RandomBooleanSource.cs" />
     <Compile Include="DataSources\RandomIntegerSource.cs" />
     <Compile Include="DataSources\RandomSqlDataSource.cs" />
-    <Compile Include="QyfExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QyfExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

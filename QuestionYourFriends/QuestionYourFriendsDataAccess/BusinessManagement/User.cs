@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace QuestionYourFriendsDataAccess.BusinessManagement
 {
-    class User
+    public class User
     {
         public static bool CreateUser(QuestionYourFriendsDataAccess.User user)
         {
