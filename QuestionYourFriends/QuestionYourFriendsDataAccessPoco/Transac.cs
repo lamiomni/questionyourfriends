@@ -59,6 +59,29 @@ namespace QuestionYourFriendsDataAccessPoco
             }
         }
         private int _userId;
+    
+        public virtual string type
+        {
+            get;
+            set;
+        }
+    
+        public virtual int questionId
+        {
+            get { return _questionId; }
+            set
+            {
+                if (_questionId != value)
+                {
+                    if (Question != null && Question.id != value)
+                    {
+                        Question = null;
+                    }
+                    _questionId = value;
+                }
+            }
+        }
+        private int _questionId;
 
         #endregion
         #region Navigation Properties
@@ -77,6 +100,21 @@ namespace QuestionYourFriendsDataAccessPoco
             }
         }
         private User _user;
+    
+        public virtual Question Question
+        {
+            get { return _question; }
+            set
+            {
+                if (!ReferenceEquals(_question, value))
+                {
+                    var previousValue = _question;
+                    _question = value;
+                    FixupQuestion(previousValue);
+                }
+            }
+        }
+        private Question _question;
 
         #endregion
         #region Association Fixup
@@ -97,6 +135,26 @@ namespace QuestionYourFriendsDataAccessPoco
                 if (userId != User.id)
                 {
                     userId = User.id;
+                }
+            }
+        }
+    
+        private void FixupQuestion(Question previousValue)
+        {
+            if (previousValue != null && previousValue.Transacs.Contains(this))
+            {
+                previousValue.Transacs.Remove(this);
+            }
+    
+            if (Question != null)
+            {
+                if (!Question.Transacs.Contains(this))
+                {
+                    Question.Transacs.Add(this);
+                }
+                if (questionId != Question.id)
+                {
+                    questionId = Question.id;
                 }
             }
         }

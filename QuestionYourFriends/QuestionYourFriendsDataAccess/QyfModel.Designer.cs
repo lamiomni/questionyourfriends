@@ -21,6 +21,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Owner", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Question), true)]
 [assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Receiver", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Question), true)]
 [assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Transac_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Transac", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Transac), true)]
+[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Transac_Question", "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.Question), "Transac", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Transac), true)]
 
 #endregion
 
@@ -176,7 +177,8 @@ namespace QuestionYourFriendsDataAccess
         /// <param name="private_price">Valeur initiale de la propriété private_price.</param>
         /// <param name="undesirable">Valeur initiale de la propriété undesirable.</param>
         /// <param name="date_pub">Valeur initiale de la propriété date_pub.</param>
-        public static Question CreateQuestion(global::System.Int32 id, global::System.Int32 id_owner, global::System.Int32 id_receiver, global::System.String text, global::System.Int32 anom_price, global::System.Int32 private_price, global::System.Boolean undesirable, global::System.DateTime date_pub)
+        /// <param name="deleted">Valeur initiale de la propriété deleted.</param>
+        public static Question CreateQuestion(global::System.Int32 id, global::System.Int32 id_owner, global::System.Int32 id_receiver, global::System.String text, global::System.Int32 anom_price, global::System.Int32 private_price, global::System.Boolean undesirable, global::System.DateTime date_pub, global::System.Boolean deleted)
         {
             Question question = new Question();
             question.id = id;
@@ -187,6 +189,7 @@ namespace QuestionYourFriendsDataAccess
             question.private_price = private_price;
             question.undesirable = undesirable;
             question.date_pub = date_pub;
+            question.deleted = deleted;
             return question;
         }
 
@@ -435,6 +438,30 @@ namespace QuestionYourFriendsDataAccess
         private Nullable<global::System.DateTime> _date_answer;
         partial void Ondate_answerChanging(Nullable<global::System.DateTime> value);
         partial void Ondate_answerChanged();
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean deleted
+        {
+            get
+            {
+                return _deleted;
+            }
+            set
+            {
+                OndeletedChanging(value);
+                ReportPropertyChanging("deleted");
+                _deleted = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("deleted");
+                OndeletedChanged();
+            }
+        }
+        private global::System.Boolean _deleted;
+        partial void OndeletedChanging(global::System.Boolean value);
+        partial void OndeletedChanged();
 
         #endregion
     
@@ -515,6 +542,28 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("QuestionYourFriendsModel", "FK_Transac_Question", "Transac")]
+        public EntityCollection<Transac> Transacs
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Transac>("QuestionYourFriendsModel.FK_Transac_Question", "Transac");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Transac>("QuestionYourFriendsModel.FK_Transac_Question", "Transac", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -537,7 +586,9 @@ namespace QuestionYourFriendsDataAccess
         /// <param name="amount">Valeur initiale de la propriété amount.</param>
         /// <param name="status">Valeur initiale de la propriété status.</param>
         /// <param name="userId">Valeur initiale de la propriété userId.</param>
-        public static Transac CreateTransac(global::System.Int32 id, global::System.Int64 fid, global::System.Int32 amount, global::System.String status, global::System.Int32 userId)
+        /// <param name="type">Valeur initiale de la propriété type.</param>
+        /// <param name="questionId">Valeur initiale de la propriété questionId.</param>
+        public static Transac CreateTransac(global::System.Int32 id, global::System.Int64 fid, global::System.Int32 amount, global::System.String status, global::System.Int32 userId, global::System.String type, global::System.Int32 questionId)
         {
             Transac transac = new Transac();
             transac.id = id;
@@ -545,6 +596,8 @@ namespace QuestionYourFriendsDataAccess
             transac.amount = amount;
             transac.status = status;
             transac.userId = userId;
+            transac.type = type;
+            transac.questionId = questionId;
             return transac;
         }
 
@@ -673,6 +726,54 @@ namespace QuestionYourFriendsDataAccess
         private global::System.Int32 _userId;
         partial void OnuserIdChanging(global::System.Int32 value);
         partial void OnuserIdChanged();
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                OntypeChanging(value);
+                ReportPropertyChanging("type");
+                _type = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("type");
+                OntypeChanged();
+            }
+        }
+        private global::System.String _type;
+        partial void OntypeChanging(global::System.String value);
+        partial void OntypeChanged();
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 questionId
+        {
+            get
+            {
+                return _questionId;
+            }
+            set
+            {
+                OnquestionIdChanging(value);
+                ReportPropertyChanging("questionId");
+                _questionId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("questionId");
+                OnquestionIdChanged();
+            }
+        }
+        private global::System.Int32 _questionId;
+        partial void OnquestionIdChanging(global::System.Int32 value);
+        partial void OnquestionIdChanged();
 
         #endregion
     
@@ -712,6 +813,44 @@ namespace QuestionYourFriendsDataAccess
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("QuestionYourFriendsModel.FK_Transac_User", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("QuestionYourFriendsModel", "FK_Transac_Question", "Question")]
+        public Question Question
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Question>("QuestionYourFriendsModel.FK_Transac_Question", "Question").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Question>("QuestionYourFriendsModel.FK_Transac_Question", "Question").Value = value;
+            }
+        }
+        /// <summary>
+        /// Aucune documentation sur les métadonnées n'est disponible.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Question> QuestionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Question>("QuestionYourFriendsModel.FK_Transac_Question", "Question");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Question>("QuestionYourFriendsModel.FK_Transac_Question", "Question", value);
                 }
             }
         }

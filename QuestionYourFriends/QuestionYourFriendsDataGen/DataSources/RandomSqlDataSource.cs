@@ -5,14 +5,14 @@ using AutoPoco.Engine;
 
 namespace QuestionYourFriendsDataGen.DataSources
 {
-    public class RandomSqlRowDataSource<T> : DatasourceBase<T> where T : class
+    public class RandomSqlDataSource<T> : DatasourceBase<T> where T : class
     {
         private readonly ObjectSet<T> _set;
         private readonly Func<T, bool> _where;
 
-        public RandomSqlRowDataSource(ObjectSet<T> set) : this(set, null) { }
+        public RandomSqlDataSource(ObjectSet<T> set) : this(set, null) { }
 
-        public RandomSqlRowDataSource(ObjectSet<T> set, Func<T, bool> where)
+        public RandomSqlDataSource(ObjectSet<T> set, Func<T, bool> where)
         {
             _set = set;
             _where = where;

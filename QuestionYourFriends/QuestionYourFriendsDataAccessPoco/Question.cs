@@ -100,6 +100,12 @@ namespace QuestionYourFriendsDataAccessPoco
             get;
             set;
         }
+    
+        public virtual bool deleted
+        {
+            get;
+            set;
+        }
 
         #endregion
         #region Navigation Properties
@@ -133,6 +139,38 @@ namespace QuestionYourFriendsDataAccessPoco
             }
         }
         private User _receiver;
+    
+        public virtual ICollection<Transac> Transacs
+        {
+            get
+            {
+                if (_transacs == null)
+                {
+                    var newCollection = new FixupCollection<Transac>();
+                    newCollection.CollectionChanged += FixupTransacs;
+                    _transacs = newCollection;
+                }
+                return _transacs;
+            }
+            set
+            {
+                if (!ReferenceEquals(_transacs, value))
+                {
+                    var previousValue = _transacs as FixupCollection<Transac>;
+                    if (previousValue != null)
+                    {
+                        previousValue.CollectionChanged -= FixupTransacs;
+                    }
+                    _transacs = value;
+                    var newValue = value as FixupCollection<Transac>;
+                    if (newValue != null)
+                    {
+                        newValue.CollectionChanged += FixupTransacs;
+                    }
+                }
+            }
+        }
+        private ICollection<Transac> _transacs;
 
         #endregion
         #region Association Fixup
@@ -173,6 +211,28 @@ namespace QuestionYourFriendsDataAccessPoco
                 if (id_receiver != Receiver.id)
                 {
                     id_receiver = Receiver.id;
+                }
+            }
+        }
+    
+        private void FixupTransacs(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (Transac item in e.NewItems)
+                {
+                    item.Question = this;
+                }
+            }
+    
+            if (e.OldItems != null)
+            {
+                foreach (Transac item in e.OldItems)
+                {
+                    if (ReferenceEquals(item.Question, this))
+                    {
+                        item.Question = null;
+                    }
                 }
             }
         }

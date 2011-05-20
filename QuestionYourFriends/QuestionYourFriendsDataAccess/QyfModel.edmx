@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QuestionYourFriendsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="QuestionYourFriendsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="QuestionYourFriendsModelStoreContainer">
           <EntitySet Name="Question" EntityType="QuestionYourFriendsModel.Store.Question" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Transac" EntityType="QuestionYourFriendsModel.Store.Transac" store:Type="Tables" Schema="dbo" />
@@ -16,6 +16,10 @@
           <AssociationSet Name="FK_Question_Receiver" Association="QuestionYourFriendsModel.Store.FK_Question_Receiver">
             <End Role="User" EntitySet="User" />
             <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transac_Question" Association="QuestionYourFriendsModel.Store.FK_Transac_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Transac" EntitySet="Transac" />
           </AssociationSet>
           <AssociationSet Name="FK_Transac_User" Association="QuestionYourFriendsModel.Store.FK_Transac_User">
             <End Role="User" EntitySet="User" />
@@ -36,6 +40,7 @@
           <Property Name="undesirable" Type="bit" Nullable="false" />
           <Property Name="date_pub" Type="datetime" Nullable="false" />
           <Property Name="date_answer" Type="datetime" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Transac">
           <Key>
@@ -46,6 +51,8 @@
           <Property Name="amount" Type="int" Nullable="false" />
           <Property Name="status" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="questionId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -80,6 +87,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transac_Question">
+          <End Role="Question" Type="QuestionYourFriendsModel.Store.Question" Multiplicity="1" />
+          <End Role="Transac" Type="QuestionYourFriendsModel.Store.Transac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transac">
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Transac_User">
           <End Role="User" Type="QuestionYourFriendsModel.Store.User" Multiplicity="1" />
           <End Role="Transac" Type="QuestionYourFriendsModel.Store.Transac" Multiplicity="*" />
@@ -92,8 +111,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QuestionYourFriendsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -113,6 +131,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Transac" EntitySet="Transacs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Transac_Question" Association="QuestionYourFriendsModel.FK_Transac_Question">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Transac" EntitySet="Transacs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Question">
           <Key>
@@ -130,6 +152,8 @@
           <Property Name="date_answer" Type="DateTime" />
           <NavigationProperty Name="Owner" Relationship="QuestionYourFriendsModel.FK_Question_Owner" FromRole="Question" ToRole="User" />
           <NavigationProperty Name="Receiver" Relationship="QuestionYourFriendsModel.FK_Question_Receiver" FromRole="Question" ToRole="User" />
+          <Property Type="Boolean" Name="deleted" Nullable="false" />
+          <NavigationProperty Name="Transacs" Relationship="QuestionYourFriendsModel.FK_Transac_Question" FromRole="Question" ToRole="Transac" />
         </EntityType>
         <EntityType Name="Transac">
           <Key>
@@ -141,6 +165,9 @@
           <Property Name="status" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="userId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="QuestionYourFriendsModel.FK_Transac_User" FromRole="Transac" ToRole="User" />
+          <Property Type="String" Name="type" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="questionId" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="QuestionYourFriendsModel.FK_Transac_Question" FromRole="Transac" ToRole="Question" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -190,6 +217,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transac_Question">
+          <End Type="QuestionYourFriendsModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="QuestionYourFriendsModel.Transac" Role="Transac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transac">
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -197,7 +236,8 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="QuestionYourFriendsModelStoreContainer" CdmEntityContainer="QuestionYourFriendsEntities">
           <EntitySetMapping Name="Questions"><EntityTypeMapping TypeName="QuestionYourFriendsModel.Question"><MappingFragment StoreEntitySet="Question">
-            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="id_owner" ColumnName="id_owner" />
             <ScalarProperty Name="id_receiver" ColumnName="id_receiver" />
             <ScalarProperty Name="text" ColumnName="text" />
@@ -209,7 +249,9 @@
             <ScalarProperty Name="date_answer" ColumnName="date_answer" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Transacs"><EntityTypeMapping TypeName="QuestionYourFriendsModel.Transac"><MappingFragment StoreEntitySet="Transac">
-            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="fid" ColumnName="fid" />
             <ScalarProperty Name="amount" ColumnName="amount" />
             <ScalarProperty Name="status" ColumnName="status" />
@@ -242,21 +284,25 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="QyfModel">
-        <EntityTypeShape EntityType="QuestionYourFriendsModel.Question" Width="1.5" PointX="3" PointY="1.125" Height="3.3263964843749996" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuestionYourFriendsModel.Transac" Width="1.5" PointX="3" PointY="5.25" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuestionYourFriendsModel.User" Width="1.5" PointX="0.75" PointY="3.125" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuestionYourFriendsModel.Question" Width="1.5" PointX="3.25" PointY="2.625" Height="3.7109993489583326" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuestionYourFriendsModel.Transac" Width="1.5" PointX="5.25" PointY="5.25" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuestionYourFriendsModel.User" Width="1.5" PointX="0.75" PointY="3.75" Height="2.3648893229166656" IsExpanded="true" />
         <AssociationConnector Association="QuestionYourFriendsModel.FK_Question_Owner" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="3.7881982421875" />
-          <ConnectorPoint PointX="3" PointY="3.7881982421875" />
+          <ConnectorPoint PointX="2.25" PointY="4.9324446614583328" />
+          <ConnectorPoint PointX="3.25" PointY="4.9324446614583328" />
         </AssociationConnector>
         <AssociationConnector Association="QuestionYourFriendsModel.FK_Question_Receiver" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="3.39409912109375" />
-          <ConnectorPoint PointX="3" PointY="3.39409912109375" />
+          <ConnectorPoint PointX="2.25" PointY="4.2787223307291669" />
+          <ConnectorPoint PointX="3.25" PointY="4.2787223307291669" />
         </AssociationConnector>
         <AssociationConnector Association="QuestionYourFriendsModel.FK_Transac_User" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="5.4898893229166656" />
-          <ConnectorPoint PointX="1.5" PointY="6.4562391067708322" />
-          <ConnectorPoint PointX="3" PointY="6.4562391067708322" />
+          <ConnectorPoint PointX="1.5" PointY="6.1148893229166656" />
+          <ConnectorPoint PointX="1.5" PointY="7.1989957682291656" />
+          <ConnectorPoint PointX="5.25" PointY="7.1989957682291656" />
+        </AssociationConnector>
+        <AssociationConnector Association="QuestionYourFriendsModel.FK_Transac_Question" >
+          <ConnectorPoint PointX="4.75" PointY="5.7929996744791659" />
+          <ConnectorPoint PointX="5.25" PointY="5.7929996744791659" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
