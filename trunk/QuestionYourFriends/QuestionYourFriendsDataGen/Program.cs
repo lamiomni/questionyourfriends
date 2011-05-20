@@ -55,7 +55,7 @@ namespace QuestionYourFriendsDataGen
             CleanDb();
             Console.WriteLine();
 
-            Console.WriteLine(@"Adding data:");
+            Console.WriteLine(@"Generating data:");
             AddData();
             Console.WriteLine();
 
@@ -67,24 +67,38 @@ namespace QuestionYourFriendsDataGen
         {
             Console.Write(@"- Transactions.");
             var transactions = _qyfe.Transacs;
+            Console.Write(@".");
+            int i = 0;
             foreach (var transaction in transactions)
+            {
                 _qyfe.Transacs.DeleteObject(transaction);
-            Console.WriteLine(@"..");
+                i++;
+            }
+            Console.WriteLine(string.Format(". {0} transactions deleted", i));
 
             Console.Write(@"- Questions.");
             var questions = _qyfe.Questions;
+            Console.Write(@".");
+            i = 0;
             foreach (var question in questions)
+            {
                 _qyfe.Questions.DeleteObject(question);
-            Console.WriteLine(@"..");
+                i++;
+            }
+            Console.WriteLine(string.Format(". {0} questions deleted", i));
 
-            Console.Write(@"- Users.");
+            Console.Write(@"- Users");
             var users = _qyfe.Users;
+            Console.Write(@".");
             foreach (var user in users)
+            {
                 _qyfe.Users.DeleteObject(user);
+                i++;
+            }
             Console.Write(@".");
 
             _qyfe.SaveChanges();
-            Console.WriteLine(@".");
+            Console.WriteLine(string.Format(". {0} users deleted", i));
         }
 
         public static void AddData()
@@ -93,8 +107,9 @@ namespace QuestionYourFriendsDataGen
             const int nbTransac = 300;
             const int nbQuestion = 200;
 
-            Console.Write(@"- Users.");
+            Console.Write(@"- Users");
             var users = _session.List<User>(nbUser).Get();
+            Console.Write(@".");
             foreach (var user in users)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3}", user.id, user.credit_amount, user.activated, user.fid));
@@ -104,7 +119,7 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(@".");
 
-            Console.Write(@"- Questions.");
+            Console.Write(@"- Questions");
             var lis = new LoremIpsumSource();
             var rnd = new Random(1337);
             var questions = _session.List<Question>(nbQuestion)
@@ -116,6 +131,7 @@ namespace QuestionYourFriendsDataGen
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .All()
                     .Get();
+            Console.Write(@".");
             foreach (var question in questions)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4} - {5} - {6} - {7} - {8} - {9}", question.id, question.anom_price, question.answer, question.date_answer, question.date_pub,
@@ -126,8 +142,9 @@ namespace QuestionYourFriendsDataGen
             _qyfe.SaveChanges();
             Console.WriteLine(@".");
 
-            Console.Write(@"- Transacs.");
+            Console.Write(@"- Transacs");
             var transacs = _session.List<Transac>(nbTransac).Get();
+            Console.Write(@".");
             foreach (var transac in transacs)
             {
                 //Debug.WriteLine(string.Format("{0} - {1} - {2} - {3} - {4}", transac.id, transac.fid, transac.amount, transac.status, transac.userId));
