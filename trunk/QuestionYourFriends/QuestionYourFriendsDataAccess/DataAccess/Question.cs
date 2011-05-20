@@ -6,6 +6,31 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public class Question
     {
+        public static bool CreateQuestion(int id_owner, int id_receiver, string text, int anom_price, int private_price, DateTime date_pub)
+        {
+            try
+            {
+                var model = new QuestionYourFriendsEntities();
+                QuestionYourFriendsDataAccess.Question question = model.Questions.CreateObject();
+                question.id_owner = id_owner;
+                question.id_receiver = id_receiver;
+                question.text = text;
+                question.answer = null;
+                question.anom_price = anom_price;
+                question.private_price = private_price;
+                question.undesirable = false;
+                question.date_pub = date_pub;
+                question.date_answer = null;
+                question.deleted = false;
+                model.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool CreateQuestion(QuestionYourFriendsDataAccess.Question question)
         {
             try
