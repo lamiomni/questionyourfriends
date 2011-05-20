@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsYourFriends", "QuestionsYourFriends\QuestionsYourFriends.csproj", "{751A5962-7F71-4B08-8890-4B86CFC0FCEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriends", "QuestionsYourFriends\QuestionYourFriends.csproj", "{751A5962-7F71-4B08-8890-4B86CFC0FCEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsYourFriendsDataGen", "QuestionsYourFriendsDataGen\QuestionsYourFriendsDataGen.csproj", "{84793E2E-68E5-4B85-B154-AD83F8C0D5FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsDataGen", "QuestionsYourFriendsDataGen\QuestionYourFriendsDataGen.csproj", "{84793E2E-68E5-4B85-B154-AD83F8C0D5FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoPoco", "AutoPoco\AutoPoco.csproj", "{EDD484D5-0445-403A-BE50-CF50462DDBA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsYourFriendsDataAccess", "QuestionsYourFriendsDataAccess\QuestionsYourFriendsDataAccess.csproj", "{C754053F-D1AD-469D-806A-63A8C580CD3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsDataAccess", "QuestionsYourFriendsDataAccess\QuestionYourFriendsDataAccess.csproj", "{C754053F-D1AD-469D-806A-63A8C580CD3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsYourFriendsBackEnd", "QuestionsYourFriendsBackEnd\QuestionsYourFriendsBackEnd.csproj", "{3AC569CC-401C-4B55-835E-DC2D99103094}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsBackEnd", "QuestionsYourFriendsBackEnd\QuestionYourFriendsBackEnd.csproj", "{3AC569CC-401C-4B55-835E-DC2D99103094}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsYourFriendsDataAccessPoco", "QuestionsYourFriendsDataAccessPoco\QuestionsYourFriendsDataAccessPoco.csproj", "{870E4F76-CBD6-4B32-8233-D036DF1B48A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionYourFriendsDataAccessPoco", "QuestionsYourFriendsDataAccessPoco\QuestionYourFriendsDataAccessPoco.csproj", "{870E4F76-CBD6-4B32-8233-D036DF1B48A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

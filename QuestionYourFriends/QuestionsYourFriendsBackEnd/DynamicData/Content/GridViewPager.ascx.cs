@@ -1,13 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.Content
 {
-    public partial class GridViewPager : System.Web.UI.UserControl
+    public partial class GridViewPager : UserControl
     {
         private GridView _gridView;
 

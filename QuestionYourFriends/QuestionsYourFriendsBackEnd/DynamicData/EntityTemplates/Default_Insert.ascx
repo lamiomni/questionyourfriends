@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" CodeBehind="Default_Insert.ascx.cs" Inherits="QuestionsYourFriendsBackEnd.Default_InsertEntityTemplate" %>
+﻿<%@ Control Language="C#" CodeBehind="Default_Insert.ascx.cs" Inherits="QuestionYourFriendsBackEnd.DynamicData.EntityTemplates.Default_InsertEntityTemplate" %>
 
 <%@ Reference Control="~/DynamicData/EntityTemplates/Default.ascx" %>
 

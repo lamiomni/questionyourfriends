@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" CodeBehind="Default.ascx.cs" Inherits="QuestionsYourFriendsBackEnd.DefaultEntityTemplate" %>
+﻿<%@ Control Language="C#" CodeBehind="Default.ascx.cs" Inherits="QuestionYourFriendsBackEnd.DynamicData.EntityTemplates.DefaultEntityTemplate" %>
 
 <asp:EntityTemplate runat="server" ID="EntityTemplate1">
     <ItemTemplate>

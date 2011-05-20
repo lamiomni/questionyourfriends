@@ -18,13 +18,13 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region Métadonnées de relation EDM
 
-[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Owner", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionsYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionsYourFriendsDataAccess.Question), true)]
-[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Receiver", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionsYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionsYourFriendsDataAccess.Question), true)]
-[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Transac_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionsYourFriendsDataAccess.User), "Transac", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionsYourFriendsDataAccess.Transac), true)]
+[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Owner", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Question), true)]
+[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Question_Receiver", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Question", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Question), true)]
+[assembly: EdmRelationshipAttribute("QuestionYourFriendsModel", "FK_Transac_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(QuestionYourFriendsDataAccess.User), "Transac", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(QuestionYourFriendsDataAccess.Transac), true)]
 
 #endregion
 
-namespace QuestionsYourFriendsDataAccess
+namespace QuestionYourFriendsDataAccess
 {
     #region Contextes
     

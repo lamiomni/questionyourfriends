@@ -11,7 +11,7 @@ using System;
 using System.Data.Objects;
 using System.Data.EntityClient;
 
-namespace QuestionsYourFriendsDataAccessPoco
+namespace QuestionYourFriendsDataAccessPoco
 {
     public partial class QuestionYourFriendsPocoEntities : ObjectContext
     {

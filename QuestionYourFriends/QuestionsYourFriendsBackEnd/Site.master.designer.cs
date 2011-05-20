@@ -7,7 +7,7 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
-namespace QuestionsYourFriendsBackEnd {
+namespace QuestionYourFriendsBackEnd {
     
     
     public partial class Site {

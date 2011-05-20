@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 using System.Web.DynamicData;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
-    public partial class ChildrenField : System.Web.DynamicData.FieldTemplateUserControl
+    public partial class ChildrenField : FieldTemplateUserControl
     {
         private bool _allowNavigation = true;
         private string _navigateUrl;

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace QuestionsYourFriendsBackEnd
+namespace QuestionYourFriendsBackEnd.DynamicData.Filters
 {
-    public partial class EnumerationFilter : System.Web.DynamicData.QueryableFilterUserControl
+    public partial class EnumerationFilter : QueryableFilterUserControl
     {
         private const string NullValueString = "[null]";
         public override Control FilterControl
