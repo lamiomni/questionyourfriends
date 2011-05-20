@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
-    class Question
+    public class Question
     {
         public static bool CreateQuestion(QuestionYourFriendsDataAccess.Question question)
         {
             try
             {
 
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 model.AddToQuestions(question);
                 model.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -27,12 +26,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 model.DeleteObject(model.Questions.Where(x => x.id == id).FirstOrDefault());
                 model.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -42,7 +41,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 QuestionYourFriendsDataAccess.Question questionFound = model.Questions.Where(x => x.id == question.id).FirstOrDefault();
                 if (questionFound != null)
                 {
@@ -60,12 +59,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     model.SaveChanges();
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -76,10 +72,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 return model.Questions.Where(x => x.id == id).FirstOrDefault();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -89,10 +85,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 return model.Questions.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }

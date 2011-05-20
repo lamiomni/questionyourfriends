@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
-    class Transac
+    public class Transac
     {
         public static bool CreateTransac(QuestionYourFriendsDataAccess.Transac transac)
         {
             try
             {
 
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 model.AddToTransacs(transac);
                 model.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -27,12 +26,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 model.DeleteObject(model.Transacs.Where(x => x.id == id).FirstOrDefault());
                 model.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -42,7 +41,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 QuestionYourFriendsDataAccess.Transac transacFound = model.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
                 if (transacFound != null)
                 {
@@ -56,26 +55,22 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     model.SaveChanges();
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
-
         }
 
         public static QuestionYourFriendsDataAccess.Transac GetTransac(long id)
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 return model.Transacs.Where(x => x.id == id).FirstOrDefault();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -85,10 +80,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                QuestionYourFriendsDataAccess.QuestionYourFriendsEntities model = new QuestionYourFriendsDataAccess.QuestionYourFriendsEntities();
+                var model = new QuestionYourFriendsEntities();
                 return model.Transacs.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<QuestionYourFriendsDataAccess.Transac>();
             }
