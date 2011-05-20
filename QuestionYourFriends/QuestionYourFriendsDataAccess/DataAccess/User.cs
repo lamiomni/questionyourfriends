@@ -6,6 +6,24 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public class User
     {
+        public static bool CreateUser(int fid)
+        {
+            try
+            {
+                var model = new QuestionYourFriendsEntities();
+                QuestionYourFriendsDataAccess.User user = model.Users.CreateObject();
+                user.fid = fid;
+                user.activated = true;
+                user.credit_amount = 0;
+                model.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool CreateUser(QuestionYourFriendsDataAccess.User user)
         {
             try

@@ -6,6 +6,27 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public class Transac
     {
+        public static bool CreateTransac(int fid, int amount, int userId, string type, int questionId)
+        {
+            try
+            {
+                var model = new QuestionYourFriendsEntities();
+                QuestionYourFriendsDataAccess.Transac transac = model.Transacs.CreateObject();
+                transac.fid = fid;
+                transac.amount = amount;
+                transac.status = "Ok";
+                transac.userId = userId;
+                transac.type = type;
+                transac.questionId = questionId;
+                model.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool CreateTransac(QuestionYourFriendsDataAccess.Transac transac)
         {
             try
