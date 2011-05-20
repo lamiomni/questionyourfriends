@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Facebook;
 using Facebook.Web;
-using Facebook.Web.Mvc;
 
-namespace QuestionYourFriendsDataAccess.BusinessManagement
+
+namespace QuestionYourFriends.BusinessManagement
 {
     public class Facebook
     {
