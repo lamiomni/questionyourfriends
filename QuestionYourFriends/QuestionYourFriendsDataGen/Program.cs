@@ -4,14 +4,14 @@ using System.Globalization;
 using AutoPoco;
 using AutoPoco.DataSources;
 using AutoPoco.Engine;
-using QuestionYourFriendsDataAccessPoco;
+using QuestionYourFriendsDataAccess;
 using QuestionYourFriendsDataGen.DataSources;
 
 namespace QuestionYourFriendsDataGen
 {
     public class Program
     {
-        private static QuestionYourFriendsPocoEntities _qyfe;
+        private static QuestionYourFriendsEntities _qyfe;
         private static IGenerationSession _session;
         private const float Version = 1.0f;
 
@@ -19,7 +19,7 @@ namespace QuestionYourFriendsDataGen
         {
             Console.WriteLine(string.Format(new CultureInfo("en-US"), "  === Qyf DataGen v.{0:0.0} ===", Version));
             Console.WriteLine();
-            _qyfe = new QuestionYourFriendsPocoEntities();
+            _qyfe = new QuestionYourFriendsEntities();
 
             // Perform factory set up (once for entire test run)
             IGenerationSessionFactory factory = AutoPocoContainer.Configure(x =>

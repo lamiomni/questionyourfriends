@@ -12,7 +12,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
 
                 var model = new QuestionYourFriendsEntities();
-                model.AddToTransacs(transac);
+                model.Transacs.AddObject(transac);
                 model.SaveChanges();
                 return true;
             }

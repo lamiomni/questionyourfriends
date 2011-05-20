@@ -81,9 +81,9 @@
       <Project>{EDD484D5-0445-403A-BE50-CF50462DDBA6}</Project>
       <Name>AutoPoco</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QuestionYourFriendsDataAccessPoco\QuestionYourFriendsDataAccessPoco.csproj">
-      <Project>{870E4F76-CBD6-4B32-8233-D036DF1B48A6}</Project>
-      <Name>QuestionYourFriendsDataAccessPoco</Name>
+    <ProjectReference Include="..\QuestionYourFriendsDataAccess\QuestionYourFriendsDataAccess.csproj">
+      <Project>{C754053F-D1AD-469D-806A-63A8C580CD3A}</Project>
+      <Name>QuestionYourFriendsDataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

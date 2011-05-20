@@ -11,7 +11,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             try
             {
                 var model = new QuestionYourFriendsEntities();
-                model.AddToUsers(user);
+                model.Users.AddObject(user);
                 model.SaveChanges();
                 return true;
             }
