@@ -7,7 +7,19 @@
         Desanonymize,
         Deprivatize,
         Purchase,
-        Earning
+        Earning, // should be changed to EarningStartup ?
+        EarningAnswer // Jr added this here and did nothing else, will it work ?
+    }
+
+    public enum TransacPrice
+    {
+        Anonymize = 1000,
+        Privatize = 5000,
+        Desanonymize = 1000,
+        Deprivatize = 5000,
+        Purchase = 0,
+        EarningStartup = 10000,
+        EarningAnswer = 2000
     }
 
     public enum TransacStatus
@@ -15,4 +27,5 @@
         Ko = 0,
         Ok
     }
+
 }
