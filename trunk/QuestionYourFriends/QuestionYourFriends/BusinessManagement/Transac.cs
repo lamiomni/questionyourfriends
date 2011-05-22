@@ -33,14 +33,14 @@ namespace QuestionYourFriends.BusinessManagement
          *  Higher level methods do deal with the economy 
          * 
          */
-        public static bool AnonymiseQuestion(int qid, int bid, int uid)
+        public static bool AnonymiseQuestion(QuestionYourFriendsDataAccess.Question question, int bid)
         {
             // a bid can't be lower than a certain value
             if (bid < (int) QuestionYourFriendsDataAccess.TransacPrice.Anonymize)
                 bid = (int) QuestionYourFriendsDataAccess.TransacPrice.Anonymize;
 
             // get the user and check his wallet
-            var user = BusinessManagement.User.GetUser(uid);
+            var user = BusinessManagement.User.GetUser(question.id_owner);
             if (user.credit_amount < bid)
                 return false;
 
@@ -48,8 +48,8 @@ namespace QuestionYourFriends.BusinessManagement
             var trans = new QuestionYourFriendsDataAccess.Transac
                             {
                                 amount = bid,
-                                questionId = qid,
-                                userId = uid,
+                                questionId = question.id,
+                                userId = question.id_owner,
                                 type = (int) QuestionYourFriendsDataAccess.TransacType.Anonymize,
                                 status = (int) QuestionYourFriendsDataAccess.TransacStatus.Ok
                             };
