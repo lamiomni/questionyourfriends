@@ -13,10 +13,10 @@
 
     public enum TransacPrice
     {
-        Anonymize = 1000,
-        Privatize = 5000,
-        Desanonymize = 1000,
-        Deprivatize = 5000,
+        Anonymize = 1000, // min value
+        Privatize = 5000, // min value
+        Desanonymize = 1000, // min value
+        Deprivatize = 5000, // min value
         Purchase = 0,
         EarningStartup = 10000,
         EarningAnswer = 2000
