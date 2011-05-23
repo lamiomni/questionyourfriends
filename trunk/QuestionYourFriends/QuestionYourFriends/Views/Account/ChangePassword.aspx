@@ -10,37 +10,40 @@
         Utilisez le formulaire ci-dessous pour changer votre mot de passe. 
     </p>
     <p>
-        Les nouveaux mots de passe doivent comporter au minimum <%: ViewData["PasswordLength"] %> caractères.
+        Les nouveaux mots de passe doivent comporter au minimum <%:ViewData["PasswordLength"]%> caractères.
     </p>
 
-    <% using (Html.BeginForm()) { %>
-        <%: Html.ValidationSummary(true, "Échec de la modification du mot de passe. Corrigez les erreurs et réessayez.") %>
+    <%
+        using (Html.BeginForm())
+        {%>
+        <%:Html.ValidationSummary(true,
+                                                     "Échec de la modification du mot de passe. Corrigez les erreurs et réessayez.")%>
         <div>
             <fieldset>
                 <legend>Informations de compte</legend>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.OldPassword) %>
+                    <%:Html.LabelFor(m => m.OldPassword)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.OldPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.OldPassword) %>
+                    <%:Html.PasswordFor(m => m.OldPassword)%>
+                    <%:Html.ValidationMessageFor(m => m.OldPassword)%>
                 </div>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.NewPassword) %>
+                    <%:Html.LabelFor(m => m.NewPassword)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.NewPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.NewPassword) %>
+                    <%:Html.PasswordFor(m => m.NewPassword)%>
+                    <%:Html.ValidationMessageFor(m => m.NewPassword)%>
                 </div>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.ConfirmPassword) %>
+                    <%:Html.LabelFor(m => m.ConfirmPassword)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.ConfirmPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
+                    <%:Html.PasswordFor(m => m.ConfirmPassword)%>
+                    <%:Html.ValidationMessageFor(m => m.ConfirmPassword)%>
                 </div>
                 
                 <p>
@@ -48,5 +51,6 @@
                 </p>
             </fieldset>
         </div>
-    <% } %>
+    <%
+        }%>
 </asp:Content>

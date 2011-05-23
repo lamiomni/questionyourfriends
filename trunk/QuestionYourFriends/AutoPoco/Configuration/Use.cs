@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Engine;
 
 namespace AutoPoco.Configuration
@@ -13,7 +10,8 @@ namespace AutoPoco.Configuration
             return default(TParamType);
         }
 
-        public static TParamType Source<TParamType, TSource>(params Object[] args) where TSource : IDatasource<TParamType>
+        public static TParamType Source<TParamType, TSource>(params Object[] args)
+            where TSource : IDatasource<TParamType>
         {
             return default(TParamType);
         }

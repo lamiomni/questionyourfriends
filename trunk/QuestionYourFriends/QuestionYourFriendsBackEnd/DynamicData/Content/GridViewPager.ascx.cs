@@ -16,7 +16,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Content
             {
                 if (c is GridView)
                 {
-                    _gridView = (GridView)c;
+                    _gridView = (GridView) c;
                     break;
                 }
                 c = c.Parent;
@@ -51,7 +51,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Content
             {
                 return;
             }
-            DropDownList dropdownlistpagersize = (DropDownList)sender;
+            var dropdownlistpagersize = (DropDownList) sender;
             _gridView.PageSize = Convert.ToInt32(dropdownlistpagersize.SelectedValue, CultureInfo.CurrentCulture);
             int pageindex = _gridView.PageIndex;
             _gridView.DataBind();
@@ -71,6 +71,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Content
                 DropDownListPageSize.SelectedValue = _gridView.PageSize.ToString(CultureInfo.CurrentCulture);
             }
         }
-
     }
 }

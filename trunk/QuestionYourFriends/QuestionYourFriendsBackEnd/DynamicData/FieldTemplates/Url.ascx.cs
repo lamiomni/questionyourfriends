@@ -6,6 +6,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class UrlField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return HyperLinkUrl; }
+        }
+
         protected override void OnDataBinding(EventArgs e)
         {
             HyperLinkUrl.NavigateUrl = ProcessUrl(FieldValueString);
@@ -13,21 +18,13 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 
         private string ProcessUrl(string url)
         {
-            if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
                 return url;
             }
 
             return "http://" + url;
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return HyperLinkUrl;
-            }
-        }
-
     }
 }

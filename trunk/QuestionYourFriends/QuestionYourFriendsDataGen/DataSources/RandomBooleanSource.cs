@@ -8,7 +8,7 @@ namespace QuestionYourFriendsDataGen.DataSources
         private readonly Random _random = new Random(1337);
 
         public override bool Next(IGenerationContext context)
-        {            
+        {
             return _random.NextDouble() > 0.5f;
         }
     }

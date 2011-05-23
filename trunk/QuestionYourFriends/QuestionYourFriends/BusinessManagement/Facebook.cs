@@ -1,6 +1,5 @@
 ﻿using Facebook.Web;
 
-
 namespace QuestionYourFriends.BusinessManagement
 {
     public static class Facebook
@@ -29,6 +28,5 @@ namespace QuestionYourFriends.BusinessManagement
             dynamic result = fb.Get("/me/friends");
             return result;
         }
-
     }
 }

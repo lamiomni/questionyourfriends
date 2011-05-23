@@ -8,7 +8,9 @@ namespace QuestionYourFriendsDataGen.DataSources
         private readonly int _max;
         private readonly Random _random = new Random(1337);
 
-        public RandomIntegerSource() : this(100) { }
+        public RandomIntegerSource() : this(100)
+        {
+        }
 
         public RandomIntegerSource(int max)
         {
@@ -17,7 +19,7 @@ namespace QuestionYourFriendsDataGen.DataSources
 
         public override int Next(IGenerationContext context)
         {
-            return _random.Next() % _max;
+            return _random.Next()%_max;
         }
     }
 }

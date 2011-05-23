@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Engine;
 
 namespace AutoPoco.Configuration
@@ -11,18 +8,12 @@ namespace AutoPoco.Configuration
         /// <summary>
         /// Gets the configuration created so far
         /// </summary>
-        IEngineConfiguration Configuration
-        {
-            get;
-        }
+        IEngineConfiguration Configuration { get; }
 
         /// <summary>
         /// Gets the member being processed
         /// </summary>
-        EngineTypePropertyMember Member
-        {
-            get;
-        }
+        EngineTypePropertyMember Member { get; }
 
         /// <summary>
         /// Sets the value of the member directly on instantiation

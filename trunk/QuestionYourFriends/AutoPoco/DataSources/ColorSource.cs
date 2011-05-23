@@ -7,8 +7,8 @@ namespace AutoPoco.DataSources
     public class ColorSource : DatasourceBase<Color>
     {
         private readonly int mMax;
-        private readonly Random mRandom;
         private readonly int mMin;
+        private readonly Random mRandom;
 
         public ColorSource()
         {
@@ -20,8 +20,8 @@ namespace AutoPoco.DataSources
         public override Color Next(IGenerationContext context)
         {
             return Color.FromArgb(
-                mRandom.Next(mMin, mMax), 
-                mRandom.Next(mMin, mMax), 
+                mRandom.Next(mMin, mMax),
+                mRandom.Next(mMin, mMax),
                 mRandom.Next(mMin, mMax)
                 );
         }

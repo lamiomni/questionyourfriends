@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Engine
 {
@@ -10,18 +8,12 @@ namespace AutoPoco.Engine
         /// <summary>
         /// Gets the type of object this is building
         /// </summary>
-        Type InnerType
-        {
-            get;
-        }
+        Type InnerType { get; }
 
         /// <summary>
         /// Gets the actions currently applied to this builder
         /// </summary>
-        IEnumerable<IObjectAction> Actions
-        {
-            get;
-        }
+        IEnumerable<IObjectAction> Actions { get; }
 
         /// <summary>
         /// Clears all the actions currently on this builder

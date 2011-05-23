@@ -6,6 +6,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class EmailAddressField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return HyperLink1; }
+        }
+
         protected override void OnDataBinding(EventArgs e)
         {
             string url = FieldValueString;
@@ -15,14 +20,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             }
             HyperLink1.NavigateUrl = url;
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return HyperLink1;
-            }
-        }
-
     }
 }

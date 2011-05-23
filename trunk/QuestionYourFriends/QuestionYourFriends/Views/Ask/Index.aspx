@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: ViewData["Message"] %></h2>
+    <h2><%:ViewData["Message"]%></h2>
     <p>
         Pour en savoir plus sur ASP.NET MVC, visitez <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
     </p>

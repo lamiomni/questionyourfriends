@@ -61,6 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessManagement\Context.cs" />
+    <Compile Include="BusinessManagement\Question.cs" />
+    <Compile Include="BusinessManagement\Transac.cs" />
+    <Compile Include="BusinessManagement\User.cs" />
     <Compile Include="DataSources\RandomEnumSource.cs" />
     <Compile Include="DataSources\RandomLongSource.cs" />
     <Compile Include="DataSources\RandomBooleanSource.cs" />

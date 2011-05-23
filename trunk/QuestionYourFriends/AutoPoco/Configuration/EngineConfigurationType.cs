@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Configuration
 {
     public class EngineConfigurationType : IEngineConfigurationType
     {
-        private List<EngineConfigurationTypeMember> mRegisteredMembers = new List<EngineConfigurationTypeMember>();
-        private Type mRegisteredType;
+        private readonly List<EngineConfigurationTypeMember> mRegisteredMembers =
+            new List<EngineConfigurationTypeMember>();
+
+        private readonly Type mRegisteredType;
         private IEngineConfigurationDatasource mFactory;
-        
-        public Type RegisteredType
-        {
-            get
-            {
-                return mRegisteredType;
-            }
-        }
 
         public EngineConfigurationType(Type t)
         {
             mRegisteredType = t;
+        }
+
+        #region IEngineConfigurationType Members
+
+        public Type RegisteredType
+        {
+            get { return mRegisteredType; }
         }
 
         public void RegisterMember(EngineTypeMember member)
@@ -40,17 +39,19 @@ namespace AutoPoco.Configuration
 
         public IEnumerable<IEngineConfigurationTypeMember> GetRegisteredMembers()
         {
-            return mRegisteredMembers.ConvertAll(x => (IEngineConfigurationTypeMember)x);
+            return mRegisteredMembers.ConvertAll(x => (IEngineConfigurationTypeMember) x);
         }
 
         public void SetFactory(IEngineConfigurationDatasource factory)
         {
-            this.mFactory = factory;
+            mFactory = factory;
         }
 
         public IEngineConfigurationDatasource GetFactory()
         {
             return mFactory;
         }
+
+        #endregion
     }
 }

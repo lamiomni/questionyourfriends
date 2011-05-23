@@ -6,18 +6,22 @@ using QuestionYourFriends.Models;
 
 namespace QuestionYourFriends.Controllers
 {
-
     [HandleError]
     public class AccountController : Controller
     {
-
         public IFormsAuthenticationService FormsService { get; set; }
         public IMembershipService MembershipService { get; set; }
 
         protected override void Initialize(RequestContext requestContext)
         {
-            if (FormsService == null) { FormsService = new FormsAuthenticationService(); }
-            if (MembershipService == null) { MembershipService = new AccountMembershipService(); }
+            if (FormsService == null)
+            {
+                FormsService = new FormsAuthenticationService();
+            }
+            if (MembershipService == null)
+            {
+                MembershipService = new AccountMembershipService();
+            }
 
             base.Initialize(requestContext);
         }
@@ -85,7 +89,8 @@ namespace QuestionYourFriends.Controllers
             if (ModelState.IsValid)
             {
                 // Tentative d'inscription de l'utilisateur
-                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
+                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password,
+                                                                                   model.Email);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
@@ -126,7 +131,8 @@ namespace QuestionYourFriends.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Le mot de passe actuel est incorrect ou le nouveau mot de passe n'est pas valide.");
+                    ModelState.AddModelError("",
+                                             "Le mot de passe actuel est incorrect ou le nouveau mot de passe n'est pas valide.");
                 }
             }
 
@@ -143,6 +149,5 @@ namespace QuestionYourFriends.Controllers
         {
             return View();
         }
-
     }
 }

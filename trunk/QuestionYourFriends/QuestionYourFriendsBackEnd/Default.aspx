@@ -15,7 +15,7 @@
         <Columns>
             <asp:TemplateField HeaderText="Nom de la table" SortExpression="TableName">
                 <ItemTemplate>
-                    <asp:DynamicHyperLink ID="HyperLink1" runat="server"><%# Eval("DisplayName") %></asp:DynamicHyperLink>
+                    <asp:DynamicHyperLink ID="HyperLink1" runat="server"><%#Eval("DisplayName")%></asp:DynamicHyperLink>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>

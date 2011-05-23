@@ -9,12 +9,10 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
     public partial class EnumerationFilter : QueryableFilterUserControl
     {
         private const string NullValueString = "[null]";
+
         public override Control FilterControl
         {
-            get
-            {
-                return DropDownList1;
-            }
+            get { return DropDownList1; }
         }
 
         public void Page_Init(object sender, EventArgs e)
@@ -59,6 +57,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
         {
             OnFilterChanged();
         }
-
     }
 }

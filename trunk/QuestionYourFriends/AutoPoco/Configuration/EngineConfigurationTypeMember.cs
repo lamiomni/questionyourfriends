@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AutoPoco.Configuration
 {
     public class EngineConfigurationTypeMember : IEngineConfigurationTypeMember
     {
-        private List<IEngineConfigurationDatasource> mDataSources = new List<IEngineConfigurationDatasource>();
+        private readonly List<IEngineConfigurationDatasource> mDataSources = new List<IEngineConfigurationDatasource>();
 
-        private EngineTypeMember mMember;
+        private readonly EngineTypeMember mMember;
 
         public EngineConfigurationTypeMember(EngineTypeMember member)
         {
             mMember = member;
         }
+
+        #region IEngineConfigurationTypeMember Members
 
         public EngineTypeMember Member
         {
@@ -37,5 +36,7 @@ namespace AutoPoco.Configuration
         {
             return mDataSources.ToArray();
         }
+
+        #endregion
     }
 }

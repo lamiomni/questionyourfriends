@@ -4,30 +4,39 @@ namespace QuestionYourFriends.BusinessManagement
 {
     public static class User
     {
-        public static bool CreateUser(QuestionYourFriendsDataAccess.User user)
+        public static bool Create(QuestionYourFriendsDataAccess.User user)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.CreateUser(Context.QyfEntities, user);
+            return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, user);
         }
 
-        public static bool DeleteUser(long id)
+        public static bool Create(long fid)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.DeleteUser(Context.QyfEntities, id);
+            return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, fid);
         }
 
-        public static bool UpdateUser(QuestionYourFriendsDataAccess.User user)
+        public static bool Delete(long id)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.UpdateUser(Context.QyfEntities, user);
+            return QuestionYourFriendsDataAccess.DataAccess.User.Delete(Context.QyfEntities, id);
         }
 
-        public static QuestionYourFriendsDataAccess.User GetUser(long id)
+        public static bool Delete(QuestionYourFriendsDataAccess.User user)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.GetUser(Context.QyfEntities, id);
+            return QuestionYourFriendsDataAccess.DataAccess.User.Delete(Context.QyfEntities, user);
         }
 
-        public static List<QuestionYourFriendsDataAccess.User> GetListUser()
+        public static bool Update(QuestionYourFriendsDataAccess.User user)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.GetListUser(Context.QyfEntities);
+            return QuestionYourFriendsDataAccess.DataAccess.User.Update(Context.QyfEntities, user);
         }
 
+        public static QuestionYourFriendsDataAccess.User Get(long id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, id);
+        }
+
+        public static List<QuestionYourFriendsDataAccess.User> GetList()
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);
+        }
     }
 }

@@ -7,17 +7,16 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public static class Transac
     {
-        public static bool CreateTransac(QuestionYourFriendsEntities qyfEntities, int fid, int amount, int userId,
-                                         string type, int questionId)
+        public static bool Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId,
+                                         TransacType type, int questionId)
         {
             try
             {
                 QuestionYourFriendsDataAccess.Transac transac = qyfEntities.Transacs.CreateObject();
-                transac.fid = fid;
                 transac.amount = amount;
-                transac.status = "Ok";
                 transac.userId = userId;
-                transac.type = type;
+                transac.SetTransacStatus(TransacStatus.Ok);
+                transac.SetTransacType(type);
                 transac.questionId = questionId;
                 qyfEntities.SaveChanges();
                 return true;
@@ -29,7 +28,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool CreateTransac(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
+        public static bool Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
             {
@@ -44,7 +43,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool DeleteTransac(QuestionYourFriendsEntities qyfEntities, long id)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
@@ -59,14 +58,29 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool UpdateTransac(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac t)
         {
             try
             {
-                QuestionYourFriendsDataAccess.Transac transacFound = qyfEntities.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
+                qyfEntities.DeleteObject(t);
+                qyfEntities.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+        }
+
+        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
+        {
+            try
+            {
+                QuestionYourFriendsDataAccess.Transac transacFound =
+                    qyfEntities.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
                 if (transacFound != null)
                 {
-                    transacFound.fid = transac.fid;
                     transacFound.amount = transac.amount;
                     transacFound.status = transac.status;
                     transacFound.userId = transac.userId;
@@ -85,7 +99,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static QuestionYourFriendsDataAccess.Transac GetTransac(QuestionYourFriendsEntities qyfEntities, long id)
+        public static QuestionYourFriendsDataAccess.Transac Get(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
             {
@@ -98,7 +112,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static List<QuestionYourFriendsDataAccess.Transac> GetListTransac(QuestionYourFriendsEntities qyfEntities)
+        public static List<QuestionYourFriendsDataAccess.Transac> GetList(QuestionYourFriendsEntities qyfEntities)
         {
             try
             {

@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AutoPoco.Util;
 using System.Reflection;
+using AutoPoco.Util;
 
 namespace AutoPoco.Configuration
 {
     public class TypeConventionContext : ITypeConventionContext
     {
-        private IEngineConfigurationType mType;
+        private readonly IEngineConfigurationType mType;
+
+        public TypeConventionContext(IEngineConfigurationType type)
+        {
+            mType = type;
+        }
+
+        #region ITypeConventionContext Members
 
         public Type Target
         {
-            get
-            {
-                return mType.RegisteredType;
-            }
+            get { return mType.RegisteredType; }
         }
 
         public void SetFactory(Type factory)
@@ -33,7 +35,7 @@ namespace AutoPoco.Configuration
 
         public void RegisterField(FieldInfo field)
         {
-            var member = ReflectionHelper.GetMember(field);
+            EngineTypeMember member = ReflectionHelper.GetMember(field);
             if (mType.GetRegisteredMember(member) == null)
             {
                 mType.RegisterMember(member);
@@ -42,7 +44,7 @@ namespace AutoPoco.Configuration
 
         public void RegisterProperty(PropertyInfo property)
         {
-            var member = ReflectionHelper.GetMember(property);
+            EngineTypeMember member = ReflectionHelper.GetMember(property);
             if (mType.GetRegisteredMember(member) == null)
             {
                 mType.RegisterMember(ReflectionHelper.GetMember(property));
@@ -51,18 +53,15 @@ namespace AutoPoco.Configuration
 
         public void RegisterMethod(MethodInfo method, MethodInvocationContext context)
         {
-            var member = ReflectionHelper.GetMember(method);
+            EngineTypeMember member = ReflectionHelper.GetMember(method);
             if (mType.GetRegisteredMember(member) == null)
             {
                 mType.RegisterMember(member);
             }
-            var registeredMember = mType.GetRegisteredMember(member);
+            IEngineConfigurationTypeMember registeredMember = mType.GetRegisteredMember(member);
             registeredMember.SetDatasources(context.GetArguments().Cast<IEngineConfigurationDatasource>());
         }
 
-        public TypeConventionContext(IEngineConfigurationType type)
-        {
-            mType = type;
-        }
+        #endregion
     }
 }

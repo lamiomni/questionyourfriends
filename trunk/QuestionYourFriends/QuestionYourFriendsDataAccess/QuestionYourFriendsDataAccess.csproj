@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="QyfEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QyfExtensions.cs" />
     <Compile Include="QyfModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

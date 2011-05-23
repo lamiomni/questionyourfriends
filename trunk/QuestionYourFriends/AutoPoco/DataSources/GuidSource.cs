@@ -5,7 +5,7 @@ namespace AutoPoco.DataSources
 {
     public class GuidSource : DatasourceBase<Guid>
     {
-        private Random mRandom;
+        private readonly Random mRandom;
 
         public GuidSource()
         {
@@ -14,7 +14,7 @@ namespace AutoPoco.DataSources
 
         public override Guid Next(IGenerationContext context)
         {
-            Byte[] buffer = new Byte[16];
+            var buffer = new Byte[16];
             mRandom.NextBytes(buffer);
             return new Guid(buffer);
         }

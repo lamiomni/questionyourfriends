@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoPoco.Configuration.Providers;
 
 namespace AutoPoco.Configuration.TypeRegistrationActions
 {
     public class ApplyTypeMemberConventionsAction : TypeRegistrationAction
     {
-        private IEngineConfiguration mConfiguration;
-        private IEngineConventionProvider mConventionProvider;
+        private readonly IEngineConfiguration mConfiguration;
+        private readonly IEngineConventionProvider mConventionProvider;
 
-        public ApplyTypeMemberConventionsAction(IEngineConfiguration configuration, IEngineConventionProvider conventions)
+        public ApplyTypeMemberConventionsAction(IEngineConfiguration configuration,
+                                                IEngineConventionProvider conventions)
         {
             mConfiguration = configuration;
             mConventionProvider = conventions;
@@ -20,12 +19,11 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
         public override void Apply(IEngineConfigurationType type)
         {
             ApplyToType(type);
-
         }
 
         private void ApplyToType(IEngineConfigurationType type)
         {
-            foreach (var member in type.GetRegisteredMembers())
+            foreach (IEngineConfigurationTypeMember member in type.GetRegisteredMembers())
             {
                 ApplyToTypeMember(member);
             }
@@ -46,19 +44,19 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
         private void ApplyPropertyConventions(IEngineConfigurationTypeMember member)
         {
             var convention = mConventionProvider.Find<ITypePropertyConvention>()
-                 .Select(t =>
-                 {
-                     var details = new
-                     {
-                         Convention = (ITypePropertyConvention)Activator.CreateInstance(t),
-                         Requirements = new TypePropertyConventionRequirements()
-                     };
-                     details.Convention.SpecifyRequirements(details.Requirements);
-                     return details;
-                 })
-                 .Where(x => x.Requirements.IsValid((EngineTypePropertyMember)member.Member))
-                 .OrderByDescending(x => ScoreRequirements(x.Requirements))
-                 .FirstOrDefault();
+                .Select(t =>
+                            {
+                                var details = new
+                                                  {
+                                                      Convention = (ITypePropertyConvention) Activator.CreateInstance(t),
+                                                      Requirements = new TypePropertyConventionRequirements()
+                                                  };
+                                details.Convention.SpecifyRequirements(details.Requirements);
+                                return details;
+                            })
+                .Where(x => x.Requirements.IsValid((EngineTypePropertyMember) member.Member))
+                .OrderByDescending(x => ScoreRequirements(x.Requirements))
+                .FirstOrDefault();
 
             if (convention != null)
             {
@@ -69,19 +67,19 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
         private void ApplyFieldConventions(IEngineConfigurationTypeMember member)
         {
             var convention = mConventionProvider.Find<ITypeFieldConvention>()
-            .Select(t =>
-            {
-                var details = new
-                {
-                    Convention = (ITypeFieldConvention)Activator.CreateInstance(t),
-                    Requirements = new TypeFieldConventionRequirements()
-                };
-                details.Convention.SpecifyRequirements(details.Requirements);
-                return details;
-            })
-            .Where(x => x.Requirements.IsValid((EngineTypeFieldMember)member.Member))
-            .OrderByDescending(x => ScoreRequirements(x.Requirements))
-            .FirstOrDefault();
+                .Select(t =>
+                            {
+                                var details = new
+                                                  {
+                                                      Convention = (ITypeFieldConvention) Activator.CreateInstance(t),
+                                                      Requirements = new TypeFieldConventionRequirements()
+                                                  };
+                                details.Convention.SpecifyRequirements(details.Requirements);
+                                return details;
+                            })
+                .Where(x => x.Requirements.IsValid((EngineTypeFieldMember) member.Member))
+                .OrderByDescending(x => ScoreRequirements(x.Requirements))
+                .FirstOrDefault();
 
             if (convention != null)
             {
@@ -92,8 +90,14 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
         private int ScoreRequirements(TypeMemberConventionRequirements requirements)
         {
             int score = 0;
-            if (requirements.HasNameRule()) { score += 2; }
-            if (requirements.HasTypeRule()) { score++; }
+            if (requirements.HasNameRule())
+            {
+                score += 2;
+            }
+            if (requirements.HasTypeRule())
+            {
+                score++;
+            }
             return score;
         }
     }

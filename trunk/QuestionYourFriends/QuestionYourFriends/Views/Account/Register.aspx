@@ -10,45 +10,48 @@
         Utilisez le formulaire ci-dessous pour créer un nouveau compte. 
     </p>
     <p>
-        Les mots de passe doivent comporter au minimum <%: ViewData["PasswordLength"] %> caractères.
+        Les mots de passe doivent comporter au minimum <%:ViewData["PasswordLength"]%> caractères.
     </p>
 
-    <% using (Html.BeginForm()) { %>
-        <%: Html.ValidationSummary(true, "Échec de la création du compte. Corrigez les erreurs et réessayez.") %>
+    <%
+        using (Html.BeginForm())
+        {%>
+        <%:Html.ValidationSummary(true,
+                                                     "Échec de la création du compte. Corrigez les erreurs et réessayez.")%>
         <div>
             <fieldset>
                 <legend>Informations de compte</legend>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.UserName) %>
+                    <%:Html.LabelFor(m => m.UserName)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.TextBoxFor(m => m.UserName) %>
-                    <%: Html.ValidationMessageFor(m => m.UserName) %>
+                    <%:Html.TextBoxFor(m => m.UserName)%>
+                    <%:Html.ValidationMessageFor(m => m.UserName)%>
                 </div>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.Email) %>
+                    <%:Html.LabelFor(m => m.Email)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.TextBoxFor(m => m.Email) %>
-                    <%: Html.ValidationMessageFor(m => m.Email) %>
+                    <%:Html.TextBoxFor(m => m.Email)%>
+                    <%:Html.ValidationMessageFor(m => m.Email)%>
                 </div>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.Password) %>
+                    <%:Html.LabelFor(m => m.Password)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.Password) %>
-                    <%: Html.ValidationMessageFor(m => m.Password) %>
+                    <%:Html.PasswordFor(m => m.Password)%>
+                    <%:Html.ValidationMessageFor(m => m.Password)%>
                 </div>
                 
                 <div class="editor-label">
-                    <%: Html.LabelFor(m => m.ConfirmPassword) %>
+                    <%:Html.LabelFor(m => m.ConfirmPassword)%>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.ConfirmPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
+                    <%:Html.PasswordFor(m => m.ConfirmPassword)%>
+                    <%:Html.ValidationMessageFor(m => m.ConfirmPassword)%>
                 </div>
                 
                 <p>
@@ -56,5 +59,6 @@
                 </p>
             </fieldset>
         </div>
-    <% } %>
+    <%
+        }%>
 </asp:Content>

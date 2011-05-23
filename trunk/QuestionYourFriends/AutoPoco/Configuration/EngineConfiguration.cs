@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Configuration.Providers;
 
 namespace AutoPoco.Configuration
 {
     public class EngineConfiguration : IEngineConfiguration
     {
-        private List<EngineConfigurationType> mRegisteredTypes = new List<EngineConfigurationType>();
+        private readonly List<EngineConfigurationType> mRegisteredTypes = new List<EngineConfigurationType>();
+
+        #region IEngineConfiguration Members
 
         public IEnumerable<IEngineConfigurationType> GetRegisteredTypes()
         {
-            return mRegisteredTypes.ConvertAll<IEngineConfigurationType>(x => (IEngineConfigurationType)x);
+            return mRegisteredTypes.ConvertAll(x => (IEngineConfigurationType) x);
         }
 
         public void RegisterType(Type t)
@@ -28,5 +27,7 @@ namespace AutoPoco.Configuration
         {
             return mRegisteredTypes.Find(x => x.RegisteredType == t);
         }
+
+        #endregion
     }
 }

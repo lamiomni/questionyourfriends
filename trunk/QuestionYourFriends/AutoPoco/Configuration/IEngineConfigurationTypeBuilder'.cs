@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 using AutoPoco.Engine;
 
@@ -26,7 +23,7 @@ namespace AutoPoco.Configuration
         /// </summary>
         /// <param name="func"></param>
         IEngineConfigurationTypeBuilder<TPoco> Invoke<TReturn>(Expression<Func<TPoco, TReturn>> func);
-        
+
         /// <summary>
         /// Sets the data source from which instances of TPoco are created
         /// </summary>
@@ -49,5 +46,4 @@ namespace AutoPoco.Configuration
         /// <returns></returns>
         IEngineConfigurationTypeBuilder<TPoco> Ctor(Expression<Func<TPoco>> creationExpr); */
     }
-
 }

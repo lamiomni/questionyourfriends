@@ -16,7 +16,6 @@ namespace QuestionYourFriendsBackEnd.DynamicData.PageTemplates
             FormView1.SetMetaTable(table);
             GridDataSource.EntityTypeFilter = table.EntityType.Name;
             DetailsDataSource.EntityTypeFilter = table.EntityType.Name;
-
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -56,9 +55,9 @@ namespace QuestionYourFriendsBackEnd.DynamicData.PageTemplates
 
         protected void Label_PreRender(object sender, EventArgs e)
         {
-            Label label = (Label)sender;
-            DynamicFilter dynamicFilter = (DynamicFilter)label.FindControl("DynamicFilter");
-            QueryableFilterUserControl fuc = dynamicFilter.FilterTemplate as QueryableFilterUserControl;
+            var label = (Label) sender;
+            var dynamicFilter = (DynamicFilter) label.FindControl("DynamicFilter");
+            var fuc = dynamicFilter.FilterTemplate as QueryableFilterUserControl;
             if (fuc != null && fuc.FilterControl != null)
             {
                 label.AssociatedControlID = fuc.FilterControl.GetUniqueIDRelativeTo(label);
@@ -133,13 +132,12 @@ namespace QuestionYourFriendsBackEnd.DynamicData.PageTemplates
         {
             foreach (Control c in row.Cells[0].Controls)
             {
-                LinkButton button = c as LinkButton;
+                var button = c as LinkButton;
                 if (button != null && button.CommandName == DataControlCommands.DeleteCommandName)
                 {
                     button.OnClientClick = "return confirm('Are you sure you want to delete this item?');";
                 }
             }
         }
-
     }
 }

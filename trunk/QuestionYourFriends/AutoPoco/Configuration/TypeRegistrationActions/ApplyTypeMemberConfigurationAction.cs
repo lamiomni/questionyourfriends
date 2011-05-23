@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoPoco.Configuration.Providers;
 
 namespace AutoPoco.Configuration.TypeRegistrationActions
 {
     public class ApplyTypeMemberConfigurationAction : TypeRegistrationAction
     {
-        private IEngineConfigurationProvider mConfigurationProvider;
+        private readonly IEngineConfigurationProvider mConfigurationProvider;
 
         public ApplyTypeMemberConfigurationAction(IEngineConfigurationProvider configurationProvider)
         {
@@ -17,25 +15,26 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
 
         public override void Apply(IEngineConfigurationType type)
         {
-           ApplyToType(type);  
+            ApplyToType(type);
         }
 
         private void ApplyToType(IEngineConfigurationType type)
         {
-            var typeProviders = mConfigurationProvider.GetConfigurationTypes()
+            IEnumerable<IEngineConfigurationTypeProvider> typeProviders = mConfigurationProvider.GetConfigurationTypes()
                 .Where(x => x.GetConfigurationType() == type.RegisteredType);
 
-            foreach (var typeProvider in typeProviders)
+            foreach (IEngineConfigurationTypeProvider typeProvider in typeProviders)
             {
-                foreach (var memberProvider in typeProvider.GetConfigurationMembers())
+                foreach (IEngineConfigurationTypeMemberProvider memberProvider in typeProvider.GetConfigurationMembers()
+                    )
                 {
                     EngineTypeMember typeMember = memberProvider.GetConfigurationMember();
 
                     // Get the member
-                    var configuredMember = type.GetRegisteredMember(typeMember);
+                    IEngineConfigurationTypeMember configuredMember = type.GetRegisteredMember(typeMember);
 
                     // Set the action on that member if a datasource has been set explicitly for this member
-                    var datasources = memberProvider.GetDatasources();
+                    IEnumerable<IEngineConfigurationDatasource> datasources = memberProvider.GetDatasources();
                     if (datasources.Count() > 0)
                     {
                         configuredMember.SetDatasources(datasources);

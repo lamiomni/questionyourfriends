@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoPoco.Configuration;
 using AutoPoco.Configuration.Providers;
 using AutoPoco.Conventions;
@@ -10,18 +9,21 @@ namespace AutoPoco.Engine
 {
     public class GenerationConfiguration : IGenerationConfiguration
     {
-        private IEngineConfiguration mConfiguration;
-        private IEngineConventionProvider mConventions;
-        private List<IObjectBuilder> mObjectBuilders = new List<IObjectBuilder>();
+        private readonly IEngineConfiguration mConfiguration;
+        private readonly IEngineConventionProvider mConventions;
+        private readonly List<IObjectBuilder> mObjectBuilders = new List<IObjectBuilder>();
 
-        public int RecursionLimit { get; private set; }
-
-        public GenerationConfiguration(IEngineConfiguration configuration, IEngineConventionProvider conventionProvider, int recursionLimit)
+        public GenerationConfiguration(IEngineConfiguration configuration, IEngineConventionProvider conventionProvider,
+                                       int recursionLimit)
         {
             mConfiguration = configuration;
             mConventions = conventionProvider;
             RecursionLimit = recursionLimit;
         }
+
+        #region IGenerationConfiguration Members
+
+        public int RecursionLimit { get; private set; }
 
         public IObjectBuilder GetBuilderForType(Type searchType)
         {
@@ -32,6 +34,8 @@ namespace AutoPoco.Engine
             }
             return builder;
         }
+
+        #endregion
 
         private IObjectBuilder CreateBuilderForType(Type searchType)
         {
@@ -46,7 +50,7 @@ namespace AutoPoco.Engine
         {
             if (mConfiguration.GetRegisteredType(searchType) != null) return;
 
-            AdhocEngineConfigurationProvider provider = new AdhocEngineConfigurationProvider(new[] { searchType });
+            var provider = new AdhocEngineConfigurationProvider(new[] {searchType});
             var coreConvention = new DefaultEngineConfigurationProviderLoadingConvention();
             coreConvention.Apply(new EngineConfigurationProviderLoaderContext(mConfiguration, provider, mConventions));
         }

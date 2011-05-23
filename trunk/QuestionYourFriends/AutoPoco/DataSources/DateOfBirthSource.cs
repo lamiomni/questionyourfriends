@@ -10,8 +10,9 @@ namespace AutoPoco.DataSources
         private readonly int mYearsMin;
 
         public DateOfBirthSource()
-            :this(16, 59)
-        {}
+            : this(16, 59)
+        {
+        }
 
         public DateOfBirthSource(int min, int max)
         {

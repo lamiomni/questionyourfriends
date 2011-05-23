@@ -8,23 +8,19 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class Question
+    public class Question
     {
         #region Primitive Properties
-    
-        public virtual int id
-        {
-            get;
-            set;
-        }
-    
+
+        private int _id_owner;
+        private int _id_receiver;
+        public virtual int id { get; set; }
+
         public virtual int id_owner
         {
             get { return _id_owner; }
@@ -40,8 +36,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private int _id_owner;
-    
+
         public virtual int id_receiver
         {
             get { return _id_receiver; }
@@ -57,59 +52,33 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private int _id_receiver;
-    
-        public virtual string text
-        {
-            get;
-            set;
-        }
-    
-        public virtual string answer
-        {
-            get;
-            set;
-        }
-    
-        public virtual int anom_price
-        {
-            get;
-            set;
-        }
-    
-        public virtual int private_price
-        {
-            get;
-            set;
-        }
-    
-        public virtual bool undesirable
-        {
-            get;
-            set;
-        }
-    
-        public virtual System.DateTime date_pub
-        {
-            get;
-            set;
-        }
-    
-        public virtual Nullable<System.DateTime> date_answer
-        {
-            get;
-            set;
-        }
-    
-        public virtual bool deleted
-        {
-            get;
-            set;
-        }
+
+        public virtual string text { get; set; }
+
+        public virtual string answer { get; set; }
+
+        public virtual int anom_price { get; set; }
+
+        public virtual int private_price { get; set; }
+
+        public virtual bool undesirable { get; set; }
+
+        public virtual DateTime date_pub { get; set; }
+
+        public virtual DateTime? date_answer { get; set; }
+
+        public virtual bool deleted { get; set; }
 
         #endregion
+
         #region Navigation Properties
-    
+
+        private User _owner;
+
+        private User _receiver;
+
+        private ICollection<Transac> _transacs;
+
         public virtual User Owner
         {
             get { return _owner; }
@@ -117,14 +86,13 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_owner, value))
                 {
-                    var previousValue = _owner;
+                    User previousValue = _owner;
                     _owner = value;
                     FixupOwner(previousValue);
                 }
             }
         }
-        private User _owner;
-    
+
         public virtual User Receiver
         {
             get { return _receiver; }
@@ -132,14 +100,13 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_receiver, value))
                 {
-                    var previousValue = _receiver;
+                    User previousValue = _receiver;
                     _receiver = value;
                     FixupReceiver(previousValue);
                 }
             }
         }
-        private User _receiver;
-    
+
         public virtual ICollection<Transac> Transacs
         {
             get
@@ -170,18 +137,18 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private ICollection<Transac> _transacs;
 
         #endregion
+
         #region Association Fixup
-    
+
         private void FixupOwner(User previousValue)
         {
             if (previousValue != null && previousValue.MyQuestions.Contains(this))
             {
                 previousValue.MyQuestions.Remove(this);
             }
-    
+
             if (Owner != null)
             {
                 if (!Owner.MyQuestions.Contains(this))
@@ -194,14 +161,14 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-    
+
         private void FixupReceiver(User previousValue)
         {
             if (previousValue != null && previousValue.QuestionsToMe.Contains(this))
             {
                 previousValue.QuestionsToMe.Remove(this);
             }
-    
+
             if (Receiver != null)
             {
                 if (!Receiver.QuestionsToMe.Contains(this))
@@ -214,7 +181,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-    
+
         private void FixupTransacs(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -224,7 +191,7 @@ namespace QuestionYourFriendsDataAccess
                     item.Question = this;
                 }
             }
-    
+
             if (e.OldItems != null)
             {
                 foreach (Transac item in e.OldItems)

@@ -25,11 +25,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 
         public override Control DataControl
         {
-            get
-            {
-                return Literal1;
-            }
+            get { return Literal1; }
         }
-
     }
 }

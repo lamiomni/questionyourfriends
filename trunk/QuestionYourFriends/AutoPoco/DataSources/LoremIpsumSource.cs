@@ -10,7 +10,8 @@ namespace AutoPoco.DataSources
 
         public LoremIpsumSource()
             : this(1)
-        {}
+        {
+        }
 
         public LoremIpsumSource(int times)
         {

@@ -7,6 +7,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class MultilineText_EditField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return TextBox1; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             TextBox1.MaxLength = Column.MaxLength;
@@ -21,14 +26,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
         {
             dictionary[Column.Name] = ConvertEditedValue(TextBox1.Text);
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return TextBox1;
-            }
-        }
-
     }
 }

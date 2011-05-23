@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace AutoPoco.Configuration
 {
     public class EngineTypeFieldMember : EngineTypeMember
     {
-        private FieldInfo mFieldInfo;
+        private readonly FieldInfo mFieldInfo;
+
+        public EngineTypeFieldMember(FieldInfo fieldInfo)
+        {
+            mFieldInfo = fieldInfo;
+        }
 
         public override string Name
         {
@@ -32,15 +33,7 @@ namespace AutoPoco.Configuration
 
         public FieldInfo FieldInfo
         {
-            get
-            {
-                return mFieldInfo;
-            }
-        }
-
-        public EngineTypeFieldMember(FieldInfo fieldInfo)
-        {
-            mFieldInfo = fieldInfo;
+            get { return mFieldInfo; }
         }
 
         public override bool Equals(object obj)
@@ -48,7 +41,7 @@ namespace AutoPoco.Configuration
             var otherMember = obj as EngineTypeFieldMember;
             if (otherMember != null)
             {
-                return otherMember.FieldInfo == this.FieldInfo;
+                return otherMember.FieldInfo == FieldInfo;
             }
             return false;
         }

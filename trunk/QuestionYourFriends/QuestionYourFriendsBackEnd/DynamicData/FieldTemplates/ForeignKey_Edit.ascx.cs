@@ -8,6 +8,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class ForeignKey_EditField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return DropDownList1; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (DropDownList1.Items.Count == 0)
@@ -33,7 +38,6 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             {
                 DropDownList1.SelectedValue = selectedValueString;
             }
-
         }
 
         protected override void ExtractValues(IOrderedDictionary dictionary)
@@ -47,14 +51,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 
             ExtractForeignKey(dictionary, value);
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return DropDownList1;
-            }
-        }
-
     }
 }

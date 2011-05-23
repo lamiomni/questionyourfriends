@@ -10,20 +10,15 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
     public partial class ForeignKeyFilter : QueryableFilterUserControl
     {
         private const string NullValueString = "[null]";
+
         private new MetaForeignKeyColumn Column
         {
-            get
-            {
-                return (MetaForeignKeyColumn)base.Column;
-            }
+            get { return (MetaForeignKeyColumn) base.Column; }
         }
 
         public override Control FilterControl
         {
-            get
-            {
-                return DropDownList1;
-            }
+            get { return DropDownList1; }
         }
 
         protected void Page_Init(object sender, EventArgs e)
@@ -66,7 +61,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
             Column.ExtractForeignKey(dict, selectedValue);
             foreach (DictionaryEntry entry in dict)
             {
-                string key = (string)entry.Key;
+                var key = (string) entry.Key;
                 if (DefaultValues != null)
                 {
                     DefaultValues[key] = entry.Value;
@@ -75,6 +70,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
             }
             return source;
         }
-
     }
 }

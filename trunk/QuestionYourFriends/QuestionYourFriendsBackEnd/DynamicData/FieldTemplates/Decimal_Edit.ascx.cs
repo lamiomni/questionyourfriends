@@ -7,6 +7,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class Decimal_EditField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return TextBox1; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             TextBox1.ToolTip = Column.Description;
@@ -22,14 +27,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
         {
             dictionary[Column.Name] = ConvertEditedValue(TextBox1.Text);
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return TextBox1;
-            }
-        }
-
     }
 }

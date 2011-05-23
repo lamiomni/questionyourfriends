@@ -10,6 +10,23 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
     {
         private Type _enumType;
 
+        private Type EnumType
+        {
+            get
+            {
+                if (_enumType == null)
+                {
+                    _enumType = Column.GetEnumType();
+                }
+                return _enumType;
+            }
+        }
+
+        public override Control DataControl
+        {
+            get { return DropDownList1; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             DropDownList1.ToolTip = Column.Description;
@@ -42,18 +59,6 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             }
         }
 
-        private Type EnumType
-        {
-            get
-            {
-                if (_enumType == null)
-                {
-                    _enumType = Column.GetEnumType();
-                }
-                return _enumType;
-            }
-        }
-
         protected override void ExtractValues(IOrderedDictionary dictionary)
         {
             string value = DropDownList1.SelectedValue;
@@ -63,14 +68,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             }
             dictionary[Column.Name] = ConvertEditedValue(value);
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return DropDownList1;
-            }
-        }
-
     }
 }

@@ -7,7 +7,7 @@
         Desanonymize,
         Deprivatize,
         Purchase,
-        Earning, // should be changed to EarningStartup ?
+        EarningStartup,
         EarningAnswer // Jr added this here and did nothing else, will it work ?
     }
 
@@ -27,5 +27,4 @@
         Ko = 0,
         Ok
     }
-
 }
