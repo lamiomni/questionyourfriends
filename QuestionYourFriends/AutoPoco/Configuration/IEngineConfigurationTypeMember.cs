@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Engine;
+﻿using System.Collections.Generic;
 
 namespace AutoPoco.Configuration
 {
@@ -14,17 +10,14 @@ namespace AutoPoco.Configuration
         /// <summary>
         /// Gets the member this configuration is a part of
         /// </summary>
-        EngineTypeMember Member
-        {
-            get;
-        }
+        EngineTypeMember Member { get; }
 
         /// <summary>
         /// Sets a single data source for the type member
         /// </summary>
         /// <param name="action"></param>
         void SetDatasource(IEngineConfigurationDatasource action);
-        
+
         /// <summary>
         /// Sets multiple data sources for the type member
         /// </summary>
@@ -36,6 +29,5 @@ namespace AutoPoco.Configuration
         /// </summary>
         /// <returns></returns>
         IEnumerable<IEngineConfigurationDatasource> GetDatasources();
-
     }
 }

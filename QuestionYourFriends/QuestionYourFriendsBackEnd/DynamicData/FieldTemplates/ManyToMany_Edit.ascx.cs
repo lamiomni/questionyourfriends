@@ -1,34 +1,39 @@
 ﻿using System;
+using System.Collections;
+using System.ComponentModel;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.ComponentModel;
-using System.Collections;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.DynamicData;
 
 namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class ManyToMany_EditField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return CheckBoxList1; }
+        }
+
         public void Page_Load(object sender, EventArgs e)
         {
             // Inscrit l'événement de mise à jour de DataSource
-            EntityDataSource ds = (EntityDataSource)this.FindDataSourceControl();
+            var ds = (EntityDataSource) this.FindDataSourceControl();
 
             // Ce modèle de champ est utilisé pour l'édition et l'insertion
-            ds.Updating += new EventHandler<EntityDataSourceChangingEventArgs>(DataSource_UpdatingOrInserting);
-            ds.Inserting += new EventHandler<EntityDataSourceChangingEventArgs>(DataSource_UpdatingOrInserting);
+            ds.Updating += DataSource_UpdatingOrInserting;
+            ds.Inserting += DataSource_UpdatingOrInserting;
         }
 
-        void DataSource_UpdatingOrInserting(object sender, EntityDataSourceChangingEventArgs e)
+        private void DataSource_UpdatingOrInserting(object sender, EntityDataSourceChangingEventArgs e)
         {
             MetaTable childTable = ChildrenColumn.ChildTable;
 
             // Les commentaires supposent employé/territoire pour l'illustration, mais le code est générique
 
             // Obtient la collection de territoires pour cet employé
-            RelatedEnd entityCollection = (RelatedEnd)Column.EntityTypeProperty.GetValue(e.Entity, null);
+            var entityCollection = (RelatedEnd) Column.EntityTypeProperty.GetValue(e.Entity, null);
 
             // En mode Edition, vérifie qu'il est chargé (n'a pas de sens en mode Insertion)
             if (Mode == DataBoundControlMode.Edit && !entityCollection.IsLoaded)
@@ -39,12 +44,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             // Obtient un IList (c-à-d. la liste des territoires pour l'employé actuel)
             // RÉVISION : il est conseillé d'utiliser EntityCollection directement, mais EF n'a pas de
             // type non générique pour lui. Cela sera ajouté  dans vnext
-            IList entityList = ((IListSource)entityCollection).GetList();
+            IList entityList = ((IListSource) entityCollection).GetList();
 
             // Parcourt tous les territoires (pas uniquement pour cet employé)
             foreach (object childEntity in childTable.GetQuery(e.Context))
             {
-
                 // Vérifie si l'employé a actuellement ce territoire
                 bool isCurrentlyInList = entityList.Contains(childEntity);
 
@@ -80,7 +84,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             if (Mode == DataBoundControlMode.Edit)
             {
                 object entity;
-                ICustomTypeDescriptor rowDescriptor = Row as ICustomTypeDescriptor;
+                var rowDescriptor = Row as ICustomTypeDescriptor;
                 if (rowDescriptor != null)
                 {
                     // Obtient l'entité réelle du wrapper
@@ -92,10 +96,13 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
                 }
 
                 // Obtient la collection de territoires pour cet employé et vérifie qu'il est chargé
-                RelatedEnd entityCollection = Column.EntityTypeProperty.GetValue(entity, null) as RelatedEnd;
+                var entityCollection = Column.EntityTypeProperty.GetValue(entity, null) as RelatedEnd;
                 if (entityCollection == null)
                 {
-                    throw new InvalidOperationException(String.Format("Le modèle ManyToMany ne prend pas en charge le type de collection de la colonne '{0}' dans la table '{1}'.", Column.Name, Table.Name));
+                    throw new InvalidOperationException(
+                        String.Format(
+                            "Le modèle ManyToMany ne prend pas en charge le type de collection de la colonne '{0}' dans la table '{1}'.",
+                            Column.Name, Table.Name));
                 }
                 if (!entityCollection.IsLoaded)
                 {
@@ -105,11 +112,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
                 // Obtient un IList (c-à-d. la liste des territoires pour l'employé actuel)
                 // RÉVISION : il est conseillé d'utiliser EntityCollection directement, mais EF n'a pas de
                 // type non générique pour lui. Cela sera ajouté  dans vnext
-                entityList = ((IListSource)entityCollection).GetList();
+                entityList = ((IListSource) entityCollection).GetList();
 
                 // Obtient le ObjectContext actuel
                 // RÉVISION : ce n'est pas vraiment la manière de faire. Rechercher une meilleure solution
-                ObjectQuery objectQuery = (ObjectQuery)entityCollection.GetType().GetMethod(
+                var objectQuery = (ObjectQuery) entityCollection.GetType().GetMethod(
                     "CreateSourceQuery").Invoke(entityCollection, null);
                 objectContext = objectQuery.Context;
             }
@@ -119,7 +126,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             {
                 MetaTable actualTable = MetaTable.GetTable(childEntity.GetType());
                 // Crée une case à cocher
-                ListItem listItem = new ListItem(
+                var listItem = new ListItem(
                     actualTable.GetDisplayString(childEntity),
                     actualTable.GetPrimaryKeyString(childEntity));
 
@@ -132,14 +139,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
                 CheckBoxList1.Items.Add(listItem);
             }
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return CheckBoxList1;
-            }
-        }
-
     }
 }

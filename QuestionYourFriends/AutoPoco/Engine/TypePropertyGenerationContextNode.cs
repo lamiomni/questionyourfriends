@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Configuration;
+﻿using AutoPoco.Configuration;
 
 namespace AutoPoco.Engine
 {
     public class TypePropertyGenerationContextNode : IGenerationContextNode
     {
-        private TypeGenerationContextNode mParent;
-        private EngineTypePropertyMember mProperty;
+        private readonly TypeGenerationContextNode mParent;
+        private readonly EngineTypePropertyMember mProperty;
 
         public TypePropertyGenerationContextNode(TypeGenerationContextNode parent, EngineTypePropertyMember property)
         {
@@ -22,18 +18,23 @@ namespace AutoPoco.Engine
             get { return mProperty; }
         }
 
+        public virtual object Target
+        {
+            get { return mParent.Target; }
+        }
+
+        #region IGenerationContextNode Members
+
         public virtual IGenerationContextNode Parent
         {
             get { return mParent; }
         }
 
-        public virtual object Target
-        {
-            get { return mParent.Target; }
-        }
         public GenerationTargetTypes ContextType
         {
             get { return GenerationTargetTypes.Property; }
         }
+
+        #endregion
     }
 }

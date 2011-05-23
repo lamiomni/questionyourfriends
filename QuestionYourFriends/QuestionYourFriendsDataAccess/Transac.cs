@@ -7,42 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class Transac
+    public class Transac
     {
         #region Primitive Properties
-    
-        public virtual int id
-        {
-            get;
-            set;
-        }
-    
-        public virtual long fid
-        {
-            get;
-            set;
-        }
-    
-        public virtual int amount
-        {
-            get;
-            set;
-        }
-    
-        public virtual string status
-        {
-            get;
-            set;
-        }
-    
+
+        private int _questionId;
+        private int _userId;
+        public virtual int id { get; set; }
+
+        public virtual int amount { get; set; }
+
+        public virtual int status { get; set; }
+
         public virtual int userId
         {
             get { return _userId; }
@@ -58,14 +36,9 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private int _userId;
-    
-        public virtual string type
-        {
-            get;
-            set;
-        }
-    
+
+        public virtual int type { get; set; }
+
         public virtual int questionId
         {
             get { return _questionId; }
@@ -81,26 +54,15 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private int _questionId;
 
         #endregion
+
         #region Navigation Properties
-    
-        public virtual User User
-        {
-            get { return _user; }
-            set
-            {
-                if (!ReferenceEquals(_user, value))
-                {
-                    var previousValue = _user;
-                    _user = value;
-                    FixupUser(previousValue);
-                }
-            }
-        }
+
+        private Question _question;
+
         private User _user;
-    
+
         public virtual Question Question
         {
             get { return _question; }
@@ -108,44 +70,38 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_question, value))
                 {
-                    var previousValue = _question;
+                    Question previousValue = _question;
                     _question = value;
                     FixupQuestion(previousValue);
                 }
             }
         }
-        private Question _question;
 
-        #endregion
-        #region Association Fixup
-    
-        private void FixupUser(User previousValue)
+        public virtual User User
         {
-            if (previousValue != null && previousValue.Transacs.Contains(this))
+            get { return _user; }
+            set
             {
-                previousValue.Transacs.Remove(this);
-            }
-    
-            if (User != null)
-            {
-                if (!User.Transacs.Contains(this))
+                if (!ReferenceEquals(_user, value))
                 {
-                    User.Transacs.Add(this);
-                }
-                if (userId != User.id)
-                {
-                    userId = User.id;
+                    User previousValue = _user;
+                    _user = value;
+                    FixupUser(previousValue);
                 }
             }
         }
-    
+
+        #endregion
+
+        #region Association Fixup
+
         private void FixupQuestion(Question previousValue)
         {
             if (previousValue != null && previousValue.Transacs.Contains(this))
             {
                 previousValue.Transacs.Remove(this);
             }
-    
+
             if (Question != null)
             {
                 if (!Question.Transacs.Contains(this))
@@ -155,6 +111,26 @@ namespace QuestionYourFriendsDataAccess
                 if (questionId != Question.id)
                 {
                     questionId = Question.id;
+                }
+            }
+        }
+
+        private void FixupUser(User previousValue)
+        {
+            if (previousValue != null && previousValue.Transacs.Contains(this))
+            {
+                previousValue.Transacs.Remove(this);
+            }
+
+            if (User != null)
+            {
+                if (!User.Transacs.Contains(this))
+                {
+                    User.Transacs.Add(this);
+                }
+                if (userId != User.id)
+                {
+                    userId = User.id;
                 }
             }
         }

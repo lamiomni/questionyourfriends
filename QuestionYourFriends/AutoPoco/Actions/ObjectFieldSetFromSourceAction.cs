@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Configuration;
-using System.Reflection;
+﻿using AutoPoco.Configuration;
 using AutoPoco.Engine;
 
 namespace AutoPoco.Actions
 {
     public class ObjectFieldSetFromSourceAction : IObjectAction
     {
-        private EngineTypeFieldMember mMember;
-        private IDatasource mDatasource;
+        private readonly IDatasource _datasource;
+        private readonly EngineTypeFieldMember _member;
 
-        public ObjectFieldSetFromSourceAction(EngineTypeFieldMember member, IDatasource source) 
+        public ObjectFieldSetFromSourceAction(EngineTypeFieldMember member, IDatasource source)
         {
-            mMember = member;
-            mDatasource = source;
+            _member = member;
+            _datasource = source;
         }
+
+        #region IObjectAction Members
 
         public void Enact(IGenerationContext context, object target)
         {
             var fieldContext = new GenerationContext(context.Builders, new TypeFieldGenerationContextNode(
                                                                            (TypeGenerationContextNode) context.Node,
-                                                                           mMember));
-            mMember.FieldInfo.SetValue(target, mDatasource.Next(fieldContext));
+                                                                           _member));
+            _member.FieldInfo.SetValue(target, _datasource.Next(fieldContext));
         }
+
+        #endregion
     }
 }

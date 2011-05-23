@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AutoPoco.Engine
+﻿namespace AutoPoco.Engine
 {
     public abstract class DatasourceBase<T> : IDatasource<T>
     {
-        /// <summary>
-        /// Gets the next object from this data source
-        /// </summary>
-        /// <returns></returns>
-        public abstract T Next(IGenerationContext context);
+        #region IDatasource<T> Members
 
         object IDatasource.Next(IGenerationContext context)
         {
             return Next(context);
         }
+
+        #endregion
+
+        /// <summary>
+        /// Gets the next object from this data source
+        /// </summary>
+        /// <returns></returns>
+        public abstract T Next(IGenerationContext context);
     }
 }

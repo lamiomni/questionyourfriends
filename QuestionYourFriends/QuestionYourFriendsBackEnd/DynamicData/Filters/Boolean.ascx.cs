@@ -9,19 +9,20 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
     public partial class BooleanFilter : QueryableFilterUserControl
     {
         private const string NullValueString = "[null]";
+
         public override Control FilterControl
         {
-            get
-            {
-                return DropDownList1;
-            }
+            get { return DropDownList1; }
         }
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            if (!Column.ColumnType.Equals(typeof(bool)))
+            if (!Column.ColumnType.Equals(typeof (bool)))
             {
-                throw new InvalidOperationException(String.Format("A boolean filter was loaded for column '{0}' but the column has an incompatible type '{1}'.", Column.Name, Column.ColumnType));
+                throw new InvalidOperationException(
+                    String.Format(
+                        "A boolean filter was loaded for column '{0}' but the column has an incompatible type '{1}'.",
+                        Column.Name, Column.ColumnType));
             }
 
             if (!Page.IsPostBack)
@@ -66,6 +67,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.Filters
         {
             OnFilterChanged();
         }
-
     }
 }

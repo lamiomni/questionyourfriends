@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Configuration.TypeRegistrationActions
 {
     public class CascadeBaseTypeConfigurationAction : TypeRegistrationAction
     {
-        private IEngineConfiguration mConfiguration;
+        private readonly IEngineConfiguration mConfiguration;
 
         public CascadeBaseTypeConfigurationAction(IEngineConfiguration configuration)
         {
@@ -24,9 +23,10 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
             // Create the dependency stack
             IEnumerable<IEngineConfigurationTypeMember> membersToApply = GetAllTypeHierarchyMembers(mConfiguration, type);
 
-            foreach (var existingMemberConfig in membersToApply)
+            foreach (IEngineConfigurationTypeMember existingMemberConfig in membersToApply)
             {
-                IEngineConfigurationTypeMember currentMemberConfig = type.GetRegisteredMember(existingMemberConfig.Member);
+                IEngineConfigurationTypeMember currentMemberConfig =
+                    type.GetRegisteredMember(existingMemberConfig.Member);
                 if (currentMemberConfig == null)
                 {
                     type.RegisterMember(existingMemberConfig.Member);
@@ -36,9 +36,10 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
             }
         }
 
-        protected virtual IEnumerable<IEngineConfigurationTypeMember> GetAllTypeHierarchyMembers(IEngineConfiguration baseConfiguration, IEngineConfigurationType sourceType)
+        protected virtual IEnumerable<IEngineConfigurationTypeMember> GetAllTypeHierarchyMembers(
+            IEngineConfiguration baseConfiguration, IEngineConfigurationType sourceType)
         {
-            Stack<IEngineConfigurationType> configurationStack = new Stack<IEngineConfigurationType>();
+            var configurationStack = new Stack<IEngineConfigurationType>();
             Type currentType = sourceType.RegisteredType;
             IEngineConfigurationType currentTypeConfiguration = null;
 
@@ -46,12 +47,15 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
             while (currentType != null)
             {
                 currentTypeConfiguration = baseConfiguration.GetRegisteredType(currentType);
-                if (currentTypeConfiguration != null) { configurationStack.Push(currentTypeConfiguration); }
+                if (currentTypeConfiguration != null)
+                {
+                    configurationStack.Push(currentTypeConfiguration);
+                }
                 currentType = currentType.BaseType;
             }
 
             // Put all the implemented interfaces on top of that
-            foreach (var interfaceType in sourceType.RegisteredType.GetInterfaces())
+            foreach (Type interfaceType in sourceType.RegisteredType.GetInterfaces())
             {
                 currentTypeConfiguration = baseConfiguration.GetRegisteredType(interfaceType);
                 if (currentTypeConfiguration != null)
@@ -60,9 +64,9 @@ namespace AutoPoco.Configuration.TypeRegistrationActions
                 }
             }
 
-            var membersToApply = (from typeConfig in configurationStack
-                                  from memberConfig in typeConfig.GetRegisteredMembers()
-                                  select memberConfig).ToArray();
+            IEngineConfigurationTypeMember[] membersToApply = (from typeConfig in configurationStack
+                                                               from memberConfig in typeConfig.GetRegisteredMembers()
+                                                               select memberConfig).ToArray();
 
             return membersToApply;
         }

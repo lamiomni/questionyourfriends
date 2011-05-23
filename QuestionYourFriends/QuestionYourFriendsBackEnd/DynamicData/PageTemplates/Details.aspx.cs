@@ -29,6 +29,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.PageTemplates
                 Response.Redirect(table.ListActionPath);
             }
         }
-
     }
 }

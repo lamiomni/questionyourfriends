@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Configuration;
 using AutoPoco.DataSources;
 
@@ -9,10 +6,7 @@ namespace AutoPoco.Conventions
 {
     public class DefaultDatetimeMemberConvention : ITypeFieldConvention, ITypePropertyConvention
     {
-        public void Apply(ITypePropertyConventionContext context)
-        {
-            context.SetValue(DateTime.MinValue);
-        }
+        #region ITypeFieldConvention Members
 
         public void Apply(ITypeFieldConventionContext context)
         {
@@ -21,12 +15,25 @@ namespace AutoPoco.Conventions
 
         public void SpecifyRequirements(ITypeMemberConventionRequirements requirements)
         {
-            requirements.Type(x => x == typeof(DateTime));
+            requirements.Type(x => x == typeof (DateTime));
         }
+
+        #endregion
+
+        #region ITypePropertyConvention Members
+
+        public void Apply(ITypePropertyConventionContext context)
+        {
+            context.SetValue(DateTime.MinValue);
+        }
+
+        #endregion
     }
 
     public class EmailAddressPropertyConvention : ITypePropertyConvention
     {
+        #region ITypePropertyConvention Members
+
         public void Apply(ITypePropertyConventionContext context)
         {
             context.SetSource<EmailAddressSource>();
@@ -35,7 +42,9 @@ namespace AutoPoco.Conventions
         public void SpecifyRequirements(ITypeMemberConventionRequirements requirements)
         {
             requirements.Name(x => String.Compare(x, "EmailAddress", true) == 0);
-            requirements.Type(x => x == typeof(String));
+            requirements.Type(x => x == typeof (String));
         }
+
+        #endregion
     }
 }

@@ -7,45 +7,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class User
+    public class User
     {
         #region Primitive Properties
-    
-        public virtual int id
-        {
-            get;
-            set;
-        }
-    
-        public virtual long fid
-        {
-            get;
-            set;
-        }
-    
-        public virtual int credit_amount
-        {
-            get;
-            set;
-        }
-    
-        public virtual bool activated
-        {
-            get;
-            set;
-        }
+
+        public virtual int id { get; set; }
+
+        public virtual long fid { get; set; }
+
+        public virtual int credit_amount { get; set; }
+
+        public virtual bool activated { get; set; }
 
         #endregion
+
         #region Navigation Properties
-    
+
+        private ICollection<Question> _myQuestions;
+
+        private ICollection<Question> _questionsToMe;
+
+        private ICollection<Transac> _transacs;
+
         public virtual ICollection<Question> MyQuestions
         {
             get
@@ -76,8 +64,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private ICollection<Question> _myQuestions;
-    
+
         public virtual ICollection<Question> QuestionsToMe
         {
             get
@@ -108,8 +95,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private ICollection<Question> _questionsToMe;
-    
+
         public virtual ICollection<Transac> Transacs
         {
             get
@@ -140,11 +126,11 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-        private ICollection<Transac> _transacs;
 
         #endregion
+
         #region Association Fixup
-    
+
         private void FixupMyQuestions(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -154,7 +140,7 @@ namespace QuestionYourFriendsDataAccess
                     item.Owner = this;
                 }
             }
-    
+
             if (e.OldItems != null)
             {
                 foreach (Question item in e.OldItems)
@@ -166,7 +152,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-    
+
         private void FixupQuestionsToMe(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -176,7 +162,7 @@ namespace QuestionYourFriendsDataAccess
                     item.Receiver = this;
                 }
             }
-    
+
             if (e.OldItems != null)
             {
                 foreach (Question item in e.OldItems)
@@ -188,7 +174,7 @@ namespace QuestionYourFriendsDataAccess
                 }
             }
         }
-    
+
         private void FixupTransacs(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -198,7 +184,7 @@ namespace QuestionYourFriendsDataAccess
                     item.User = this;
                 }
             }
-    
+
             if (e.OldItems != null)
             {
                 foreach (Transac item in e.OldItems)

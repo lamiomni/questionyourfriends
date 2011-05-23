@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Configuration.Providers;
+﻿using AutoPoco.Configuration.Providers;
 using AutoPoco.Conventions;
 
 namespace AutoPoco.Configuration
 {
     public class EngineConfigurationFactory : IEngineConfigurationFactory
     {
-        public virtual IEngineConfiguration Create(IEngineConfigurationProvider configurationProvider, IEngineConventionProvider conventionProvider)
+        #region IEngineConfigurationFactory Members
+
+        public virtual IEngineConfiguration Create(IEngineConfigurationProvider configurationProvider,
+                                                   IEngineConventionProvider conventionProvider)
         {
-            EngineConfiguration configuration = new EngineConfiguration();
+            var configuration = new EngineConfiguration();
             var coreConvention = new DefaultEngineConfigurationProviderLoadingConvention();
-            coreConvention.Apply(new EngineConfigurationProviderLoaderContext(configuration, configurationProvider, conventionProvider));
+            coreConvention.Apply(new EngineConfigurationProviderLoaderContext(configuration, configurationProvider,
+                                                                              conventionProvider));
             return configuration;
         }
+
+        #endregion
     }
 }

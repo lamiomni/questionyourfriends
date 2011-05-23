@@ -7,8 +7,8 @@ namespace AutoPoco.DataSources
 {
     public class CountrySource : DatasourceBase<string>
     {
-        private readonly Random mRandom;
         private readonly CultureInfo[] mCultures;
+        private readonly Random mRandom;
 
         public CountrySource()
         {
@@ -19,13 +19,13 @@ namespace AutoPoco.DataSources
         public override string Next(IGenerationContext context)
         {
             string country = string.Empty;
-            
+
             // skip the invariant culture (not a country)
             do
             {
-                var index = mRandom.Next(1, mCultures.Count());
+                int index = mRandom.Next(1, mCultures.Count());
                 country = mCultures[index].EnglishName;
-            
+
                 // some are combination of countries, let's skip them
             } while (country.Contains(","));
 

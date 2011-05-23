@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Engine
 {
@@ -27,7 +25,7 @@ namespace AutoPoco.Engine
         /// <typeparam name="TPoco"></typeparam>
         /// <returns></returns>
         TPoco Next<TPoco>();
-       
+
         /// <summary>
         /// Generates the next poco and returns it, setting it up if necessary
         /// </summary>
@@ -47,6 +45,6 @@ namespace AutoPoco.Engine
         /// </summary>
         /// <typeparam name="TPoco"></typeparam>
         /// <returns></returns>
-        IEnumerable<TPoco> Collection<TPoco>(int count,  Action<ICollectionContext<TPoco, IList<TPoco>>> cfg);
+        IEnumerable<TPoco> Collection<TPoco>(int count, Action<ICollectionContext<TPoco, IList<TPoco>>> cfg);
     }
 }

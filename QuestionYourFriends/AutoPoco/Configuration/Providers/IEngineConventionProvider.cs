@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Configuration.Providers
 {
@@ -13,6 +11,5 @@ namespace AutoPoco.Configuration.Providers
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         IEnumerable<Type> Find<T>() where T : IConvention;
-        
     }
 }

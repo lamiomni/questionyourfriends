@@ -8,10 +8,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
     {
         public override Control DataControl
         {
-            get
-            {
-                return Literal1;
-            }
+            get { return Literal1; }
         }
 
         public string EnumFieldValueString
@@ -26,13 +23,12 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
                 Type enumType = Column.GetEnumType();
                 if (enumType != null)
                 {
-                    object enumValue = System.Enum.ToObject(enumType, FieldValue);
+                    object enumValue = Enum.ToObject(enumType, FieldValue);
                     return FormatFieldValue(enumValue);
                 }
 
                 return FieldValueString;
             }
         }
-
     }
 }

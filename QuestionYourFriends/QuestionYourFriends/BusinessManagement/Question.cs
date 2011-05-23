@@ -1,32 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace QuestionYourFriends.BusinessManagement
 {
     public static class Question
     {
-        public static bool CreateQuestion(QuestionYourFriendsDataAccess.Question question)
+        public static bool Create(QuestionYourFriendsDataAccess.Question question)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Question.CreateQuestion(Context.QyfEntities, question);
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Create(Context.QyfEntities, question);
         }
 
-        public static bool DeleteQuestion(long id)
+        public static bool Create(int idOwner, int idReceiver, string text, int anonPrice, int privatePrice, DateTime datePub)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Question.DeleteQuestion(Context.QyfEntities, id);
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Create(Context.QyfEntities, idOwner, idReceiver, text, anonPrice, privatePrice, datePub);
         }
 
-        public static bool UpdateQuestion(QuestionYourFriendsDataAccess.Question question)
+        public static bool Delete(long id)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Question.UpdateQuestion(Context.QyfEntities, question);
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Delete(Context.QyfEntities, id);
         }
 
-        public static QuestionYourFriendsDataAccess.Question GetQuestion(long id)
+        public static bool Delete(QuestionYourFriendsDataAccess.Question question)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Question.GetQuestion(Context.QyfEntities, id);
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Delete(Context.QyfEntities, question);
         }
 
-        public static List<QuestionYourFriendsDataAccess.Question> GetListQuestion()
+        public static bool Update(QuestionYourFriendsDataAccess.Question question)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Question.GetListQuestion(Context.QyfEntities);
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Update(Context.QyfEntities, question);
+        }
+
+        public static QuestionYourFriendsDataAccess.Question Get(long id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.Question.Get(Context.QyfEntities, id);
+        }
+
+        public static List<QuestionYourFriendsDataAccess.Question> GetList()
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.Question.GetList(Context.QyfEntities);
         }
     }
 }

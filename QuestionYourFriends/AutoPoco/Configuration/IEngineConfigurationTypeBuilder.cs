@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
 
 namespace AutoPoco.Configuration
 {
@@ -35,6 +31,5 @@ namespace AutoPoco.Configuration
         /// Sets the factory type and arguments for that factory type
         /// </summary>
         IEngineConfigurationTypeBuilder ConstructWith(Type type, params object[] args);
-
     }
 }

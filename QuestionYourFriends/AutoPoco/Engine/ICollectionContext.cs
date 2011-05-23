@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 
 namespace AutoPoco.Engine
@@ -11,13 +9,15 @@ namespace AutoPoco.Engine
         /// <summary>
         /// Imposes a property value on all the items in the current selection
         /// </summary>
-        ICollectionContext<TPoco, TCollection> Impose<TMember>(Expression<Func<TPoco, TMember>> propertyExpr, TMember value);
+        ICollectionContext<TPoco, TCollection> Impose<TMember>(Expression<Func<TPoco, TMember>> propertyExpr,
+                                                               TMember value);
 
         /// <summary>
         /// Overrides the data source for this particular generation scope
         /// </summary>
         /// <returns></returns>
-        ICollectionContext<TPoco, TCollection> Source<TMember>(Expression<Func<TPoco, TMember>> propertyExpr, IDatasource dataSource);
+        ICollectionContext<TPoco, TCollection> Source<TMember>(Expression<Func<TPoco, TMember>> propertyExpr,
+                                                               IDatasource dataSource);
 
         /// <summary>
         /// Invokes a method on all the items in the current selection

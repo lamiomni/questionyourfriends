@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
-
-using AutoPoco.Util;
 
 namespace AutoPoco.Configuration
 {
     public class EngineTypePropertyMember : EngineTypeMember
     {
-        private PropertyInfo mPropertyInfo;
+        private readonly PropertyInfo mPropertyInfo;
+
+        public EngineTypePropertyMember(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException("propertyInfo");
+            }
+            mPropertyInfo = propertyInfo;
+        }
 
         public override string Name
         {
@@ -37,28 +41,28 @@ namespace AutoPoco.Configuration
             get { return mPropertyInfo; }
         }
 
-        public EngineTypePropertyMember(PropertyInfo propertyInfo)
-        {
-            if (propertyInfo == null) { throw new ArgumentNullException("propertyInfo"); }
-            mPropertyInfo = propertyInfo;
-        }
-        
         public override bool Equals(object obj)
         {
             var otherMember = obj as EngineTypePropertyMember;
             if (otherMember != null)
             {
-                var propertyOne = this.PropertyInfo;
-                var propertyTwo = otherMember.PropertyInfo;
+                PropertyInfo propertyOne = PropertyInfo;
+                PropertyInfo propertyTwo = otherMember.PropertyInfo;
 
-                if (String.Compare(propertyOne.Name, propertyTwo.Name, false) != 0) { return false; }
-                if (propertyOne.PropertyType != propertyTwo.PropertyType) { return false; }
+                if (String.Compare(propertyOne.Name, propertyTwo.Name, false) != 0)
+                {
+                    return false;
+                }
+                if (propertyOne.PropertyType != propertyTwo.PropertyType)
+                {
+                    return false;
+                }
 
-                return true;                   
+                return true;
             }
             return false;
         }
-        
+
         public override int GetHashCode()
         {
             return PropertyInfo.GetHashCode();

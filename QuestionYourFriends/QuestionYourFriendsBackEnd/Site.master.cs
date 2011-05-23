@@ -4,6 +4,5 @@ namespace QuestionYourFriendsBackEnd
 {
     public partial class Site : MasterPage
     {
-
     }
 }

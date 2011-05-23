@@ -7,6 +7,11 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class Text_EditField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return TextBox1; }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Column.MaxLength < 20)
@@ -33,14 +38,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
         {
             dictionary[Column.Name] = ConvertEditedValue(TextBox1.Text);
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return TextBox1;
-            }
-        }
-
     }
 }

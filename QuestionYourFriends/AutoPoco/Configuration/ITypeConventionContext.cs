@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace AutoPoco.Configuration
@@ -11,10 +8,7 @@ namespace AutoPoco.Configuration
         /// <summary>
         /// Gets the type being registered
         /// </summary>
-        Type Target
-        {
-            get;
-        }
+        Type Target { get; }
 
         /// <summary>
         /// Sets the factory for instantiating this type
@@ -45,6 +39,5 @@ namespace AutoPoco.Configuration
         /// </summary>
         /// <remarks>If the arg is a Type and that type derives from IDatasource, then the data source will be created and invoked</remarks>
         void RegisterMethod(MethodInfo method, MethodInvocationContext context);
-
     }
 }

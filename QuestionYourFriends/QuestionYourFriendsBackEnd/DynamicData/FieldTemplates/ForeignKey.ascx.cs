@@ -8,22 +8,17 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
     {
         private bool _allowNavigation = true;
 
-        public string NavigateUrl
-        {
-            get;
-            set;
-        }
+        public string NavigateUrl { get; set; }
 
         public bool AllowNavigation
         {
-            get
-            {
-                return _allowNavigation;
-            }
-            set
-            {
-                _allowNavigation = value;
-            }
+            get { return _allowNavigation; }
+            set { _allowNavigation = value; }
+        }
+
+        public override Control DataControl
+        {
+            get { return HyperLink1; }
         }
 
         protected string GetDisplayString()
@@ -56,14 +51,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
                 return BuildForeignKeyPath(NavigateUrl);
             }
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return HyperLink1;
-            }
-        }
-
     }
 }

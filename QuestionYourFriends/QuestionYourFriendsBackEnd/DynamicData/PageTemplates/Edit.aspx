@@ -11,7 +11,7 @@
         </DataControls>
     </asp:DynamicDataManager>
 
-    <h2 class="DDSubHeader">Modifier l'entrée de la table <%= table.DisplayName %></h2>
+    <h2 class="DDSubHeader">Modifier l'entrée de la table <%=table.DisplayName%></h2>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>

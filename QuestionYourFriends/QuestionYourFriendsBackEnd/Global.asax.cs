@@ -8,13 +8,11 @@ namespace QuestionYourFriendsBackEnd
 {
     public class Global : HttpApplication
     {
-        private static MetaModel s_defaultModel = new MetaModel();
+        private static readonly MetaModel s_defaultModel = new MetaModel();
+
         public static MetaModel DefaultModel
         {
-            get
-            {
-                return s_defaultModel;
-            }
+            get { return s_defaultModel; }
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -27,7 +25,8 @@ namespace QuestionYourFriendsBackEnd
             // l'attribut [ScaffoldTable(true)] à la classe partielle.
             // Remarque : vérifiez que vous remplacez "YourDataContextType" par le nom de la classe du contexte de données
             // de votre application.
-            DefaultModel.RegisterContext(typeof(QuestionYourFriendsEntities), new ContextConfiguration { ScaffoldAllTables = true });
+            DefaultModel.RegisterContext(typeof (QuestionYourFriendsEntities),
+                                         new ContextConfiguration {ScaffoldAllTables = true});
 
             // L'instruction suivante prend en charge le mode page séparée, où les tâches Liste, Détail, Insérer et 
             // Mettre à jour sont exécutées à l'aide de pages distinctes. Pour activer ce mode, supprimez les marques de commentaire 
@@ -41,23 +40,24 @@ namespace QuestionYourFriendsBackEnd
             // Les instructions suivantes prennent en charge le mode combined-page, où les tâches Liste, Détail, Insérer et
             // Mettre à jour sont exécutées à l'aide de la même page. Pour activer ce mode, supprimez les marques de commentaire
             // de routes et commentez la définition de l'itinéraire dans la section du mode page séparée ci-dessus.
-            routes.Add(new DynamicDataRoute("{table}/ListDetails.aspx") {
-                Action = PageAction.List,
-                ViewName = "ListDetails",
-                Model = DefaultModel
-            });
+            routes.Add(new DynamicDataRoute("{table}/ListDetails.aspx")
+                           {
+                               Action = PageAction.List,
+                               ViewName = "ListDetails",
+                               Model = DefaultModel
+                           });
 
-            routes.Add(new DynamicDataRoute("{table}/ListDetails.aspx") {
-                Action = PageAction.Details,
-                ViewName = "ListDetails",
-                Model = DefaultModel
-            });
+            routes.Add(new DynamicDataRoute("{table}/ListDetails.aspx")
+                           {
+                               Action = PageAction.Details,
+                               ViewName = "ListDetails",
+                               Model = DefaultModel
+                           });
         }
 
-        void Application_Start(object sender, EventArgs e)
+        private void Application_Start(object sender, EventArgs e)
         {
             RegisterRoutes(RouteTable.Routes);
         }
-
     }
 }

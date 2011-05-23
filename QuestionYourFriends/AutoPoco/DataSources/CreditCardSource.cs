@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoPoco.Engine;
 
 namespace AutoPoco.DataSources
 {
     public class CreditCardSource : DatasourceBase<string>
     {
-        private readonly CreditCardType mPreferred;
-        private readonly Random mRandom;
+        #region CreditCardType enum
 
         public enum CreditCardType
         {
@@ -19,9 +16,15 @@ namespace AutoPoco.DataSources
             Discover = 4
         }
 
+        #endregion
+
+        private readonly CreditCardType mPreferred;
+        private readonly Random mRandom;
+
         public CreditCardSource()
-            :this(CreditCardType.Random)
-        {}
+            : this(CreditCardType.Random)
+        {
+        }
 
         public CreditCardSource(CreditCardType preferred)
         {
@@ -31,10 +34,10 @@ namespace AutoPoco.DataSources
 
         public override string Next(IGenerationContext context)
         {
-            var cardType = mPreferred;
+            CreditCardType cardType = mPreferred;
 
             if (mPreferred == CreditCardType.Random)
-                cardType = (CreditCardType)mRandom.Next(1, 4);
+                cardType = (CreditCardType) mRandom.Next(1, 4);
 
             switch (cardType)
             {

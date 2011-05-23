@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Configuration;
-using AutoPoco.Actions;
+﻿using AutoPoco.Configuration;
 using AutoPoco.Configuration.Providers;
 
 namespace AutoPoco.Engine
 {
     public class GenerationSessionFactory : IGenerationSessionFactory
     {
-        private IEngineConfiguration mConfig;
-        private IEngineConventionProvider mConventionProvider;
+        private readonly IEngineConfiguration mConfig;
+        private readonly IEngineConventionProvider mConventionProvider;
 
         public GenerationSessionFactory(IEngineConfiguration config, IEngineConventionProvider conventionProvider)
         {
             mConfig = config;
             mConventionProvider = conventionProvider;
         }
-        
+
+        #region IGenerationSessionFactory Members
+
         public IGenerationSession CreateSession(int recursionLimit)
         {
             return new GenerationContext(new GenerationConfiguration(mConfig, mConventionProvider, recursionLimit));
@@ -28,8 +25,8 @@ namespace AutoPoco.Engine
         {
             // TODO: Need to deep-clone the config
             return CreateSession(5);
-
         }
 
+        #endregion
     }
 }

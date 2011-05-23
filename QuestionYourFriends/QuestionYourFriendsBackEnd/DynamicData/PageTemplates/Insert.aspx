@@ -10,7 +10,7 @@
         </DataControls>
     </asp:DynamicDataManager>
 
-    <h2 class="DDSubHeader">Ajouter une nouvelle entrée à la table <%= table.DisplayName %></h2>
+    <h2 class="DDSubHeader">Ajouter une nouvelle entrée à la table <%=table.DisplayName%></h2>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>

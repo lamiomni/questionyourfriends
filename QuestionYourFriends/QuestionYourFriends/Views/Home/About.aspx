@@ -9,7 +9,7 @@
     <p>
         <h2>
         Hello
-        <%: ViewData["Firstname"]%>
-        <%: ViewData["Lastname"]%>!</h2>
+        <%:ViewData["Firstname"]%>
+        <%:ViewData["Lastname"]%>!</h2>
     </p>
 </asp:Content>

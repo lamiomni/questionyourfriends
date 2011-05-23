@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Engine;
-using AutoPoco.Configuration;
 
 namespace AutoPoco.Actions
 {
     public class ObjectMethodInvokeActionAction<T> : IObjectAction
     {
-        private Action<T> mAction;
+        private readonly Action<T> _action;
 
         public ObjectMethodInvokeActionAction(Action<T> action)
         {
-            mAction = action;
+            _action = action;
         }
+
+        #region IObjectAction Members
 
         public void Enact(IGenerationContext context, object target)
         {
-            mAction.Invoke((T)target);
+            _action.Invoke((T) target);
         }
+
+        #endregion
     }
 }

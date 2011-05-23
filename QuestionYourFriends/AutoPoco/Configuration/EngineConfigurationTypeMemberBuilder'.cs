@@ -1,29 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Engine;
 
 namespace AutoPoco.Configuration
 {
-    public class EngineConfigurationTypeMemberBuilder<TPoco, TMember> : EngineConfigurationTypeMemberBuilder, IEngineConfigurationTypeMemberBuilder<TPoco, TMember>
+    public class EngineConfigurationTypeMemberBuilder<TPoco, TMember> : EngineConfigurationTypeMemberBuilder,
+                                                                        IEngineConfigurationTypeMemberBuilder
+                                                                            <TPoco, TMember>
     {
-        private IEngineConfigurationTypeBuilder<TPoco> mParentConfiguration;
+        private readonly IEngineConfigurationTypeBuilder<TPoco> mParentConfiguration;
 
-        public EngineConfigurationTypeMemberBuilder(EngineTypeMember member, EngineConfigurationTypeBuilder<TPoco> parentConfiguration)
+        public EngineConfigurationTypeMemberBuilder(EngineTypeMember member,
+                                                    EngineConfigurationTypeBuilder<TPoco> parentConfiguration)
             : base(member, parentConfiguration)
         {
             mParentConfiguration = parentConfiguration;
         }
 
+        #region IEngineConfigurationTypeMemberBuilder<TPoco,TMember> Members
+
         public IEngineConfigurationTypeBuilder<TPoco> Use<TSource>() where TSource : IDatasource<TMember>
         {
-            return Use<TSource>(new Object[] { });
+            return Use<TSource>(new Object[] {});
         }
 
-        public IEngineConfigurationTypeBuilder<TPoco> Use<TSource>(params Object[] args) where TSource : IDatasource<TMember>
+        public IEngineConfigurationTypeBuilder<TPoco> Use<TSource>(params Object[] args)
+            where TSource : IDatasource<TMember>
         {
-            DatasourceFactory factory = new DatasourceFactory(typeof(TSource));
+            var factory = new DatasourceFactory(typeof (TSource));
             factory.SetParams(args);
             SetDatasources(factory);
             return mParentConfiguration;
@@ -33,6 +36,8 @@ namespace AutoPoco.Configuration
         {
             base.Default();
             return mParentConfiguration;
-        }       
+        }
+
+        #endregion
     }
 }

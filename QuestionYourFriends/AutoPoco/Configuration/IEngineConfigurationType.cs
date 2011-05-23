@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AutoPoco.Configuration
 {
@@ -13,10 +11,7 @@ namespace AutoPoco.Configuration
         /// <summary>
         /// Gets the type this configuration item represents
         /// </summary>
-        Type RegisteredType
-        {
-            get;
-        }
+        Type RegisteredType { get; }
 
         /// <summary>
         /// Gets all the registered members thus far
@@ -48,6 +43,5 @@ namespace AutoPoco.Configuration
         /// </summary>
         /// <returns></returns>
         IEngineConfigurationDatasource GetFactory();
-         
     }
 }

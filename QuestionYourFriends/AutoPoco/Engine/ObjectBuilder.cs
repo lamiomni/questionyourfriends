@@ -1,22 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AutoPoco.Configuration;
 using AutoPoco.Actions;
+using AutoPoco.Configuration;
 
 namespace AutoPoco.Engine
 {
     public class ObjectBuilder : IObjectBuilder
     {
-        private List<IObjectAction> mActions = new List<IObjectAction>();
-        private IDatasource mFactory = null;
+        private readonly List<IObjectAction> mActions = new List<IObjectAction>();
+        private readonly IDatasource mFactory;
 
-        public Type InnerType
+        /// <summary>
+        /// Creates this object builder
+        /// </summary>
+        /// <param name="type"></param>
+        public ObjectBuilder(IEngineConfigurationType type)
         {
-            get;
-            private set;
+            InnerType = type.RegisteredType;
+
+            if (type.GetFactory() != null)
+            {
+                mFactory = type.GetFactory().Build();
+            }
+
+            type.GetRegisteredMembers()
+                .ToList()
+                .ForEach(x =>
+                             {
+                                 List<IDatasource> sources = x.GetDatasources().Select(s => s.Build()).ToList();
+
+                                 if (x.Member.IsField)
+                                 {
+                                     if (sources.Count == 0)
+                                     {
+                                         return;
+                                     }
+
+                                     AddAction(new ObjectFieldSetFromSourceAction(
+                                                   (EngineTypeFieldMember) x.Member,
+                                                   sources.First()));
+                                 }
+                                 else if (x.Member.IsProperty)
+                                 {
+                                     if (sources.Count == 0)
+                                     {
+                                         return;
+                                     }
+
+                                     AddAction(new ObjectPropertySetFromSourceAction(
+                                                   (EngineTypePropertyMember) x.Member,
+                                                   sources.First()));
+                                 }
+                                 else if (x.Member.IsMethod)
+                                 {
+                                     AddAction(new ObjectMethodInvokeFromSourceAction(
+                                                   (EngineTypeMethodMember) x.Member,
+                                                   sources
+                                                   ));
+                                 }
+                             });
         }
+
+        #region IObjectBuilder Members
+
+        public Type InnerType { get; private set; }
 
         public IEnumerable<IObjectAction> Actions
         {
@@ -38,62 +86,17 @@ namespace AutoPoco.Engine
             mActions.Remove(action);
         }
 
-        /// <summary>
-        /// Creates this object builder
-        /// </summary>
-        /// <param name="type"></param>
-        public ObjectBuilder(IEngineConfigurationType type)
-        {
-            this.InnerType = type.RegisteredType;
-
-            if(type.GetFactory() != null)
-            {
-                mFactory = type.GetFactory().Build();
-            }
-
-            type.GetRegisteredMembers()
-           .ToList()
-           .ForEach(x =>
-           {
-               var sources = x.GetDatasources().Select(s => s.Build()).ToList();
-
-               if (x.Member.IsField)
-               {
-                   if (sources.Count == 0) { return; }
-
-                   this.AddAction(new ObjectFieldSetFromSourceAction(
-                      (EngineTypeFieldMember)x.Member,
-                      sources.First()));
-               }
-               else if (x.Member.IsProperty)
-               {
-                   if (sources.Count == 0) { return; }
-
-                   this.AddAction(new ObjectPropertySetFromSourceAction(
-                      (EngineTypePropertyMember)x.Member,
-                      sources.First()));
-               }
-               else if (x.Member.IsMethod)
-               {
-                   this.AddAction(new ObjectMethodInvokeFromSourceAction(
-                      (EngineTypeMethodMember)x.Member,
-                      sources
-                      ));
-               }
-           });
-        }
-
         public Object CreateObject(IGenerationContext context)
         {
             Object createdObject = null;
-            
-            if(mFactory != null)
+
+            if (mFactory != null)
             {
                 createdObject = mFactory.Next(context);
-                
-            } else
+            }
+            else
             {
-                createdObject = Activator.CreateInstance(this.InnerType);
+                createdObject = Activator.CreateInstance(InnerType);
             }
 
             // Don't set it up if we've reached recursion limit
@@ -104,10 +107,13 @@ namespace AutoPoco.Engine
             return createdObject;
         }
 
+        #endregion
+
         private void EnactActionsOnObject(IGenerationContext context, object createdObject)
         {
-            var typeContext = new GenerationContext(context.Builders, new TypeGenerationContextNode(context.Node, createdObject));
-            foreach (var action in this.mActions)
+            var typeContext = new GenerationContext(context.Builders,
+                                                    new TypeGenerationContextNode(context.Node, createdObject));
+            foreach (IObjectAction action in mActions)
             {
                 action.Enact(typeContext, createdObject);
             }

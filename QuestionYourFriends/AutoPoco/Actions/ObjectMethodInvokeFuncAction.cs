@@ -1,23 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoPoco.Engine;
 
 namespace AutoPoco.Actions
 {
     public class ObjectMethodInvokeFuncAction<TPoco, TReturn> : IObjectAction
     {
-        private Func<TPoco, TReturn> mAction;
+        private readonly Func<TPoco, TReturn> _action;
 
         public ObjectMethodInvokeFuncAction(Func<TPoco, TReturn> action)
         {
-            mAction = action;
+            _action = action;
         }
+
+        #region IObjectAction Members
 
         public void Enact(IGenerationContext context, object target)
         {
-            mAction.Invoke((TPoco)target);
+            _action.Invoke((TPoco) target);
         }
+
+        #endregion
     }
 }

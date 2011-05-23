@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoPoco.Engine;
 using AutoPoco.Configuration.Providers;
-using AutoPoco.Conventions;
 
 namespace AutoPoco.Configuration
 {
     public class EngineConfigurationBuilder : IEngineConfigurationBuilder, IEngineConfigurationProvider
     {
-        private EngineConventionConfiguration mConventions = new EngineConventionConfiguration();
-        private List<IEngineConfigurationTypeProvider> mTypes = new List<IEngineConfigurationTypeProvider>();
+        private readonly EngineConventionConfiguration mConventions = new EngineConventionConfiguration();
+        private readonly List<IEngineConfigurationTypeProvider> mTypes = new List<IEngineConfigurationTypeProvider>();
 
         public IEngineConventionProvider ConventionProvider
         {
-            get
-            {
-                return mConventions;
-            }
+            get { return mConventions; }
         }
+
+        #region IEngineConfigurationBuilder Members
 
         public IEngineConfigurationTypeBuilder<T> Include<T>()
         {
@@ -30,7 +25,7 @@ namespace AutoPoco.Configuration
             mTypes.Add(configuration);
 
             //And return the public interface
-            return (IEngineConfigurationTypeBuilder<T>)configuration;
+            return configuration;
         }
 
         public IEngineConfigurationTypeBuilder Include(Type t)
@@ -43,21 +38,27 @@ namespace AutoPoco.Configuration
 
             //And return the public interface
             return configuration;
-        }        
-       
+        }
+
         public void Conventions(Action<IEngineConventionConfiguration> config)
         {
             config.Invoke(mConventions);
-        }
-
-        public IEnumerable<IEngineConfigurationTypeProvider> GetConfigurationTypes()
-        {
-            return mTypes;
         }
 
         public void RegisterTypeProvider(IEngineConfigurationTypeProvider provider)
         {
             mTypes.Add(provider);
         }
+
+        #endregion
+
+        #region IEngineConfigurationProvider Members
+
+        public IEnumerable<IEngineConfigurationTypeProvider> GetConfigurationTypes()
+        {
+            return mTypes;
+        }
+
+        #endregion
     }
 }

@@ -8,12 +8,17 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 {
     public partial class ManyToManyField : FieldTemplateUserControl
     {
+        public override Control DataControl
+        {
+            get { return Repeater1; }
+        }
+
         protected override void OnDataBinding(EventArgs e)
         {
             base.OnDataBinding(e);
 
             object entity;
-            ICustomTypeDescriptor rowDescriptor = Row as ICustomTypeDescriptor;
+            var rowDescriptor = Row as ICustomTypeDescriptor;
             if (rowDescriptor != null)
             {
                 // Obtient l'entité réelle du wrapper
@@ -25,10 +30,13 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             }
 
             // Obtient la collection et vérifie qu'elle est chargée
-            RelatedEnd entityCollection = Column.EntityTypeProperty.GetValue(entity, null) as RelatedEnd;
+            var entityCollection = Column.EntityTypeProperty.GetValue(entity, null) as RelatedEnd;
             if (entityCollection == null)
             {
-                throw new InvalidOperationException(String.Format("Le modèle ManyToMany ne prend pas en charge le type de collection de la colonne '{0}' dans la table '{1}'.", Column.Name, Table.Name));
+                throw new InvalidOperationException(
+                    String.Format(
+                        "Le modèle ManyToMany ne prend pas en charge le type de collection de la colonne '{0}' dans la table '{1}'.",
+                        Column.Name, Table.Name));
             }
             if (!entityCollection.IsLoaded)
             {
@@ -39,14 +47,5 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
             Repeater1.DataSource = entityCollection;
             Repeater1.DataBind();
         }
-
-        public override Control DataControl
-        {
-            get
-            {
-                return Repeater1;
-            }
-        }
-
     }
 }

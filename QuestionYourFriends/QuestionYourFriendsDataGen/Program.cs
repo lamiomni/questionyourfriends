@@ -37,7 +37,6 @@ namespace QuestionYourFriendsDataGen
              
                 x.AddFromAssemblyContainingType<Transac>();
                 x.Include<Transac>()
-                    .Setup(t => t.fid).Use<RandomLongSource>()
                     .Setup(t => t.amount).Use<RandomIntegerSource>(25000)
                     .Setup(t => t.User).Use<RandomSqlDataSource<User>>(_qyfe.Users)
                     .Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()

@@ -7,7 +7,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public static class User
     {
-        public static bool CreateUser(QuestionYourFriendsEntities qyfEntities, int fid)
+        public static bool Create(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool CreateUser(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
+        public static bool Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
             {
@@ -40,11 +40,11 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool DeleteUser(QuestionYourFriendsEntities qyfEntities, long id)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
             {
-                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.id == id).FirstOrDefault());
+                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault());
                 qyfEntities.SaveChanges();
                 return true;
             }
@@ -55,11 +55,27 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool UpdateUser(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User u)
         {
             try
             {
-                QuestionYourFriendsDataAccess.User userFound = qyfEntities.Users.Where(x => x.id == user.id).FirstOrDefault();
+                qyfEntities.DeleteObject(u);
+                qyfEntities.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+        }
+
+        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
+        {
+            try
+            {
+                QuestionYourFriendsDataAccess.User userFound =
+                    qyfEntities.Users.Where(x => x.id == user.id).FirstOrDefault();
                 if (userFound != null)
                 {
                     userFound.fid = user.fid;
@@ -76,14 +92,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 Debug.WriteLine(ex);
                 return false;
             }
-
         }
 
-        public static QuestionYourFriendsDataAccess.User GetUser(QuestionYourFriendsEntities qyfEntities, long id)
+        public static QuestionYourFriendsDataAccess.User Get(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
             {
-                return qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
+                return qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -92,7 +107,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static List<QuestionYourFriendsDataAccess.User> GetListUser(QuestionYourFriendsEntities qyfEntities)
+        public static List<QuestionYourFriendsDataAccess.User> GetList(QuestionYourFriendsEntities qyfEntities)
         {
             try
             {

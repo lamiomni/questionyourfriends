@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
+﻿using System.Reflection;
 using AutoPoco.Util;
 
 namespace AutoPoco.Configuration
 {
     public class EngineTypeMethodMember : EngineTypeMember
     {
-        private MethodInfo mMethodInfo;
+        private readonly MethodInfo mMethodInfo;
+
+        public EngineTypeMethodMember(MethodInfo methodInfo)
+        {
+            mMethodInfo = methodInfo;
+        }
 
         public override string Name
         {
@@ -37,18 +37,13 @@ namespace AutoPoco.Configuration
             get { return mMethodInfo; }
         }
 
-        public EngineTypeMethodMember(MethodInfo methodInfo)
-        {
-            mMethodInfo = methodInfo;
-        }
-
         public override bool Equals(object obj)
         {
             var otherMember = obj as EngineTypeMethodMember;
             if (otherMember != null)
             {
-                return (otherMember.MethodInfo.Name == this.MethodInfo.Name) && otherMember.MethodInfo.ArgumentsAreEqualTo(this.MethodInfo);
-                    
+                return (otherMember.MethodInfo.Name == MethodInfo.Name) &&
+                       otherMember.MethodInfo.ArgumentsAreEqualTo(MethodInfo);
             }
             return false;
         }
