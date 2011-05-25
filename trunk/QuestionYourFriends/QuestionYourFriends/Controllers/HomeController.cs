@@ -6,21 +6,15 @@ namespace QuestionYourFriends.Controllers
     [HandleError]
     public class HomeController : Controller
     {
+        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
+            dynamic result = BusinessManagement.Facebook.GetUserInfo();
+            ViewData["Firstname"] = result.first_name;
+            ViewData["Lastname"] = result.last_name;
             ViewData["Message"] = "Bienvenue sur QuestionYourFriends !";
 
-            return RedirectToAction("Index", "MyQuestions");//View();
-        }
-
-        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult About()
-        {
-            dynamic result = BusinessManagement.Facebook.GetUserInfo();
-            ViewData["Firstname"] = (string) result.first_name;
-            ViewData["Lastname"] = (string) result.last_name;
-
-            return View();
+            return RedirectToAction("Index", "MyQuestions");
         }
     }
 }
