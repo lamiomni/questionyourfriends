@@ -15,6 +15,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 user.fid = fid;
                 user.activated = true;
                 user.credit_amount = 0;
+                qyfEntities.Users.AddObject(user);
                 qyfEntities.SaveChanges();
                 return true;
             }
