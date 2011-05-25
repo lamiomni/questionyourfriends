@@ -10,7 +10,7 @@ namespace QuestionYourFriends.Controllers
         {
             ViewData["Message"] = "Bienvenue sur QuestionYourFriends !";
 
-            return View();
+            return RedirectToAction("Index", "MyQuestions");//View();
         }
 
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
