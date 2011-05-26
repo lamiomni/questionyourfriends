@@ -5,4 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
+
 </asp:Content>

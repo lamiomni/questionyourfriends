@@ -8,9 +8,7 @@
     <h2><%:ViewData["Message"]%></h2>
     <p>
 
-    Hello World, <%:ViewData["UserName"]%>
+    Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
 
-        Pour en savoir plus sur ASP.NET MVC, visitez <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-   
     </p>
 </asp:Content>
