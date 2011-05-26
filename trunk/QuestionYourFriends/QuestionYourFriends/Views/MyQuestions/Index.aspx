@@ -8,4 +8,6 @@
 
     Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
 
+    <%:ViewData["message"]%>
+
 </asp:Content>

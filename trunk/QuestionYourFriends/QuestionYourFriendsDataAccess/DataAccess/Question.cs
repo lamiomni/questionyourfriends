@@ -134,5 +134,18 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
+
+        public static List<QuestionYourFriendsDataAccess.Question> GetListOfReceiver(QuestionYourFriendsEntities qyfEntities, int id)
+        {
+            try
+            {
+                return qyfEntities.Questions.Where(x => x.id_receiver == id).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
+        }
     }
 }
