@@ -3,7 +3,6 @@ using Facebook.Web.Mvc;
 
 namespace QuestionYourFriends.Controllers
 {
-    [HandleError]
     public class HomeController : BaseController
     {
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
