@@ -39,5 +39,10 @@ namespace QuestionYourFriends.BusinessManagement
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetList(Context.QyfEntities);
         }
+
+        public static List<QuestionYourFriendsDataAccess.Question> GetListOfReceiver(int id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfReceiver(Context.QyfEntities, id);
+        }
     }
 }

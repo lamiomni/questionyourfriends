@@ -95,6 +95,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        public static QuestionYourFriendsDataAccess.User Get(QuestionYourFriendsEntities qyfEntities, int id)
+        {
+            try
+            {
+                return qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
         public static QuestionYourFriendsDataAccess.User Get(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
