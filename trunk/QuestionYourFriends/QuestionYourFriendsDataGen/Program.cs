@@ -208,7 +208,7 @@ namespace QuestionYourFriendsDataGen
                 .Next(nbQuestion / 2 - 6)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .All()
-                    .Get()));
+                    .Get();
             Console.Write(@".");
             i = 0;
             foreach (var question in questions)
