@@ -220,11 +220,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// <param name="qyfEntities">Entity context</param>
         /// <param name="friends">array of friends id</param>
         /// <returns></returns>
-        public static List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(QuestionYourFriendsEntities qyfEntities, long[] friends)
+        public static List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(QuestionYourFriendsEntities qyfEntities, int[] friends)
         {
             try
             {
-                return qyfEntities.Questions.Where(x => friends.Contains(x.id_receiver)).Where(x => x.private_price == 0).ToList();
+                return qyfEntities.Questions.Where(x => friends.Contains(x.id_receiver)).ToList();
+                // Where(x => x.private_price == 0)
+                // Where(x => friends.Contains(x.id_receiver))
             }
             catch (Exception ex)
             {

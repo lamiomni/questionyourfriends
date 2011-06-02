@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Facebook.Web;
 
 namespace QuestionYourFriends.BusinessManagement
@@ -61,9 +62,21 @@ namespace QuestionYourFriends.BusinessManagement
             return result;
         }
 
+        /// <summary>
+        /// Conversion from Facebook IDs to our IDs
+        /// </summary>
+        /// <returns></returns>
+        public static dynamic GetUidFromFid(long[] fids)
+        {
+            var friends = BusinessManagement.User.GetUsersFromFids(fids);
+
+            return friends.ToDictionary(friend => friend.fid, friend => friend.id);
+        }
+
 
         public static string GetFriendName(long fid)
         {
+            return "";
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("/" + fid);
             return (result.last_name + " " + result.first_name);

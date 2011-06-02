@@ -23,7 +23,7 @@
             <h3><%:question.answer %></h3>
         <% } %>
 
-        <% if(question.private_price == 0) { %>
+        <% if(question.private_price == 0 && friends.ContainsKey(question.Owner.fid)) { %>
             <span><%:friends[question.Owner.fid] %></span>
         <% }
            else
@@ -35,7 +35,7 @@
         %>
 
         <% if(question.Receiver != null) { %>
-            <span><%:friends[question.Receiver.fid] %></span>
+            <span><%:friends[question.Receiver.fid].name %></span>
         <% } %>
     </li>
     <%

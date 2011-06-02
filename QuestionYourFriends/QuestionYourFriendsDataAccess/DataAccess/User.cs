@@ -210,6 +210,22 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return new List<QuestionYourFriendsDataAccess.User>();
             }
         }
+        #endregion
+
+        #region More...
+
+        public static List<QuestionYourFriendsDataAccess.User> GetUsersFromFids(QuestionYourFriendsEntities qyfEntities, long[] fids)
+        {
+            try
+            {
+                return qyfEntities.Users.Where(x => fids.Contains(x.fid)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return new List<QuestionYourFriendsDataAccess.User>();
+            }
+        }
 
         #endregion
     }
