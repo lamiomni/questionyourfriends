@@ -1,4 +1,5 @@
-﻿using Facebook.Web;
+﻿using System.Collections.Generic;
+using Facebook.Web;
 
 namespace QuestionYourFriends.BusinessManagement
 {
@@ -20,8 +21,8 @@ namespace QuestionYourFriends.BusinessManagement
         }
 
         /// <summary>
-        /// List of friend is stored in result.data
-        /// Name of friend in data.name
+        /// List of friends is stored in result.data
+        /// Name of friends in data.name
         /// Facebook id of friend in data.id
         /// </summary>
         /// <returns>Json Array</returns>
@@ -30,6 +31,22 @@ namespace QuestionYourFriends.BusinessManagement
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("/me/friends");
             return result;
+        }
+
+        /// <summary>
+        /// List of friends stored into a dictionary
+        /// </summary>
+        /// <returns></returns>
+        public static dynamic GetUserFriendsDictionary()
+        {
+            dynamic friends = GetUserFriends();
+            var res = new Dictionary<long, dynamic>();
+
+            foreach (dynamic friend in friends.data)
+            {
+                res.Add(long.Parse(friend.id), friend);
+            }
+            return res;
         }
 
         /// <summary>
