@@ -46,7 +46,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool Delete(QuestionYourFriendsEntities qyfEntities, long id)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
             {

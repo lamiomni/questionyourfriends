@@ -36,6 +36,11 @@ namespace QuestionYourFriends.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, id);
         }
 
+        public static QuestionYourFriendsDataAccess.User Get(int id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, id);
+        }
+
         public static List<QuestionYourFriendsDataAccess.User> GetList()
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);

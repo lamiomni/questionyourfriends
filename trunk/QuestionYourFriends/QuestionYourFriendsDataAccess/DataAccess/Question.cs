@@ -10,9 +10,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         #region CRUD methods
 
         /// <summary>
-        /// Create a question
+        /// Adds a question
         /// </summary>
-        /// <param name="qyfEntities">Our entity context</param>
+        /// <param name="qyfEntities">Entity context</param>
         /// <param name="idOwner">User id of the owner</param>
         /// <param name="idReceiver">User id of the receiver</param>
         /// <param name="text">Question content</param>
@@ -47,6 +47,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Adds a question
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="question">Question to add</param>
+        /// <returns>The id of the created Question</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
         {
             try
@@ -62,6 +68,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes a question
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Question's id to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
@@ -77,6 +89,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes a question
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="q">Question to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question q)
         {
             try
@@ -92,6 +110,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Updates a question
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="question">Question to update</param>
+        /// <returns>True if the update is ok</returns>
         public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
         {
             try
@@ -123,6 +147,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Gets a question thanks to its id
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Question id</param>
+        /// <returns>Requested question</returns>
         public static QuestionYourFriendsDataAccess.Question Get(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
@@ -136,6 +166,11 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Get list of all questions
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <returns>List of questions</returns>
         public static List<QuestionYourFriendsDataAccess.Question> GetList(QuestionYourFriendsEntities qyfEntities)
         {
             try
@@ -153,6 +188,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 
         #region Moar...
 
+        /// <summary>
+        /// Get the list of receivers
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Receiver id</param>
+        /// <returns>List of questions where we are receiver</returns>
         public static List<QuestionYourFriendsDataAccess.Question> GetListOfReceiver(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
