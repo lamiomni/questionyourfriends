@@ -6,8 +6,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
-
-    <%:ViewData["message"]%>
+    <form id="form1" runat="server">
+    <%:ViewData["myId"]%>
+    <% for (int i = 0; i < (int)ViewData["questionCount"]; i++)
+       {
+           %><%:ViewData["question" + i]%>
+    <% } %>
+    </form>
 
 </asp:Content>
