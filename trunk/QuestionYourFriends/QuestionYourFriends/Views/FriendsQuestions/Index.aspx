@@ -9,6 +9,38 @@
     <p>
         
     Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
-    
+    <ul>
+    <%
+        var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
+        var friends = (Dictionary<long, dynamic>) Session["friendsDictionary"];
+    foreach (var question in questions)
+    {
+      %>
+      <li>
+        <h2><%:question.text %></h2>
+
+        <% if(question.answer != null) { %>
+            <h3><%:question.answer %></h3>
+        <% } %>
+
+        <% if(question.private_price == 0) { %>
+            <span><%:friends[question.Owner.fid] %></span>
+        <% }
+           else
+           {
+            %>
+            <a href="/FriendsQuestions/MakePublic/<%:question.id %>" alt="Découvrir l'auteur de cette question">de ???</a>
+            <%
+           }
+        %>
+
+        <% if(question.Receiver != null) { %>
+            <span><%:friends[question.Receiver.fid] %></span>
+        <% } %>
+    </li>
+    <%
+    }
+    %>
+    </ul>    
     </p>
 </asp:Content>

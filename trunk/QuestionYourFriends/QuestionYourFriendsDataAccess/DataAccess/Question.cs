@@ -209,6 +209,25 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
+        
+        /// <summary>
+        /// Get the list of questions of your friends
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="friends">array of friends id</param>
+        /// <returns></returns>
+        public static List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(QuestionYourFriendsEntities qyfEntities, long[] friends)
+        {
+            try
+            {
+                return qyfEntities.Questions.Where(x => friends.Contains(x.id_receiver)).Where(x => x.private_price == 0).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return new List<QuestionYourFriendsDataAccess.Question>();
+            }
+        }
 
         #endregion
     }

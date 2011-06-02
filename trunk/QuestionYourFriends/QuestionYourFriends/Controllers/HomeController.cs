@@ -21,6 +21,7 @@ namespace QuestionYourFriends.Controllers
                 result = BusinessManagement.Facebook.GetUserInfo();
                 Session["user"] = result;
                 Session["friends"] = BusinessManagement.Facebook.GetUserFriends();
+                Session["friendsDictionary"] = BusinessManagement.Facebook.GetUserFriendsDictionary();
                 long fid = long.Parse(result.id);
                 QuestionYourFriendsDataAccess.User u = BusinessManagement.User.Get(fid);
                 if (u == null)
