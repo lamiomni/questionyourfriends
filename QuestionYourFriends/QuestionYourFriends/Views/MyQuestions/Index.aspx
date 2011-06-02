@@ -6,27 +6,55 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <form id="form1" runat="server">
+        <div id="fb-root"></div>
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({ appId: '174625392585425', status: true, cookie: true,
+                    xfbml: true
+                });
+            };
+            (function () {
+                var e = document.createElement('script'); e.async = true;
+                e.src = document.location.protocol +
+              '//connect.facebook.net/en_US/all.js';
+                document.getElementById('fb-root').appendChild(e);
+            } ());
+  
+        </script>
+    <fb:serverFbml  width="300px" >
+    <script type="text/fbml">
+    
     <%:ViewData["test"]%>
-    <% for (int i = 0; i < (int)ViewData["questionCount"]; i++)
+    <% foreach(var i in (List<QuestionYourFriendsDataAccess.Question>)ViewData["questions"])
        {
            %>
-           <asp:Button runat="server" ID="Delete" Text="X" />
-           <br/>
-            <%:((List<string>)ViewData["questions"])[i]%>
-            <br/>
-            <%:((List<string>)ViewData["friend"])[i]%>
-            <br/>
-            <asp:TextBox runat="server" ID="textBox" />
-            <br/>
-            <asp:DropDownList ID="DropDownList" runat="server">
-                <asp:ListItem Text="public" Value="public" />
-                <asp:ListItem Text="privé" Value="private" />
-            </asp:DropDownList>
-            <asp:Button runat="server" ID="Cancel" Text="annuler" />
-            <asp:Button runat="server" ID="Respond" Text="répondre"/>
+           <fb:request-form
+                    action="http://apps.facebook.com/hellototo/MyQuestions/Answeree"
+                    target="_top"
+                    method="GET"
+                    invite="true"
+                    type="Demo"
+                    content="Hello"
+                    label='Accept' >
+               <a href="#">Delete</a>
+               <br/>
+                <%:i.text%>
+                <br/>
+                <%:QuestionYourFriends.BusinessManagement.Facebook.GetFriendName(i.Owner.fid)%>
+                <br/>
+                <input type="text" value="" name="answer" />
+                <br/>
+                <select>
+                    <option value="1">public</option>
+                    <option value="2">privé</option>                
+                </select>
+                <input type="hidden" value="<%:i.id %>" name="qid"/> 
+                  
+                <a href="#"></a>
+                <fb:submit >Poser</fb:submit>
+            </fb:request-form>
             <br/>
     <% } %>
-    </form>
-
+    </script>
+    </fb:serverFbml>
 </asp:Content>

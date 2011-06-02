@@ -15,55 +15,7 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         /// 
 
-        public string SearchFriend(dynamic myFriends, QuestionYourFriendsDataAccess.Question question)
-        {
-            string buffer = "";
-
-            // Chercher le nom et prénom de l'envoyeur en comparant les fids de la base de données et de Session["friend"]
-            if (myFriends.data != null)
-            {
-                QuestionYourFriendsDataAccess.User sender = BusinessManagement.User.Get(question.id_owner);
-                foreach (dynamic friend in myFriends.data)
-                {
-                    if (sender != null && long.Parse(friend.id) == sender.fid)
-                    {
-                        buffer += "De ";
-                        buffer += friend.name;
-                        break;
-                    }
-                }
-            }
-            return buffer;
-        }
-
-        public void storeQuestionInView(dynamic myFriends, QuestionYourFriendsDataAccess.User user)
-        {
-            // Stocker dans la view la liste des questions dont le récepteur est l'utilisateur
-
-            var receiver = BusinessManagement.Question.GetListOfReceiver(user.id);
-            if (receiver != null)
-            {
-                List<string> textBufferList = new List<string>();
-                List<string> friendBufferList = new List<string>();
-                foreach (QuestionYourFriendsDataAccess.Question question in receiver)
-                {
-                    string textBuffer = "";
-                    string friendBuffer = "";
-                    textBuffer += question.text;
-                    textBuffer += " ";
-
-                    friendBuffer += SearchFriend(myFriends, question);
-
-                    textBufferList.Add(textBuffer);
-                    friendBufferList.Add(friendBuffer);
-                }
-                ViewData["questions"] = textBufferList;
-                ViewData["friend"] = friendBufferList;
-                ViewData["questionCount"] = textBufferList.Count;
-            }
-        }
-
-        public ActionResult Index()
+       public ActionResult Index()
         {
             dynamic myAccount = Session["user"];
             dynamic myFriends = Session["friends"];
@@ -73,10 +25,20 @@ namespace QuestionYourFriends.Controllers
 
             // Récupérer le id du fid dans User
             QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(myAccount.id));
-
-            storeQuestionInView(myFriends, user);
-
+            List<QuestionYourFriendsDataAccess.Question> receiver = BusinessManagement.Question.GetListOfReceiver(user.id);
+            ViewData["questions"] = receiver;
             return View();
+        }
+
+        public ActionResult Answeree()
+        {
+            string answer = this.Request.Params.Get("answer");
+            string qidstring = this.Request.Params.Get("qid");
+            int qid = int.Parse(qidstring);
+            QuestionYourFriendsDataAccess.Question q =  BusinessManagement.Question.Get(qid);
+            q.answer = answer;
+            BusinessManagement.Question.Update(q);
+            return RedirectToAction("Index", "MyQuestion");
         }
     }
 }
