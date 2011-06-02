@@ -13,6 +13,9 @@ namespace QuestionYourFriends.Controllers
             dynamic res = Session["user"];
             int n = 0;
 
+            ViewData["Firstname"] = res.first_name;
+            ViewData["Lastname"] = res.last_name;
+            ViewData["Id"] = res.id;
             // Récupérer le id du fid dans User
             QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(res.id));
 
@@ -24,18 +27,21 @@ namespace QuestionYourFriends.Controllers
                 ViewData["question" + n] += " ";
 
                 // Chercher le nom et prénom de l'envoyeur en comparant les fids de la base de données et de Session["friend"]
-                foreach (dynamic friend in myFriends.data)
+                if (myFriends.data != null)
                 {
-                    if (friend.id == sender.fid)
+                    foreach (dynamic friend in myFriends.data)
                     {
-                        ViewData["question" + n] += friend.first_name;
-                        ViewData["question" + n] += " ";
-                        ViewData["question" + n] += friend.last_name;
+                        if (friend.id == sender.fid)
+                        {
+                            ViewData["question" + n] += friend.first_name;
+                            ViewData["question" + n] += " ";
+                            ViewData["question" + n] += friend.last_name;
+                        }
                     }
-                }
 
-                ViewData["question" + n] += "\r\n";
-                n++;
+                    ViewData["question" + n] += "\r\n";
+                    n++;
+                }
             }
             ViewData["questionCount"] = n + 1;
 
