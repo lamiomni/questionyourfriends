@@ -32,6 +32,10 @@ namespace QuestionYourFriends.Controllers
             string annon_cost_question = this.Request.Params.Get("annon_cost");
             dynamic user = Session["user"];
             long fid = long.Parse(user.id);
+            if (private_cost_question == null)
+                private_cost_question = "0";
+            if (annon_cost_question == null)
+                annon_cost_question = "0";
             int private_cost = int.Parse(private_cost_question);
             int annon_cost = int.Parse(annon_cost_question);
             long ffid = long.Parse(asked_friend);
