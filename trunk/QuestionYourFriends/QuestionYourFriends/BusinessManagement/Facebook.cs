@@ -31,5 +31,12 @@ namespace QuestionYourFriends.BusinessManagement
             dynamic result = fb.Get("/me/friends");
             return result;
         }
+
+        public static dynamic getFriendInfo(long fid)
+        {
+            var fb = new FacebookWebClient();
+            dynamic result = fb.Get("/" + fid);
+            return result;
+        }
     }
 }

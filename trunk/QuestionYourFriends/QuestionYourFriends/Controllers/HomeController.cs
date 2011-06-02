@@ -31,7 +31,7 @@ namespace QuestionYourFriends.Controllers
             ViewData["Firstname"] = result.first_name;
             ViewData["Lastname"] = result.last_name;
             ViewData["Message"] = "Bienvenue sur QuestionYourFriends !";
-
+            
             return RedirectToAction("Index", "MyQuestions");
         }
     }
