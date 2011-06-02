@@ -206,7 +206,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return null;
+                return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
 
