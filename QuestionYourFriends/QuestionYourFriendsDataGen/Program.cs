@@ -8,13 +8,19 @@ using QuestionYourFriendsDataGen.DataSources;
 
 namespace QuestionYourFriendsDataGen
 {
-    public class Program
+    /// <summary>
+    /// Data generation class
+    /// </summary>
+    public static class Program
     {
         private static QuestionYourFriendsEntities _qyfe;
         private static IGenerationSession _session;
         private const float Version = 1.0f;
 
-        static void Main()
+        /// <summary>
+        /// Main function, generates the database information
+        /// </summary>
+        public static void Main()
         {
             Console.WriteLine(string.Format(new CultureInfo("en-US"), "  === Qyf DataGen v.{0:0.0} ===", Version));
             Console.WriteLine();
@@ -25,24 +31,27 @@ namespace QuestionYourFriendsDataGen
             {
                 x.Conventions(c => c.UseDefaultConventions());
 
+                // Impose question informations
                 x.AddFromAssemblyContainingType<Question>();
                 x.Include<Question>()
                     .Setup(q => q.anom_price).Use<RandomIntegerSource>(250)
                     .Setup(q => q.date_pub).Use<DateOfBirthSource>()
-                    .Setup(q => q.Owner).Use<RandomSqlDataSource<User>>(_qyfe.Users)
-                    .Setup(q => q.Receiver).Use<RandomSqlDataSource<User>>(_qyfe.Users)
+                    .Setup(q => q.Owner).Use<RandomEntitySource<User>>(_qyfe.Users)
+                    .Setup(q => q.Receiver).Use<RandomEntitySource<User>>(_qyfe.Users)
                     .Setup(q => q.private_price).Use<RandomIntegerSource>(250)
                     .Setup(q => q.undesirable).Use<RandomBooleanSource>()
                     .Setup(q => q.deleted).Use<RandomBooleanSource>();
-             
+
+                // Impose transaction informations
                 x.AddFromAssemblyContainingType<Transac>();
                 x.Include<Transac>()
                     .Setup(t => t.amount).Use<RandomIntegerSource>(25000)
-                    .Setup(t => t.User).Use<RandomSqlDataSource<User>>(_qyfe.Users)
+                    .Setup(t => t.User).Use<RandomEntitySource<User>>(_qyfe.Users)
                     .Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
                     .Setup(t => t.type).Use<RandomEnumSource<TransacType>>()
-                    .Setup(t => t.Question).Use<RandomSqlDataSource<Question>>(_qyfe.Questions);
+                    .Setup(t => t.Question).Use<RandomEntitySource<Question>>(_qyfe.Questions);
 
+                // Impose user informations
                 x.AddFromAssemblyContainingType<User>();
                 x.Include<User>()
                     .Setup(u => u.fid).Use<RandomLongSource>()
@@ -65,7 +74,7 @@ namespace QuestionYourFriendsDataGen
             Console.ReadLine();
         }
 
-        public static void CleanDb()
+        private static void CleanDb()
         {
             // Clean transactions
             Console.Write(@"      - Transactions.");
@@ -109,7 +118,7 @@ namespace QuestionYourFriendsDataGen
             Console.WriteLine(string.Format(". {0} users deleted.", i));
         }
 
-        public static void AddData()
+        private static void AddData()
         {
             const int nbUser = 100;
             const int nbTransac = 300;

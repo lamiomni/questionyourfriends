@@ -18,9 +18,7 @@
              
             <div id="menucontainer">
             
-                <ul id="menu">              
-                    <!--<li><%:Html.ActionLink("Accueil", "Index", "Home")%></li>
-                    <li><%:Html.ActionLink("À propos de", "About", "Home")%></li>-->
+                <ul id="menu">
                     <li><%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
                     <li><%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
                     <li><%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
