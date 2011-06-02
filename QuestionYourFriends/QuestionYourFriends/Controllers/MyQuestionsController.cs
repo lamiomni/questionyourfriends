@@ -2,15 +2,19 @@
 
 namespace QuestionYourFriends.Controllers
 {
-    public class MyQuestionsController : BaseController
+    public class MyQuestionsController : Controller
     {
         //
         // GET: /MyQuestions/
 
         public ActionResult Index()
         {
-            dynamic myFriends = Session["friend"];
+            dynamic myFriends = Session["friends"];
             dynamic res = Session["user"];
+
+            if (myFriends == null || res == null)
+                return RedirectToAction("Index", "Home");
+
             int n = 0;
 
             ViewData["Firstname"] = res.first_name;
