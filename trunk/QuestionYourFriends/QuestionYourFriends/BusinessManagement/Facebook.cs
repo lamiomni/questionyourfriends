@@ -60,5 +60,13 @@ namespace QuestionYourFriends.BusinessManagement
             dynamic result = fb.Get("/" + fid);
             return result;
         }
+
+
+        public static string GetFriendName(long fid)
+        {
+            var fb = new FacebookWebClient();
+            dynamic result = fb.Get("/" + fid);
+            return (result.last_name + " " + result.first_name);
+        }
     }
 }
