@@ -40,15 +40,18 @@ namespace QuestionYourFriends.Controllers
             int annon_cost = int.Parse(annon_cost_question);
             long ffid = long.Parse(asked_friend);
             QuestionYourFriendsDataAccess.User me = BusinessManagement.User.Get(fid);
-            QuestionYourFriendsDataAccess.User friend = BusinessManagement.User.Get(ffid);
-            if (friend == null)
+            if (me.credit_amount > (annon_cost + private_cost))
             {
-                BusinessManagement.User.Create(ffid);
-                friend = BusinessManagement.User.Get(ffid);
+                QuestionYourFriendsDataAccess.User friend = BusinessManagement.User.Get(ffid);
+                if (friend == null)
+                {
+                    BusinessManagement.User.Create(ffid);
+                    friend = BusinessManagement.User.Get(ffid);
+                }
+                int qid = BusinessManagement.Question.Create(me.id, friend.id, asked_question, annon_cost, private_cost, System.DateTime.Now);
+                QuestionYourFriendsDataAccess.Question q = BusinessManagement.Question.Get(qid);
+                BusinessManagement.Transac.SpendAndQuestion(q, me);
             }
-            int qid = BusinessManagement.Question.Create(me.id, friend.id, asked_question,annon_cost ,private_cost, System.DateTime.Now);
-            QuestionYourFriendsDataAccess.Question q = BusinessManagement.Question.Get(qid);
-            BusinessManagement.Transac.SpendAndQuestion(q, me);
             return RedirectToAction("Index", "Ask");
         }
     }
