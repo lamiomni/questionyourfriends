@@ -32,7 +32,12 @@ namespace QuestionYourFriends.BusinessManagement
             return result;
         }
 
-        public static dynamic getFriendInfo(long fid)
+        /// <summary>
+        /// Get friend infos
+        /// </summary>
+        /// <param name="fid">Facebook Id of the requested user</param>
+        /// <returns>A Json Array</returns>
+        public static dynamic GetFriendInfo(long fid)
         {
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("/" + fid);

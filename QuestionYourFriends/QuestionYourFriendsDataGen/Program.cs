@@ -181,7 +181,12 @@ namespace QuestionYourFriendsDataGen
 
             // Add transactions
             Console.Write(@"      - Transacs");
-            var transacs = _session.List<Transac>(nbTransac).Get();
+            var transacs = _session.List<Transac>(nbTransac)
+                .First(nbTransac / 2)
+                    .Impose(t => t.questionId, null)
+                    .Impose(t => t.Question, null)
+                .All()
+                    .Get();
             Console.Write(@".");
             i = 0;
             foreach (var transac in transacs)

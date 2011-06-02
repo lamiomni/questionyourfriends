@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
+    /// <summary>
+    /// Data Access to Questions
+    /// </summary>
     public static class Question
     {
         #region CRUD methods
@@ -21,7 +24,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// <param name="datePub">Publication date</param>
         /// <returns>The id of the created Question</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, int idOwner, int idReceiver,
-                                  string text, int anonPrice, int privatePrice, DateTime datePub)
+                                 string text, int anonPrice, int privatePrice, DateTime datePub)
         {
             try
             {

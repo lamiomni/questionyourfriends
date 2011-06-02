@@ -10,7 +10,6 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
-        /// <returns></returns>
         public ActionResult Index()
         {
             dynamic myFriends = Session["friends"];

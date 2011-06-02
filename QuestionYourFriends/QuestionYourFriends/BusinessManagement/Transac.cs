@@ -27,8 +27,8 @@ namespace QuestionYourFriends.BusinessManagement
         /// <param name="userId">Id of the user</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="questionId">Id of the question</param>
-        /// <returns></returns>
-        public static int Create(int amount, int userId, TransacType type, int questionId)
+        /// <returns>The id of the created question</returns>
+        public static int Create(int amount, int userId, TransacType type, int? questionId)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
                                                                                   type, questionId);

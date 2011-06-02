@@ -51,7 +51,7 @@
           <Property Name="status" Type="int" Nullable="false" />
           <Property Name="userId" Type="int" Nullable="false" />
           <Property Name="type" Type="int" Nullable="false" />
-          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -87,7 +87,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Transac_Question">
-          <End Role="Question" Type="QuestionYourFriendsModel.Store.Question" Multiplicity="1" />
+          <End Role="Question" Type="QuestionYourFriendsModel.Store.Question" Multiplicity="0..1" />
           <End Role="Transac" Type="QuestionYourFriendsModel.Store.Transac" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Question">
@@ -164,7 +164,7 @@
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="userId" Type="Int32" Nullable="false" />
           <Property Name="type" Type="Int32" Nullable="false" />
-          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" />
           <NavigationProperty Name="Question" Relationship="QuestionYourFriendsModel.FK_Transac_Question" FromRole="Transac" ToRole="Question" />
           <NavigationProperty Name="User" Relationship="QuestionYourFriendsModel.FK_Transac_User" FromRole="Transac" ToRole="User" />
         </EntityType>
@@ -205,7 +205,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Transac_Question">
-          <End Role="Question" Type="QuestionYourFriendsModel.Question" Multiplicity="1" />
+          <End Role="Question" Type="QuestionYourFriendsModel.Question" Multiplicity="0..1" />
           <End Role="Transac" Type="QuestionYourFriendsModel.Transac" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Question">
@@ -275,7 +275,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
       </DesignerInfoPropertySet>
