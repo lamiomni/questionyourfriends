@@ -4,6 +4,8 @@ namespace QuestionYourFriends.BusinessManagement
 {
     public static class User
     {
+        #region CRUD methods
+
         public static bool Create(QuestionYourFriendsDataAccess.User user)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, user);
@@ -38,5 +40,7 @@ namespace QuestionYourFriends.BusinessManagement
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);
         }
+
+        #endregion
     }
 }

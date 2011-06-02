@@ -2,10 +2,14 @@
 
 namespace QuestionYourFriends.Controllers
 {
+    /// <summary>
+    /// Ask pages controller
+    /// </summary>
     public class AskController : Controller
     {
-        //
-        // GET: /Ask/
+        /// <summary>
+        /// GET: /Ask/
+        /// </summary>
         public ActionResult Index()
         {
             dynamic result = Session["user"];

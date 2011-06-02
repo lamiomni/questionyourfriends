@@ -5,12 +5,14 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
 {
     public static class Question
     {
-        public static bool Create(QuestionYourFriendsDataAccess.Question question)
+        #region CRUD methods
+
+        public static int Create(QuestionYourFriendsDataAccess.Question question)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.Create(Context.QyfEntities, question);
         }
 
-        public static bool Create(int idOwner, int idReceiver, string text, int anonPrice, int privatePrice, DateTime datePub)
+        public static int Create(int idOwner, int idReceiver, string text, int anonPrice, int privatePrice, DateTime datePub)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.Create(Context.QyfEntities, idOwner, idReceiver, text, anonPrice, privatePrice, datePub);
         }
@@ -30,7 +32,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.Question.Update(Context.QyfEntities, question);
         }
 
-        public static QuestionYourFriendsDataAccess.Question Get(long id)
+        public static QuestionYourFriendsDataAccess.Question Get(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.Get(Context.QyfEntities, id);
         }
@@ -39,5 +41,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetList(Context.QyfEntities);
         }
+
+        #endregion
     }
 }

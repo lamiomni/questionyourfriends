@@ -7,6 +7,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public static class Transac
     {
+        #region CRUD methods
+
         public static bool Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId,
                                          TransacType type, int questionId)
         {
@@ -124,5 +126,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return new List<QuestionYourFriendsDataAccess.Transac>();
             }
         }
+
+        #endregion
     }
 }

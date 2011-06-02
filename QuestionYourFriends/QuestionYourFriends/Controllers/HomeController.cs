@@ -3,8 +3,15 @@ using Facebook.Web.Mvc;
 
 namespace QuestionYourFriends.Controllers
 {
+    /// <summary>
+    /// Home pages controller
+    /// </summary>
     public class HomeController : Controller
     {
+        /// <summary>
+        /// GET: /Home/
+        /// </summary>
+        /// <returns></returns>
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {

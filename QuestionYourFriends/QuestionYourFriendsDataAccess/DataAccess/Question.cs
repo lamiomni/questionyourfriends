@@ -7,8 +7,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public static class Question
     {
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, int idOwner, int idReceiver,
-                                          string text, int anonPrice, int privatePrice, DateTime datePub)
+        #region CRUD methods
+
+        /// <summary>
+        /// Create a question
+        /// </summary>
+        /// <param name="qyfEntities">Our entity context</param>
+        /// <param name="idOwner">User id of the owner</param>
+        /// <param name="idReceiver">User id of the receiver</param>
+        /// <param name="text">Question content</param>
+        /// <param name="anonPrice">Price to anonymize</param>
+        /// <param name="privatePrice">Price to privatize</param>
+        /// <param name="datePub">Publication date</param>
+        /// <returns>True if the result is ok</returns>
+        public static int Create(QuestionYourFriendsEntities qyfEntities, int idOwner, int idReceiver,
+                                  string text, int anonPrice, int privatePrice, DateTime datePub)
         {
             try
             {
@@ -23,28 +36,29 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 question.date_pub = datePub;
                 question.date_answer = null;
                 question.deleted = false;
+                qyfEntities.Questions.AddObject(question);
                 qyfEntities.SaveChanges();
-                return true;
+                return question.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
         {
             try
             {
                 qyfEntities.Questions.AddObject(question);
                 qyfEntities.SaveChanges();
-                return true;
+                return question.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 
@@ -109,7 +123,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static QuestionYourFriendsDataAccess.Question Get(QuestionYourFriendsEntities qyfEntities, long id)
+        public static QuestionYourFriendsDataAccess.Question Get(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
             {
@@ -135,6 +149,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        #endregion
+
+        #region Moar...
+
         public static List<QuestionYourFriendsDataAccess.Question> GetListOfReceiver(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
@@ -147,5 +165,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return null;
             }
         }
+
+        #endregion
     }
 }
