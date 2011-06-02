@@ -5,8 +5,17 @@ using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
+    /// <summary>
+    /// Data Access to Users
+    /// </summary>
     public static class User
     {
+        /// <summary>
+        /// Adds an user from its fid
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="fid">User's fid</param>
+        /// <returns>The id of the created user</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
@@ -26,6 +35,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Adds an user
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="user">User to add</param>
+        /// <returns>The id of the created user</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
@@ -41,6 +56,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes an user thanks to its fid
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="fid">User's fid to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
@@ -56,6 +77,33 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes an user thanks to its id
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">User's id to delete</param>
+        /// <returns>True if the deletion is ok</returns>
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, int id)
+        {
+            try
+            {
+                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.id == id).FirstOrDefault());
+                qyfEntities.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Deletes an user
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="u">User to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User u)
         {
             try
@@ -71,6 +119,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Updates an user
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="user">User to update</param>
+        /// <returns>True if the update is ok</returns>
         public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
@@ -95,6 +149,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Gets an user from its id
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">User's id</param>
+        /// <returns>The requested user</returns>
         public static QuestionYourFriendsDataAccess.User Get(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
@@ -108,6 +168,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Gets an user from its fid
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="fid">User's fid</param>
+        /// <returns>The requested user</returns>
         public static QuestionYourFriendsDataAccess.User Get(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
@@ -121,6 +187,11 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Get the list of all users
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <returns>The list of all users</returns>
         public static List<QuestionYourFriendsDataAccess.User> GetList(QuestionYourFriendsEntities qyfEntities)
         {
             try

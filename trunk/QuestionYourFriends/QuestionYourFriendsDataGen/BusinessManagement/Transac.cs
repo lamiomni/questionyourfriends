@@ -18,7 +18,7 @@ namespace QuestionYourFriends.BusinessManagement
                                                                                   type, questionId);
         }
 
-        public static bool Delete(long id)
+        public static bool Delete(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Delete(Context.QyfEntities, id);
         }

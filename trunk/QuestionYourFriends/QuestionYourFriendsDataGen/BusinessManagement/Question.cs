@@ -20,7 +20,7 @@ namespace QuestionYourFriends.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.Question.Create(Context.QyfEntities, idOwner, idReceiver, text, anonPrice, privatePrice, datePub);
         }
 
-        public static bool Delete(long id)
+        public static bool Delete(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.Delete(Context.QyfEntities, id);
         }
