@@ -1,41 +1,88 @@
 ﻿using System.Collections.Generic;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriendsDataGen.BusinessManagement
 {
+    /// <summary>
+    /// User management
+    /// </summary>
     public static class User
     {
         #region CRUD methods
 
+        /// <summary>
+        /// Adds an user
+        /// </summary>
+        /// <param name="user">User to add</param>
+        /// <returns>Id of the created user</returns>
         public static int Create(QuestionYourFriendsDataAccess.User user)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, user);
         }
 
+        /// <summary>
+        /// Adds an user
+        /// </summary>
+        /// <param name="fid">Facebook id of the user</param>
+        /// <returns>Id of the created user</returns>
         public static int Create(long fid)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, fid);
         }
 
-        public static bool Delete(long id)
+        /// <summary>
+        /// Deletes an user
+        /// </summary>
+        /// <param name="id">Id of the user</param>
+        /// <returns>True if the deletion is ok</returns>
+        public static bool Delete(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Delete(Context.QyfEntities, id);
         }
 
+        /// <summary>
+        /// Deletes an user
+        /// </summary>
+        /// <param name="user">User to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsDataAccess.User user)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Delete(Context.QyfEntities, user);
         }
 
+        /// <summary>
+        /// Updates the user
+        /// </summary>
+        /// <param name="user">User to delete</param>
+        /// <returns>True if the update is ok</returns>
         public static bool Update(QuestionYourFriendsDataAccess.User user)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Update(Context.QyfEntities, user);
         }
 
-        public static QuestionYourFriendsDataAccess.User Get(long id)
+        /// <summary>
+        /// Get an user from its facebook id
+        /// </summary>
+        /// <param name="fid">Facebook id</param>
+        /// <returns>Requested user</returns>
+        public static QuestionYourFriendsDataAccess.User Get(long fid)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, fid);
+        }
+
+        /// <summary>
+        /// Get an user from its id
+        /// </summary>
+        /// <param name="id">Id of the user</param>
+        /// <returns>Requested user</returns>
+        public static QuestionYourFriendsDataAccess.User Get(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, id);
         }
 
+        /// <summary>
+        /// Get list of all the user
+        /// </summary>
+        /// <returns>List of all users</returns>
         public static List<QuestionYourFriendsDataAccess.User> GetList()
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);
