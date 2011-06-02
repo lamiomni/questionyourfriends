@@ -5,12 +5,24 @@ using System.Linq;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
+    /// <summary>
+    /// Data Access to Transactions
+    /// </summary>
     public static class Transac
     {
         #region CRUD methods
 
-        public static int Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId,
-                                         TransacType type, int questionId)
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="userId">Id of the owner</param>
+        /// <param name="type">Type of the transaction</param>
+        /// <param name="questionId">Id of the question</param>
+        /// <returns>The id of the created transaction</returns>
+        public static int Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId, TransacType type,
+                                 int? questionId)
         {
             try
             {
@@ -31,6 +43,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="transac">Transaction to add</param>
+        /// <returns>Id of the created transaction</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
@@ -46,6 +64,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes the transaction thanks to its id
+        /// Todo: Please soft delete it
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Transaction's id to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
@@ -61,6 +86,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Deletes the transaction
+        /// Todo: Please soft delete it
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="t">Transaction to delete</param>
+        /// <returns>True if the deletion is ok</returns>
         public static bool Delete(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac t)
         {
             try
@@ -76,6 +108,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Updates a transaction
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="transac">The transaction to update</param>
+        /// <returns>True if the update is ok</returns>
         public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
@@ -102,6 +140,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Gets a transaction thanks to its id
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">The id of the transaction</param>
+        /// <returns>The requested transaction</returns>
         public static QuestionYourFriendsDataAccess.Transac Get(QuestionYourFriendsEntities qyfEntities, long id)
         {
             try
@@ -115,6 +159,11 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Gets the list of all Transactions
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <returns>The list with all the transactions</returns>
         public static List<QuestionYourFriendsDataAccess.Transac> GetList(QuestionYourFriendsEntities qyfEntities)
         {
             try

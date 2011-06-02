@@ -7,62 +7,95 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+
 namespace QuestionYourFriendsDataAccess
 {
-    public class Transac
+    public partial class Transac
     {
         #region Primitive Properties
-
-        private int _questionId;
-        private int _userId;
-        public virtual int id { get; set; }
-
-        public virtual int amount { get; set; }
-
-        public virtual int status { get; set; }
-
+    
+        public virtual int id
+        {
+            get;
+            set;
+        }
+    
+        public virtual int amount
+        {
+            get;
+            set;
+        }
+    
+        public virtual int status
+        {
+            get;
+            set;
+        }
+    
         public virtual int userId
         {
             get { return _userId; }
             set
             {
-                if (_userId != value)
+                try
                 {
-                    if (User != null && User.id != value)
+                    _settingFK = true;
+                    if (_userId != value)
                     {
-                        User = null;
+                        if (User != null && User.id != value)
+                        {
+                            User = null;
+                        }
+                        _userId = value;
                     }
-                    _userId = value;
+                }
+                finally
+                {
+                    _settingFK = false;
                 }
             }
         }
-
-        public virtual int type { get; set; }
-
-        public virtual int questionId
+        private int _userId;
+    
+        public virtual int type
+        {
+            get;
+            set;
+        }
+    
+        public virtual Nullable<int> questionId
         {
             get { return _questionId; }
             set
             {
-                if (_questionId != value)
+                try
                 {
-                    if (Question != null && Question.id != value)
+                    _settingFK = true;
+                    if (_questionId != value)
                     {
-                        Question = null;
+                        if (Question != null && Question.id != value)
+                        {
+                            Question = null;
+                        }
+                        _questionId = value;
                     }
-                    _questionId = value;
+                }
+                finally
+                {
+                    _settingFK = false;
                 }
             }
         }
+        private Nullable<int> _questionId;
 
         #endregion
-
         #region Navigation Properties
-
-        private Question _question;
-
-        private User _user;
-
+    
         public virtual Question Question
         {
             get { return _question; }
@@ -70,13 +103,14 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_question, value))
                 {
-                    Question previousValue = _question;
+                    var previousValue = _question;
                     _question = value;
                     FixupQuestion(previousValue);
                 }
             }
         }
-
+        private Question _question;
+    
         public virtual User User
         {
             get { return _user; }
@@ -84,24 +118,26 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_user, value))
                 {
-                    User previousValue = _user;
+                    var previousValue = _user;
                     _user = value;
                     FixupUser(previousValue);
                 }
             }
         }
+        private User _user;
 
         #endregion
-
         #region Association Fixup
-
+    
+        private bool _settingFK = false;
+    
         private void FixupQuestion(Question previousValue)
         {
             if (previousValue != null && previousValue.Transacs.Contains(this))
             {
                 previousValue.Transacs.Remove(this);
             }
-
+    
             if (Question != null)
             {
                 if (!Question.Transacs.Contains(this))
@@ -113,15 +149,19 @@ namespace QuestionYourFriendsDataAccess
                     questionId = Question.id;
                 }
             }
+            else if (!_settingFK)
+            {
+                questionId = null;
+            }
         }
-
+    
         private void FixupUser(User previousValue)
         {
             if (previousValue != null && previousValue.Transacs.Contains(this))
             {
                 previousValue.Transacs.Remove(this);
             }
-
+    
             if (User != null)
             {
                 if (!User.Transacs.Contains(this))
