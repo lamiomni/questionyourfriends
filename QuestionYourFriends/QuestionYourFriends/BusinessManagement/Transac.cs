@@ -3,22 +3,38 @@ using QuestionYourFriendsDataAccess;
 
 namespace QuestionYourFriends.BusinessManagement
 {
+    /// <summary>
+    /// Transaction management
+    /// </summary>
     public static class Transac
     {
         #region CRUD methods
 
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="transac">Transaction to Add</param>
+        /// <returns>The id of the created transaction</returns>
         public static int Create(QuestionYourFriendsDataAccess.Transac transac)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
         }
 
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="userId">Id of the user</param>
+        /// <param name="type">Type of the transaction</param>
+        /// <param name="questionId">Id of the question</param>
+        /// <returns></returns>
         public static int Create(int amount, int userId, TransacType type, int questionId)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
                                                                                   type, questionId);
         }
 
-        public static bool Delete(long id)
+        public static bool Delete(int id)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Delete(Context.QyfEntities, id);
         }
