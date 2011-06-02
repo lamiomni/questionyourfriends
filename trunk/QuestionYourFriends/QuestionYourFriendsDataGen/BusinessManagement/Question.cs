@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionYourFriendsDataGen.BusinessManagement
+namespace QuestionYourFriends.BusinessManagement
 {
+    /// <summary>
+    /// Question management
+    /// </summary>
     public static class Question
     {
         #region CRUD methods
@@ -40,6 +43,15 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         public static List<QuestionYourFriendsDataAccess.Question> GetList()
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetList(Context.QyfEntities);
+        }
+
+        #endregion
+
+        #region Moar...
+
+        public static List<QuestionYourFriendsDataAccess.Question> GetListOfReceiver(int id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfReceiver(Context.QyfEntities, id);
         }
 
         #endregion

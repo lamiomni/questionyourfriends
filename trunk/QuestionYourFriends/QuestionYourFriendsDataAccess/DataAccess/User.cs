@@ -7,7 +7,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 {
     public static class User
     {
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, long fid)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, long fid)
         {
             try
             {
@@ -17,27 +17,27 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 user.credit_amount = 0;
                 qyfEntities.Users.AddObject(user);
                 qyfEntities.SaveChanges();
-                return true;
+                return user.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
         {
             try
             {
                 qyfEntities.Users.AddObject(user);
                 qyfEntities.SaveChanges();
-                return true;
+                return user.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 

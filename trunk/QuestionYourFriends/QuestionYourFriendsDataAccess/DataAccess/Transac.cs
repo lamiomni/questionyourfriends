@@ -9,7 +9,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
     {
         #region CRUD methods
 
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId,
+        public static int Create(QuestionYourFriendsEntities qyfEntities, int amount, int userId,
                                          TransacType type, int questionId)
         {
             try
@@ -20,28 +20,29 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 transac.SetTransacStatus(TransacStatus.Ok);
                 transac.SetTransacType(type);
                 transac.questionId = questionId;
+                qyfEntities.Transacs.AddObject(transac);
                 qyfEntities.SaveChanges();
-                return true;
+                return transac.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 
-        public static bool Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
         {
             try
             {
                 qyfEntities.Transacs.AddObject(transac);
                 qyfEntities.SaveChanges();
-                return true;
+                return transac.id;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return false;
+                return -1;
             }
         }
 
