@@ -19,7 +19,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// <param name="anonPrice">Price to anonymize</param>
         /// <param name="privatePrice">Price to privatize</param>
         /// <param name="datePub">Publication date</param>
-        /// <returns>True if the result is ok</returns>
+        /// <returns>The id of the created Question</returns>
         public static int Create(QuestionYourFriendsEntities qyfEntities, int idOwner, int idReceiver,
                                   string text, int anonPrice, int privatePrice, DateTime datePub)
         {
@@ -62,7 +62,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
-        public static bool Delete(QuestionYourFriendsEntities qyfEntities, long id)
+        public static bool Delete(QuestionYourFriendsEntities qyfEntities, int id)
         {
             try
             {

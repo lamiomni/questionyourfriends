@@ -1,5 +1,8 @@
 ﻿namespace QuestionYourFriendsDataAccess
 {
+    /// <summary>
+    /// Transaction types
+    /// </summary>
     public enum TransacType
     {
         Anonymize = 0,
@@ -11,6 +14,9 @@
         EarningAnswer // Jr added this here and did nothing else, will it work ?
     }
 
+    /// <summary>
+    /// Transaction prices
+    /// </summary>
     public enum TransacPrice
     {
         Anonymize = 1000, // min value
@@ -22,6 +28,9 @@
         EarningAnswer = 2000
     }
 
+    /// <summary>
+    /// Transaction statuses
+    /// </summary>
     public enum TransacStatus
     {
         Ko = 0,
