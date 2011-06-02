@@ -6,11 +6,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%> <%:ViewData["Id"]%>
     <form id="form1" runat="server">
     <% for (int i = 0; i < (int)ViewData["questionCount"]; i++)
        {
-           %><%:ViewData["question" + i]%>
+           %>
+            <%:((List<string>)ViewData["questions"])[i]%>
+            <br/>
+            <%:((List<string>)ViewData["friend"])[i]%>
+            <br/>
+            <asp:TextBox runat="server" ID="textBox1" />
+            <br/>
+            <asp:Button runat="server" ID="Cancel1" Text="annuler" />
+            <asp:Button runat="server" ID="Respond1" Text="répondre" />
+            <br/>
     <% } %>
     </form>
 

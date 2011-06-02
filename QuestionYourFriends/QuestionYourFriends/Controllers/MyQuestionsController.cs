@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using System.Collections.Generic;
+using System;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -10,52 +12,68 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
-        public ActionResult Index()
+        /// 
+
+        public string SearchFriend(dynamic myFriends, QuestionYourFriendsDataAccess.Question question)
         {
-            dynamic myFriends = Session["friends"];
-            dynamic res = Session["user"];
+            string buffer = "";
 
-            if (myFriends == null || res == null)
-                return RedirectToAction("Index", "Home");
-
-            int n = 0;
-
-            ViewData["Firstname"] = res.first_name;
-            ViewData["Lastname"] = res.last_name;
-            ViewData["Id"] = res.id;
-
-            // Récupérer le id du fid dans User
-            QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(res.id));
-
-            // Stocker dans la view la liste des questions dont le récepteur est l'utilisateur
-            var receiver = BusinessManagement.Question.GetListOfReceiver(user.id);
-            if (receiver != null)
+            // Chercher le nom et prénom de l'envoyeur en comparant les fids de la base de données et de Session["friend"]
+            if (myFriends.data != null)
             {
-                foreach (QuestionYourFriendsDataAccess.Question a in receiver)
+                QuestionYourFriendsDataAccess.User sender = BusinessManagement.User.Get(question.id_owner);
+                foreach (dynamic friend in myFriends.data)
                 {
-                    QuestionYourFriendsDataAccess.User sender = BusinessManagement.User.Get(a.id_owner);
-                    ViewData["question" + n] += a.text;
-                    ViewData["question" + n] += " ";
-
-                    // Chercher le nom et prénom de l'envoyeur en comparant les fids de la base de données et de Session["friend"]
-                    if (myFriends.data != null)
+                    if (sender != null && long.Parse(friend.id) == sender.fid)
                     {
-                        foreach (dynamic friend in myFriends.data)
-                        {
-                            if (friend.id == sender.fid)
-                            {
-                                ViewData["question" + n] += friend.first_name;
-                                ViewData["question" + n] += " ";
-                                ViewData["question" + n] += friend.last_name;
-                            }
-                        }
-
-                        ViewData["question" + n] += "\r\n";
-                        n++;
+                        buffer += "De ";
+                        buffer += friend.name;
+                        break;
                     }
                 }
             }
-            ViewData["questionCount"] = n + 1;
+            return buffer;
+        }
+
+        public void storeQuestionInView(dynamic myFriends, QuestionYourFriendsDataAccess.User user)
+        {
+            // Stocker dans la view la liste des questions dont le récepteur est l'utilisateur
+
+            var receiver = BusinessManagement.Question.GetListOfReceiver(user.id);
+            if (receiver != null)
+            {
+                List<string> textBufferList = new List<string>();
+                List<string> friendBufferList = new List<string>();
+                foreach (QuestionYourFriendsDataAccess.Question question in receiver)
+                {
+                    string textBuffer = "";
+                    string friendBuffer = "";
+                    textBuffer += question.text;
+                    textBuffer += " ";
+
+                    friendBuffer += SearchFriend(myFriends, question);
+
+                    textBufferList.Add(textBuffer);
+                    friendBufferList.Add(friendBuffer);
+                }
+                ViewData["questions"] = textBufferList;
+                ViewData["friend"] = friendBufferList;
+                ViewData["questionCount"] = textBufferList.Count;
+            }
+        }
+
+        public ActionResult Index()
+        {
+            dynamic myAccount = Session["user"];
+            dynamic myFriends = Session["friends"];
+
+            if (myFriends == null && myAccount == null)
+                return RedirectToAction("Index", "Home");
+
+            // Récupérer le id du fid dans User
+            QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(myAccount.id));
+
+            storeQuestionInView(myFriends, user);
 
             return View();
         }
