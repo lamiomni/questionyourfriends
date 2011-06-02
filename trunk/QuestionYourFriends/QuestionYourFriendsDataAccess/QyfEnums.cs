@@ -25,7 +25,7 @@
         Deprivatize = 5000, // min value
         Purchase = 0,
         EarningStartup = 10000,
-        EarningAnswer = 2000
+        EarningAnswer = 2000,
     }
 
     /// <summary>

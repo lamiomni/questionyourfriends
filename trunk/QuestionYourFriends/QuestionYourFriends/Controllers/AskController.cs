@@ -42,7 +42,9 @@ namespace QuestionYourFriends.Controllers
                 BusinessManagement.User.Create(ffid);
                 friend = BusinessManagement.User.Get(ffid);
             }
-            BusinessManagement.Question.Create(me.id, friend.id, asked_question,annon_cost ,private_cost, System.DateTime.Now);
+            int qid = BusinessManagement.Question.Create(me.id, friend.id, asked_question,annon_cost ,private_cost, System.DateTime.Now);
+            QuestionYourFriendsDataAccess.Question q = BusinessManagement.Question.Get(qid);
+            BusinessManagement.Transac.SpendAndQuestion(q, me);
             return RedirectToAction("Index", "Ask");
         }
     }
