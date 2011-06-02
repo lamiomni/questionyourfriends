@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using AutoPoco;
 using AutoPoco.DataSources;
 using AutoPoco.Engine;
+using log4net;
+using log4net.Config;
 using QuestionYourFriendsDataAccess;
 using QuestionYourFriendsDataGen.DataSources;
 
@@ -13,6 +17,11 @@ namespace QuestionYourFriendsDataGen
     /// </summary>
     public static class Program
     {
+        private const long FidJr = 100002175177092;
+        private const long FidTony = 1203739558;
+        private const long FidVictor = 577788285;
+        private const long FidAntony = 645810475;
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static QuestionYourFriendsEntities _qyfe;
         private static IGenerationSession _session;
         private const float Version = 1.0f;
@@ -22,6 +31,12 @@ namespace QuestionYourFriendsDataGen
         /// </summary>
         public static void Main()
         {
+            // log4net initialization.
+            string targetFileName = Assembly.GetExecutingAssembly().Location;
+            var fi = new FileInfo(string.Concat(targetFileName, ".config"));
+            XmlConfigurator.ConfigureAndWatch(fi);
+
+            _logger.InfoFormat(new CultureInfo("en-US"), "=== Launching Qyf DataGen v.{0:0.0}... ===", Version);
             Console.WriteLine(string.Format(new CultureInfo("en-US"), "  === Qyf DataGen v.{0:0.0} ===", Version));
             Console.WriteLine();
             _qyfe = new QuestionYourFriendsEntities();
@@ -62,14 +77,17 @@ namespace QuestionYourFriendsDataGen
             // Generate one of these per test (factory will be a static variable most likely)
             _session = factory.CreateSession();
 
+            _logger.InfoFormat("Cleaning database:");
             Console.WriteLine(@"    Cleaning database:");
             CleanDb();
             Console.WriteLine();
 
+            _logger.InfoFormat("Generating data:");
             Console.WriteLine(@"    Generating data:");
             AddData();
             Console.WriteLine();
 
+            _logger.InfoFormat("Generation done.");
             Console.Write(@"  Generation done, press enter to exit...");
             Console.ReadLine();
         }
@@ -87,6 +105,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} transactions deleted.", i));
             Console.WriteLine(string.Format(". {0} transactions deleted.", i));
 
 
@@ -101,6 +120,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} questions deleted.", i));
             Console.WriteLine(string.Format(". {0} questions deleted.", i));
 
 
@@ -115,6 +135,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} users deleted.", i));
             Console.WriteLine(string.Format(". {0} users deleted.", i));
         }
 
@@ -128,18 +149,14 @@ namespace QuestionYourFriendsDataGen
             // Add users
             Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser)
-                // jr
                 .First(1)
-                    .Impose(u => u.fid, 100002175177092)
-                // Victor
+                    .Impose(u => u.fid, FidJr)
                 .Next(1)
-                    .Impose(u => u.fid, 577788285)
-                // Antony
+                    .Impose(u => u.fid, FidVictor)
                 .Next(1)
-                    .Impose(u => u.fid, 645810475)
-                // Tony
+                    .Impose(u => u.fid, FidAntony)
                 .Next(1)
-                    .Impose(u => u.fid, 1203739558)
+                    .Impose(u => u.fid, FidTony)
                 .All()
                     .Get();
             Console.Write(@".");
@@ -151,6 +168,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} users generated.", i));
             Console.WriteLine(string.Format(". {0} users generated.", i));
 
 
@@ -163,10 +181,34 @@ namespace QuestionYourFriendsDataGen
                     .Impose(q => q.date_answer, DateTime.Now)
                     .Impose(q => q.answer, lis.Next(null).Substring(0, rnd.Next(240, 480)) + ".")
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                .Next(nbQuestion / 2)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, FidAntony)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, FidTony)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, FidVictor)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidAntony)
+                    .Impose(q => q.id_owner, FidJr)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidTony)
+                    .Impose(q => q.id_owner, FidJr)
+                .Next(1)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.id_owner, FidVictor)
+                    .Impose(q => q.id_owner, FidJr)
+                .Next(nbQuestion / 2 - 6)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .All()
-                    .Get();
+                    .Get()));
             Console.Write(@".");
             i = 0;
             foreach (var question in questions)
@@ -176,6 +218,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} questions generated.", i));
             Console.WriteLine(string.Format(". {0} questions generated.", i));
 
 
@@ -196,6 +239,7 @@ namespace QuestionYourFriendsDataGen
             }
             Console.Write(@".");
             _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} transactions generated.", i));
             Console.WriteLine(string.Format(". {0} transactions generated.", i));
         }
     }

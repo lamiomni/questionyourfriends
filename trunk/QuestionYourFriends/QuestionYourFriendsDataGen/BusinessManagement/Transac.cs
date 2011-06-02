@@ -1,18 +1,35 @@
 ﻿using System.Collections.Generic;
 using QuestionYourFriendsDataAccess;
+using User = QuestionYourFriendsDataGen.BusinessManagement.User;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriendsDataGen.BusinessManagement
 {
+    /// <summary>
+    /// Transaction management
+    /// </summary>
     public static class Transac
     {
         #region CRUD methods
 
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="transac">Transaction to Add</param>
+        /// <returns>The id of the created transaction</returns>
         public static int Create(QuestionYourFriendsDataAccess.Transac transac)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
         }
 
-        public static int Create(int amount, int userId, TransacType type, int questionId)
+        /// <summary>
+        /// Adds a transaction
+        /// </summary>
+        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="userId">Id of the user</param>
+        /// <param name="type">Type of the transaction</param>
+        /// <param name="questionId">Id of the question</param>
+        /// <returns>The id of the created question</returns>
+        public static int Create(int amount, int userId, TransacType type, int? questionId)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
                                                                                   type, questionId);
