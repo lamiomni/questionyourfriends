@@ -171,6 +171,10 @@ namespace QuestionYourFriendsDataGen
             _logger.InfoFormat(string.Format("  - {0} users generated.", i));
             Console.WriteLine(string.Format(". {0} users generated.", i));
 
+            int jrid = BusinessManagement.User.Get(FidJr).id;
+            int tonyid = BusinessManagement.User.Get(FidTony).id;
+            int antonyid = BusinessManagement.User.Get(FidAntony).id;
+            int victorid = BusinessManagement.User.Get(FidVictor).id;
 
             // Add questions
             Console.Write(@"      - Questions");
@@ -183,28 +187,28 @@ namespace QuestionYourFriendsDataGen
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidJr)
-                    .Impose(q => q.id_owner, FidAntony)
+                    .Impose(q => q.id_owner, jrid)
+                    .Impose(q => q.id_receiver, antonyid)
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidJr)
-                    .Impose(q => q.id_owner, FidTony)
+                    .Impose(q => q.id_owner, jrid)
+                    .Impose(q => q.id_receiver, tonyid)
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidJr)
-                    .Impose(q => q.id_owner, FidVictor)
+                    .Impose(q => q.id_owner, jrid)
+                    .Impose(q => q.id_receiver, victorid)
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidAntony)
-                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, antonyid)
+                    .Impose(q => q.id_receiver, jrid)
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidTony)
-                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, tonyid)
+                    .Impose(q => q.id_receiver, jrid)
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
-                    .Impose(q => q.id_owner, FidVictor)
-                    .Impose(q => q.id_owner, FidJr)
+                    .Impose(q => q.id_owner, victorid)
+                    .Impose(q => q.id_receiver, jrid)
                 .Next(nbQuestion / 2 - 6)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .All()
