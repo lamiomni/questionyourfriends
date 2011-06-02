@@ -5,6 +5,8 @@ namespace QuestionYourFriends.BusinessManagement
 {
     public static class Transac
     {
+        #region CRUD methods
+
         public static bool Create(QuestionYourFriendsDataAccess.Transac transac)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
@@ -41,8 +43,10 @@ namespace QuestionYourFriends.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.Transac.GetList(Context.QyfEntities);
         }
 
+        #endregion
+
         #region Higher level methods do deal with the economy
-        
+
         public static bool AnonymiseQuestion(
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user,

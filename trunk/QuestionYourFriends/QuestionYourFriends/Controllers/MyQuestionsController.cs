@@ -2,11 +2,15 @@
 
 namespace QuestionYourFriends.Controllers
 {
+    /// <summary>
+    /// My quesions pages controller
+    /// </summary>
     public class MyQuestionsController : Controller
     {
-        //
-        // GET: /MyQuestions/
-
+        /// <summary>
+        /// GET: /MyQuestions/
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             dynamic myFriends = Session["friends"];
@@ -20,6 +24,7 @@ namespace QuestionYourFriends.Controllers
             ViewData["Firstname"] = res.first_name;
             ViewData["Lastname"] = res.last_name;
             ViewData["Id"] = res.id;
+
             // Récupérer le id du fid dans User
             QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(res.id));
 

@@ -2,13 +2,16 @@
 
 namespace QuestionYourFriends.BusinessManagement
 {
+    /// <summary>
+    /// Facebook Model
+    /// </summary>
     public static class Facebook
     {
         /// <summary>
         /// Info User
         /// http://developers.facebook.com/docs/reference/api/
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A Json Array</returns>
         public static dynamic GetUserInfo()
         {
             var fb = new FacebookWebClient();

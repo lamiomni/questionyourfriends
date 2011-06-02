@@ -7,8 +7,15 @@ namespace QuestionYourFriends
     // Remarque : pour obtenir des instructions sur l'activation du mode classique IIS6 ou IIS7, 
     // visitez http://go.microsoft.com/?LinkId=9394801
 
+    /// <summary>
+    /// Our MVC application
+    /// </summary>
     public class MvcApplication : HttpApplication
     {
+        /// <summary>
+        /// Method to register routes
+        /// </summary>
+        /// <param name="routes"></param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
