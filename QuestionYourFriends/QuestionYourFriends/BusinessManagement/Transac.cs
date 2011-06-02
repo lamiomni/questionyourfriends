@@ -7,12 +7,12 @@ namespace QuestionYourFriends.BusinessManagement
     {
         #region CRUD methods
 
-        public static bool Create(QuestionYourFriendsDataAccess.Transac transac)
+        public static int Create(QuestionYourFriendsDataAccess.Transac transac)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
         }
 
-        public static bool Create(int amount, int userId, TransacType type, int questionId)
+        public static int Create(int amount, int userId, TransacType type, int questionId)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
                                                                                   type, questionId);
@@ -61,7 +61,7 @@ namespace QuestionYourFriends.BusinessManagement
                 return false;
 
             // Creation of the transaction
-            bool transCreateRes = Create(bid, user.id, TransacType.Anonymize, question.id);
+            bool transCreateRes = Create(bid, user.id, TransacType.Anonymize, question.id) != -1;
 
             // Update Question's price
             question.anom_price = bid;
@@ -87,7 +87,7 @@ namespace QuestionYourFriends.BusinessManagement
                 return false;
 
             // Creation of the transaction
-            bool transCreateRes = Create(bid, question.id_owner, TransacType.Privatize, question.id);
+            bool transCreateRes = Create(bid, question.id_owner, TransacType.Privatize, question.id) != -1;
 
             // Update Question's price
             question.private_price = bid;
@@ -113,7 +113,7 @@ namespace QuestionYourFriends.BusinessManagement
                 return false;
 
             // Creation of the transaction
-            bool transCreateRes = Create(bid, user.id, TransacType.Desanonymize, question.id);
+            bool transCreateRes = Create(bid, user.id, TransacType.Desanonymize, question.id) != -1;
 
             // Update Question's price
             question.anom_price = 0;
@@ -139,7 +139,7 @@ namespace QuestionYourFriends.BusinessManagement
                 return false;
 
             // Creation of the transaction
-            bool transCreateRes = Create(bid, user.id, TransacType.Deprivatize, question.id);
+            bool transCreateRes = Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
 
             // Update Question's price
             question.private_price = 0;
@@ -156,7 +156,7 @@ namespace QuestionYourFriends.BusinessManagement
             int amount)
         {
             // Creation of the transaction
-            bool transCreateRes = Create(amount, user.id, TransacType.Purchase, 0);
+            bool transCreateRes = Create(amount, user.id, TransacType.Purchase, 0) != -1;
 
             // Update of the user's wallet
             user.credit_amount += amount;
@@ -170,7 +170,7 @@ namespace QuestionYourFriends.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool transCreateRes = Create((int)TransacPrice.EarningStartup, user.id, TransacType.EarningStartup, 0);
+            bool transCreateRes = Create((int)TransacPrice.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
 
             // Update of the user's wallet
             user.credit_amount += (int)TransacPrice.EarningStartup;
@@ -183,7 +183,7 @@ namespace QuestionYourFriends.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool transCreateRes = Create((int)TransacPrice.EarningAnswer, user.id, TransacType.EarningAnswer, 0);
+            bool transCreateRes = Create((int)TransacPrice.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
 
             // Update of the user's wallet
             user.credit_amount += (int)TransacPrice.EarningAnswer;

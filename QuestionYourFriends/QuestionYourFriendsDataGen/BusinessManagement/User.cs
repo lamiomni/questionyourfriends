@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace QuestionYourFriendsDataGen.BusinessManagement
+namespace QuestionYourFriends.BusinessManagement
 {
     public static class User
     {
-        public static bool Create(QuestionYourFriendsDataAccess.User user)
+        #region CRUD methods
+
+        public static int Create(QuestionYourFriendsDataAccess.User user)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, user);
         }
 
-        public static bool Create(long fid)
+        public static int Create(long fid)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.Create(Context.QyfEntities, fid);
         }
@@ -38,5 +40,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);
         }
+
+        #endregion
     }
 }
