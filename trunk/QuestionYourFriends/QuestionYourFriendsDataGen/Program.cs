@@ -120,14 +120,28 @@ namespace QuestionYourFriendsDataGen
 
         private static void AddData()
         {
-            const int nbUser = 100;
-            const int nbTransac = 300;
-            const int nbQuestion = 200;
+            const int nbUser = 10;
+            const int nbTransac = 200;
+            const int nbQuestion = 100;
 
 
             // Add users
             Console.Write(@"      - Users");
-            var users = _session.List<User>(nbUser).Get();
+            var users = _session.List<User>(nbUser)
+                // jr
+                .First(1)
+                    .Impose(u => u.fid, 100002175177092)
+                // Victor
+                .Next(1)
+                    .Impose(u => u.fid, 577788285)
+                // Antony
+                .Next(1)
+                    .Impose(u => u.fid, 645810475)
+                // Tony
+                .Next(1)
+                    .Impose(u => u.fid, 1203739558)
+                .All()
+                    .Get();
             Console.Write(@".");
             int i = 0;
             foreach (var user in users)
