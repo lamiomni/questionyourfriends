@@ -208,6 +208,21 @@ namespace QuestionYourFriends.BusinessManagement
             return transCreateRes && userModifyRes;
         }
 
+        public static bool SpendAndQuestion(
+            QuestionYourFriendsDataAccess.Question question,
+            QuestionYourFriendsDataAccess.User user)
+        {
+            // Creation of the transaction
+            bool transCreateRes = Create(question.anom_price, user.id, TransacType.Anonymize,question.id) != -1;
+            bool transCreateRes2 = Create(question.private_price, user.id, TransacType.Privatize, question.id) != -1;
+            // Update of the user's wallet
+            user.credit_amount -= question.anom_price;
+            user.credit_amount -= question.private_price;
+            bool userModifyRes = User.Update(user);
+
+            return transCreateRes && userModifyRes;
+        }
+
 
         #endregion
     }
