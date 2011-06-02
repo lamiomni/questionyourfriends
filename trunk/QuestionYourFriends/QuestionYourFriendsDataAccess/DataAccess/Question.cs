@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using log4net;
 
 namespace QuestionYourFriendsDataAccess.DataAccess
 {
@@ -10,6 +12,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
     /// </summary>
     public static class Question
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region CRUD methods
 
         /// <summary>
