@@ -98,7 +98,7 @@ namespace QuestionYourFriends.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfReceiver(Context.QyfEntities, id);
         }
         
-        public static  List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(long[] friends)
+        public static  List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(int[] friends)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetFriendsQuestions(Context.QyfEntities, friends);
         }

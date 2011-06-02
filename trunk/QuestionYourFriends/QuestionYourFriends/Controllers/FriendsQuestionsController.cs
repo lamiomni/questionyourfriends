@@ -22,15 +22,17 @@ namespace QuestionYourFriends.Controllers
             ViewData["Firstname"] = result.first_name;
             ViewData["Lastname"] = result.last_name;
             dynamic friends = Session["friends"];
-            var friendsId = new List<long>();
-
+            var friendsId = new List<int>();
+            var dick = (Dictionary<long, int>) Session["fid2uid"];
             foreach (var friend in friends.data)
             {
-                friendsId.Add(long.Parse(friend.id));
+                var id = long.Parse(friend.id);
+                if(dick.ContainsKey(id))
+                    friendsId.Add(dick[id]);
             }
 
-            ViewData["questions"] = BusinessManagement.Question.GetFriendsQuestions(friendsId.ToArray());
-
+            var questions = BusinessManagement.Question.GetFriendsQuestions(friendsId.ToArray());
+            ViewData["questions"] = questions;
             return View();
         }
 
@@ -43,7 +45,7 @@ namespace QuestionYourFriends.Controllers
             var user = BusinessManagement.User.Get(uid);
 
             BusinessManagement.Transac.DesanonymizeQuestion(question, user);
-            return RedirectToAction("Index", "MyQuestions");
+            return RedirectToAction("Index", "FriendsQuestions");
         }
     }
 }

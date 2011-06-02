@@ -89,5 +89,13 @@ namespace QuestionYourFriends.BusinessManagement
         }
 
         #endregion
+
+
+        #region More...
+        public static List<QuestionYourFriendsDataAccess.User> GetUsersFromFids(long[] fids)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.GetUsersFromFids(Context.QyfEntities, fids);
+        }
+        #endregion
     }
 }
