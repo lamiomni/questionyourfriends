@@ -41,6 +41,8 @@
                     label='Accept' >
                 <fb:friend-selector name="uid" idname="friend_sel"/>
                 <fb:editor-textarea name="ask" />
+                <input type="text" name="annon_cost"/>
+                <input type="text" name="private_cost"/>
                 <fb:submit >Poser</fb:submit>
             </fb:request-form>
       </fb:fbml>

@@ -28,8 +28,12 @@ namespace QuestionYourFriends.Controllers
         {
             string asked_friend = this.Request.Params.Get("friend_sel");
             string asked_question = this.Request.Params.Get("ask");
+            string private_cost_question = this.Request.Params.Get("private_cost");
+            string annon_cost_question = this.Request.Params.Get("annon_cost");
             dynamic user = Session["user"];
             long fid = long.Parse(user.id);
+            int private_cost = int.Parse(private_cost_question);
+            int annon_cost = int.Parse(annon_cost_question);
             long ffid = long.Parse(asked_friend);
             QuestionYourFriendsDataAccess.User me = BusinessManagement.User.Get(fid);
             QuestionYourFriendsDataAccess.User friend = BusinessManagement.User.Get(ffid);
@@ -38,7 +42,7 @@ namespace QuestionYourFriends.Controllers
                 BusinessManagement.User.Create(ffid);
                 friend = BusinessManagement.User.Get(ffid);
             }
-            BusinessManagement.Question.Create(me.id, friend.id, asked_question, 0, 0, System.DateTime.Now);
+            BusinessManagement.Question.Create(me.id, friend.id, asked_question,annon_cost ,private_cost, System.DateTime.Now);
             return RedirectToAction("Index", "Ask");
         }
     }
