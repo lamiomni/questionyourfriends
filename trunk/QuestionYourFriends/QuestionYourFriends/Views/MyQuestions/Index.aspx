@@ -36,11 +36,11 @@
                     type="Demo"
                     content="Hello"
                     label='Accept' >
-               <a href="#">Delete</a>
+               <a href="#">X</a>
                <br/>
                 <%:i.text%>
                 <br/>
-                <%:QuestionYourFriends.BusinessManagement.Facebook.GetFriendName(i.Owner.fid)%>
+                De <%:QuestionYourFriends.BusinessManagement.Facebook.GetFriendName(i.Owner.fid)%>
                 <br/>
                 <input type="text" value="" name="answer" />
                 <br/>
@@ -50,8 +50,8 @@
                 </select>
                 <input type="hidden" value="<%:i.id %>" name="qid"/> 
                   
-                <a href="#"></a>
-                <fb:submit >Poser</fb:submit>
+                <a href="#">annuler</a>
+                <fb:submit >répondre</fb:submit>
             </fb:request-form>
             <br/>
     <% } %>
