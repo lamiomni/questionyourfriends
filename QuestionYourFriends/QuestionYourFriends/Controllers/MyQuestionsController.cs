@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Collections.Generic;
 using QuestionYourFriends.Models;
+using Facebook.Web.Mvc;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -13,6 +14,7 @@ namespace QuestionYourFriends.Controllers
         /// GET: /MyQuestions/
         /// </summary>
         ///
+        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
             dynamic uid = Session["uid"];
@@ -22,6 +24,8 @@ namespace QuestionYourFriends.Controllers
             
             List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
             ViewData["questions"] = receiver;
+
+
             return View();
         }
 
