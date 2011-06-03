@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Reflection;
+using System.Web.Mvc;
 using QuestionYourFriends.Caching;
 using QuestionYourFriends.Models;
 
