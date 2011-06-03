@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Collections.Generic;
-using System;
-using System.Web.UI.WebControls;
+using QuestionYourFriends.Models;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -13,32 +12,28 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
-        /// 
-
-       public ActionResult Index()
+        ///
+        public ActionResult Index()
         {
-            dynamic myAccount = Session["user"];
-            dynamic myFriends = Session["friends"];
+            dynamic uid = Session["uid"];
 
-            if (myFriends == null && myAccount == null)
+            if (uid == null)
                 return RedirectToAction("Index", "Home");
-
-            // Récupérer le id du fid dans User
-            QuestionYourFriendsDataAccess.User user = BusinessManagement.User.Get(long.Parse(myAccount.id));
-            List<QuestionYourFriendsDataAccess.Question> receiver = BusinessManagement.Question.GetListOfReceiver(user.id);
+            
+            List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
             ViewData["questions"] = receiver;
             return View();
         }
 
         public ActionResult Answeree()
         {
-            string answer = this.Request.Params.Get("answer");
-            string qidstring = this.Request.Params.Get("qid");
+            string answer = Request.Params.Get("answer");
+            string qidstring = Request.Params.Get("qid");
             int qid = int.Parse(qidstring);
-            QuestionYourFriendsDataAccess.Question q =  BusinessManagement.Question.Get(qid);
+            QuestionYourFriendsDataAccess.Question q =  Question.Get(qid);
             q.answer = answer;
-            BusinessManagement.Question.Update(q);
-            return RedirectToAction("Index", "MyQuestion");
+            Question.Update(q);
+            return RedirectToAction("Index", "MyQuestions");
         }
     }
 }

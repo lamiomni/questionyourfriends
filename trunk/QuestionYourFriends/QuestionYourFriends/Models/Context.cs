@@ -1,6 +1,6 @@
 ﻿using QuestionYourFriendsDataAccess;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriends.Models
 {
     /// <summary>
     /// EntityContext

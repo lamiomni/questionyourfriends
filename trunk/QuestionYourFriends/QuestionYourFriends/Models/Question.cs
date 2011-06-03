@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriends.Models
 {
     /// <summary>
     /// Question management
@@ -86,7 +86,7 @@ namespace QuestionYourFriends.BusinessManagement
 
         #endregion
 
-        #region Moar...
+        #region More...
 
         /// <summary>
         /// Get questions where we are receivers

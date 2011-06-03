@@ -12,7 +12,7 @@
     <ul>
     <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
-        var friends = (Dictionary<long, dynamic>) Session["friendsDictionary"];
+        var friends = (Dictionary<long, dynamic>) ViewData["friends"];
     foreach (var question in questions)
     {
       %>

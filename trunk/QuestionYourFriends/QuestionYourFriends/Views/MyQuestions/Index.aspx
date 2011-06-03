@@ -40,7 +40,7 @@
                <br/>
                 <%:i.text%>
                 <br/>
-                De <%:QuestionYourFriends.BusinessManagement.Facebook.GetFriendName(i.Owner.fid)%>
+                De <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
                 <br/>
                 <input type="text" value="" name="answer" />
                 <br/>
