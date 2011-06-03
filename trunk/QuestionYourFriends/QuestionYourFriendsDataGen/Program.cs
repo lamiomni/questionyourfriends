@@ -141,16 +141,15 @@ namespace QuestionYourFriendsDataGen
 
         private static void AddData()
         {
-            const int nbUser = 10;
-            const int nbTransac = 200;
-            const int nbQuestion = 100;
+            const int nbUser = 4;
+            const int nbTransac = 80;
+            const int nbQuestion = 40;
 
 
             // Add users
             Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser)
-                .First(nbUser - 4)
-                .Next(1)
+                .First(1)
                     .Impose(u => u.fid, FidJr)
                 .Next(1)
                     .Impose(u => u.fid, FidVictor)
