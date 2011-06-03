@@ -17,6 +17,7 @@ namespace QuestionYourFriends.Caching
             try
             {
                 _cache = CacheFactory.GetCacheManager();
+                Debug.WriteLine("Cache initialized.");
                 _logger.Info("Cache initialized.");
             }
             catch (Exception e)

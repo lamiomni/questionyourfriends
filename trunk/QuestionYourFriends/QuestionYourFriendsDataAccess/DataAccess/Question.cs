@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -49,6 +50,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new question", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -70,6 +72,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new question", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -97,6 +100,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -124,6 +128,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -161,6 +166,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -180,6 +186,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get a question", ex);
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -198,6 +205,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
@@ -221,6 +229,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }
@@ -242,6 +251,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Question>();
             }
         }

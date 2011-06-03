@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -42,6 +43,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new transac", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -63,6 +65,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new transac", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -90,6 +93,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -117,6 +121,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -149,6 +154,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a transac", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -168,6 +174,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get a transac", ex);
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -186,6 +193,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get transacs", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.Transac>();
             }
         }

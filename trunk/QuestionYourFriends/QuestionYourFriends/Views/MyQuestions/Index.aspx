@@ -5,7 +5,6 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
         <div id="fb-root"></div>
         <script>
             window.fbAsyncInit = function () {

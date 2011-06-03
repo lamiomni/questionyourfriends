@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -36,6 +37,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new user", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -57,6 +59,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new user", ex);
+                Debug.WriteLine(ex);
                 return -1;
             }
         }
@@ -84,6 +87,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -111,6 +115,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -138,6 +143,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -168,6 +174,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
+                Debug.WriteLine(ex);
                 return false;
             }
         }
@@ -187,6 +194,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get an user", ex);
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -206,6 +214,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get an user", ex);
+                Debug.WriteLine(ex);
                 return null;
             }
         }
@@ -224,6 +233,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get users", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.User>();
             }
         }
@@ -240,6 +250,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get users", ex);
+                Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.User>();
             }
         }
