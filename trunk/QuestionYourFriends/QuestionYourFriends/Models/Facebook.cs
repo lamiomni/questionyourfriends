@@ -79,5 +79,26 @@ namespace QuestionYourFriends.Models
             dynamic result = fb.Get("/" + fid);
             return (result.last_name + " " + result.first_name);
         }
+
+        public static void publish(long wall_id, string message, string picture = null, string link = null, string name=null, string caption=null, string description=null, string source=null)
+        {
+            var fb = new FacebookWebClient();
+            var dic = new Dictionary<string,string>();
+            dic.Add("message",message);
+            if (picture != null)
+             dic.Add("picture",picture);
+            if (link != null)
+            dic.Add("link",link);
+            if (name != null)
+            dic.Add("name",name);
+            if (caption != null)
+            dic.Add("caption",caption);
+            if (description != null)
+            dic.Add("description",description);
+            if (source != null)
+            dic.Add("source",source);
+            
+            fb.Post("/" + wall_id + "/feed",dic);
+        }
     }
 }
