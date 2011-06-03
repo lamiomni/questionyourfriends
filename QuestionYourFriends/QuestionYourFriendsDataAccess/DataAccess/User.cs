@@ -71,13 +71,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault());
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.User userFound =
+                    qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault();
+                if (userFound != null)
+                {
+                    userFound.activated = true;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete an user", ex);
+                _logger.Error("Cannot update an user", ex);
                 return false;
             }
         }
@@ -92,13 +98,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(qyfEntities.Users.Where(x => x.id == id).FirstOrDefault());
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.User userFound =
+                    qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
+                if (userFound != null)
+                {
+                    userFound.activated = true;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete an user", ex);
+                _logger.Error("Cannot update an user", ex);
                 return false;
             }
         }
@@ -113,13 +125,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(u);
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.User userFound =
+                    qyfEntities.Users.Where(x => x.id == u.id).FirstOrDefault();
+                if (userFound != null)
+                {
+                    userFound.activated = true;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete an user", ex);
+                _logger.Error("Cannot update an user", ex);
                 return false;
             }
         }

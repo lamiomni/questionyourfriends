@@ -84,13 +84,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault());
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.Question questionFound =
+                    qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault();
+                if (questionFound != null)
+                {
+                    questionFound.deleted = true;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete a question", ex);
+                _logger.Error("Cannot update a question", ex);
                 return false;
             }
         }
@@ -105,13 +111,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(q);
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.Question questionFound =
+                    qyfEntities.Questions.Where(x => x.id == q.id).FirstOrDefault();
+                if (questionFound != null)
+                {
+                    questionFound.deleted = true;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete a question", ex);
+                _logger.Error("Cannot update a question", ex);
                 return false;
             }
         }
@@ -204,7 +216,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Where(x => x.id_receiver == id).ToList();
+                return qyfEntities.Questions.Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_answer == null).ToList();
             }
             catch (Exception ex)
             {

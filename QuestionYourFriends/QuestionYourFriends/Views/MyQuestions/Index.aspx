@@ -36,22 +36,26 @@
                     type="Demo"
                     content="Hello"
                     label='Accept' >
-               <a href="#">X</a>
+               <a href="http://apps.facebook.com/hellototo/MyQuestions/Delete">X</a>
                <br/>
                 <%:i.text%>
                 <br/>
-                De <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
+                De <% if (i.anom_price != 0) {%>
+                    <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
+                    <% } else { %>
+                     <a href="">???</a>
+                     <%} %>
                 <br/>
                 <input type="text" value="" name="answer" />
                 <br/>
                 <select>
                     <option value="1">public</option>
-                    <option value="2">privé</option>                
+                    <option value="2">privé</option>
                 </select>
-                <input type="hidden" value="<%:i.id %>" name="qid"/> 
+                <input type="hidden" value="<%:i.id %>" name="qid"/>
                   
                 <a href="#">annuler</a>
-                <fb:submit >répondre</fb:submit>
+                <fb:submit>répondre</fb:submit>
             </fb:request-form>
             <br/>
     <% } %>
