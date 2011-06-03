@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using QuestionYourFriendsDataAccess;
+using User = QuestionYourFriends.Models.User;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriends.Models
 {
     /// <summary>
     /// Transaction management

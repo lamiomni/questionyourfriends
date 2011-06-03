@@ -2,7 +2,7 @@
 using System.Linq;
 using Facebook.Web;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriends.Models
 {
     /// <summary>
     /// Facebook Model
@@ -41,12 +41,10 @@ namespace QuestionYourFriends.BusinessManagement
         public static dynamic GetUserFriendsDictionary()
         {
             dynamic friends = GetUserFriends();
-            var res = new Dictionary<long, dynamic>();
+            var res = new Dictionary<long, object>();
 
             foreach (dynamic friend in friends.data)
-            {
                 res.Add(long.Parse(friend.id), friend);
-            }
             return res;
         }
 
@@ -68,7 +66,7 @@ namespace QuestionYourFriends.BusinessManagement
         /// <returns></returns>
         public static dynamic GetUidFromFid(long[] fids)
         {
-            var friends = BusinessManagement.User.GetUsersFromFids(fids);
+            var friends = User.GetUsersFromFids(fids);
 
             return friends.ToDictionary(friend => friend.fid, friend => friend.id);
         }

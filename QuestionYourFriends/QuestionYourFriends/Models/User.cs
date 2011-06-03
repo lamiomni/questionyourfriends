@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QuestionYourFriends.BusinessManagement
+namespace QuestionYourFriends.Models
 {
     /// <summary>
     /// User management

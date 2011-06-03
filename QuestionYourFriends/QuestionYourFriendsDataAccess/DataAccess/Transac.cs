@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -42,7 +41,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot create a new transac", ex);
                 return -1;
             }
         }
@@ -63,7 +62,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot create a new transac", ex);
                 return -1;
             }
         }
@@ -85,7 +84,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot delete a transac", ex);
                 return false;
             }
         }
@@ -107,7 +106,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot delete a transac", ex);
                 return false;
             }
         }
@@ -139,7 +138,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot update a transac", ex);
                 return false;
             }
         }
@@ -158,7 +157,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot get a transac", ex);
                 return null;
             }
         }
@@ -176,7 +175,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                _logger.Error("Cannot get transacs", ex);
                 return new List<QuestionYourFriendsDataAccess.Transac>();
             }
         }

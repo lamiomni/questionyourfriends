@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using QuestionYourFriends.Caching;
+using QuestionYourFriends.Models;
 
 
 namespace QuestionYourFriends.Controllers
@@ -14,37 +16,46 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            dynamic result = Session["user"];
+            dynamic fid = Session["fid"];
 
-            if (result == null)
+            if (fid == null)
                 return RedirectToAction("Index", "Home");
 
+            dynamic result = RequestCache.Get(fid + "user");
+            dynamic friends = RequestCache.Get(fid + "friends");
+            dynamic dict = RequestCache.Get(fid + "fid2uid");
+            dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
+
+            if (result == null || friends == null || dict == null || friendsDict == null)
+                return RedirectToAction("Index", "Home");
+             
+            ViewData["friends"] = friendsDict;
             ViewData["Firstname"] = result.first_name;
             ViewData["Lastname"] = result.last_name;
-            dynamic friends = Session["friends"];
             var friendsId = new List<int>();
-            var dick = (Dictionary<long, int>) Session["fid2uid"];
             foreach (var friend in friends.data)
             {
                 var id = long.Parse(friend.id);
-                if(dick.ContainsKey(id))
-                    friendsId.Add(dick[id]);
+                if (dict.ContainsKey(id))
+                    friendsId.Add(dict[id]);
             }
 
-            var questions = BusinessManagement.Question.GetFriendsQuestions(friendsId.ToArray());
+            var questions = Question.GetFriendsQuestions(friendsId.ToArray());
             ViewData["questions"] = questions;
             return View();
         }
 
         public ActionResult MakePublic(int qid)
         {
-            dynamic res = Session["user"];
-            long uid = long.Parse(res.id);
+            dynamic uid = Session["uid"];
 
-            var question = BusinessManagement.Question.Get(qid);
-            var user = BusinessManagement.User.Get(uid);
+            if (uid == null)
+                return RedirectToAction("Index", "Home");
+            
+            var question = Question.Get(qid);
+            var user = Models.User.Get(uid);
 
-            BusinessManagement.Transac.DesanonymizeQuestion(question, user);
+            Transac.DesanonymizeQuestion(question, user);
             return RedirectToAction("Index", "FriendsQuestions");
         }
     }

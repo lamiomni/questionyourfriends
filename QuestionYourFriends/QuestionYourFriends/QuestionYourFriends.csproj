@@ -52,6 +52,9 @@
       <HintPath>..\Librairies\log4net\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
+      <HintPath>..\Librairies\EntLib\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -86,11 +89,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessManagement\Context.cs" />
-    <Compile Include="BusinessManagement\Facebook.cs" />
-    <Compile Include="BusinessManagement\Question.cs" />
-    <Compile Include="BusinessManagement\Transac.cs" />
-    <Compile Include="BusinessManagement\User.cs" />
+    <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\Facebook.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Transac.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Caching\RequestCache.cs" />
     <Compile Include="Controllers\AskController.cs" />
     <Compile Include="Controllers\FriendsQuestionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -134,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

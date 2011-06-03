@@ -149,7 +149,8 @@ namespace QuestionYourFriendsDataGen
             // Add users
             Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser)
-                .First(1)
+                .First(nbUser - 4)
+                .Next(1)
                     .Impose(u => u.fid, FidJr)
                 .Next(1)
                     .Impose(u => u.fid, FidVictor)
@@ -185,6 +186,8 @@ namespace QuestionYourFriendsDataGen
                     .Impose(q => q.date_answer, DateTime.Now)
                     .Impose(q => q.answer, lis.Next(null).Substring(0, rnd.Next(240, 480)) + ".")
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                .Next(nbQuestion / 2 - 6)
+                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .Next(1)
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, jrid)
@@ -209,8 +212,6 @@ namespace QuestionYourFriendsDataGen
                     .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, victorid)
                     .Impose(q => q.id_receiver, jrid)
-                .Next(nbQuestion / 2 - 6)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .All()
                     .Get();
             Console.Write(@".");
