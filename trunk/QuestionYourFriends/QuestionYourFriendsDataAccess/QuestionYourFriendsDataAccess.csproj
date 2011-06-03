@@ -90,7 +90,6 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <None Include="QyfModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QyfModel.Context.cs</LastGenOutput>
