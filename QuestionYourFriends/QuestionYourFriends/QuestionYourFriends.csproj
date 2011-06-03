@@ -102,7 +102,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\NetworkController.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Facebook.cs" />
     <Compile Include="Models\Question.cs" />
@@ -123,8 +122,6 @@
     <Content Include="Views\Ask\Index.aspx" />
     <Content Include="Views\FriendsQuestions\Index.aspx" />
     <Content Include="Views\MyQuestions\Index.aspx" />
-    <Content Include="Views\Network\CallBack.aspx" />
-    <Content Include="Views\Network\RequestToken.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
