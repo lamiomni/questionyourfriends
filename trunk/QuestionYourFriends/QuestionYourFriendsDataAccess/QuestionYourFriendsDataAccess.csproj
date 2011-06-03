@@ -48,13 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Question.cs">
+      <DependentUpon>QyfModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="QyfAsyncAppender.cs" />
     <Compile Include="DataAccess\Question.cs" />
     <Compile Include="DataAccess\Transac.cs" />
     <Compile Include="DataAccess\User.cs" />
-    <Compile Include="Question.cs">
-      <DependentUpon>QyfModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="QyfEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QyfExtensions.cs" />
@@ -90,6 +90,7 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="QyfModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QyfModel.Context.cs</LastGenOutput>
