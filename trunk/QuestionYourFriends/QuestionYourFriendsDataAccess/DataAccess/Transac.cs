@@ -69,7 +69,6 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 
         /// <summary>
         /// Deletes the transaction thanks to its id
-        /// Todo: Please soft delete it
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
         /// <param name="id">Transaction's id to delete</param>
@@ -78,20 +77,25 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault());
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.Transac transacFound =
+                    qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault();
+                if (transacFound != null)
+                {
+                    transacFound.status = 0;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete a transac", ex);
+                _logger.Error("Cannot update a question", ex);
                 return false;
             }
         }
 
         /// <summary>
         /// Deletes the transaction
-        /// Todo: Please soft delete it
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
         /// <param name="t">Transaction to delete</param>
@@ -100,13 +104,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                qyfEntities.DeleteObject(t);
-                qyfEntities.SaveChanges();
-                return true;
+                QuestionYourFriendsDataAccess.Transac transacFound =
+                    qyfEntities.Transacs.Where(x => x.id == t.id).FirstOrDefault();
+                if (transacFound != null)
+                {
+                    transacFound.status = 0;
+                    qyfEntities.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot delete a transac", ex);
+                _logger.Error("Cannot update a question", ex);
                 return false;
             }
         }

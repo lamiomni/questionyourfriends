@@ -35,5 +35,13 @@ namespace QuestionYourFriends.Controllers
             Question.Update(q);
             return RedirectToAction("Index", "MyQuestions");
         }
+
+        public ActionResult Delete()
+        {
+            string qidstring = Request.Params.Get("qid");
+            int qid = int.Parse(qidstring);
+            Question.Delete(qid);
+            return RedirectToAction("Index", "MyQuestions");
+        }
     }
 }
