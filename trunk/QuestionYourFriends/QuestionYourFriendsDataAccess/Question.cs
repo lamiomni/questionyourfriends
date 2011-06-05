@@ -8,109 +8,212 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class Question
+    [DataContract(IsReference = true)]
+    [KnownType(typeof(User))]
+    [KnownType(typeof(Transac))]
+    public partial class Question: IObjectWithChangeTracker, INotifyPropertyChanged
     {
         #region Primitive Properties
     
-        public virtual int id
+        [DataMember]
+        public int id
         {
-            get;
-            set;
+            get { return _id; }
+            set
+            {
+                if (_id != value)
+                {
+                    if (ChangeTracker.ChangeTrackingEnabled && ChangeTracker.State != ObjectState.Added)
+                    {
+                        throw new InvalidOperationException("The property 'id' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.");
+                    }
+                    _id = value;
+                    OnPropertyChanged("id");
+                }
+            }
         }
+        private int _id;
     
-        public virtual int id_owner
+        [DataMember]
+        public int id_owner
         {
             get { return _id_owner; }
             set
             {
                 if (_id_owner != value)
                 {
-                    if (Owner != null && Owner.id != value)
+                    ChangeTracker.RecordOriginalValue("id_owner", _id_owner);
+                    if (!IsDeserializing)
                     {
-                        Owner = null;
+                        if (Owner != null && Owner.id != value)
+                        {
+                            Owner = null;
+                        }
                     }
                     _id_owner = value;
+                    OnPropertyChanged("id_owner");
                 }
             }
         }
         private int _id_owner;
     
-        public virtual int id_receiver
+        [DataMember]
+        public int id_receiver
         {
             get { return _id_receiver; }
             set
             {
                 if (_id_receiver != value)
                 {
-                    if (Receiver != null && Receiver.id != value)
+                    ChangeTracker.RecordOriginalValue("id_receiver", _id_receiver);
+                    if (!IsDeserializing)
                     {
-                        Receiver = null;
+                        if (Receiver != null && Receiver.id != value)
+                        {
+                            Receiver = null;
+                        }
                     }
                     _id_receiver = value;
+                    OnPropertyChanged("id_receiver");
                 }
             }
         }
         private int _id_receiver;
     
-        public virtual string text
+        [DataMember]
+        public string text
         {
-            get;
-            set;
+            get { return _text; }
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    OnPropertyChanged("text");
+                }
+            }
         }
+        private string _text;
     
-        public virtual string answer
+        [DataMember]
+        public string answer
         {
-            get;
-            set;
+            get { return _answer; }
+            set
+            {
+                if (_answer != value)
+                {
+                    _answer = value;
+                    OnPropertyChanged("answer");
+                }
+            }
         }
+        private string _answer;
     
-        public virtual int anom_price
+        [DataMember]
+        public int anom_price
         {
-            get;
-            set;
+            get { return _anom_price; }
+            set
+            {
+                if (_anom_price != value)
+                {
+                    _anom_price = value;
+                    OnPropertyChanged("anom_price");
+                }
+            }
         }
+        private int _anom_price;
     
-        public virtual int private_price
+        [DataMember]
+        public int private_price
         {
-            get;
-            set;
+            get { return _private_price; }
+            set
+            {
+                if (_private_price != value)
+                {
+                    _private_price = value;
+                    OnPropertyChanged("private_price");
+                }
+            }
         }
+        private int _private_price;
     
-        public virtual bool undesirable
+        [DataMember]
+        public bool undesirable
         {
-            get;
-            set;
+            get { return _undesirable; }
+            set
+            {
+                if (_undesirable != value)
+                {
+                    _undesirable = value;
+                    OnPropertyChanged("undesirable");
+                }
+            }
         }
+        private bool _undesirable;
     
-        public virtual System.DateTime date_pub
+        [DataMember]
+        public System.DateTime date_pub
         {
-            get;
-            set;
+            get { return _date_pub; }
+            set
+            {
+                if (_date_pub != value)
+                {
+                    _date_pub = value;
+                    OnPropertyChanged("date_pub");
+                }
+            }
         }
+        private System.DateTime _date_pub;
     
-        public virtual Nullable<System.DateTime> date_answer
+        [DataMember]
+        public Nullable<System.DateTime> date_answer
         {
-            get;
-            set;
+            get { return _date_answer; }
+            set
+            {
+                if (_date_answer != value)
+                {
+                    _date_answer = value;
+                    OnPropertyChanged("date_answer");
+                }
+            }
         }
+        private Nullable<System.DateTime> _date_answer;
     
-        public virtual bool deleted
+        [DataMember]
+        public bool deleted
         {
-            get;
-            set;
+            get { return _deleted; }
+            set
+            {
+                if (_deleted != value)
+                {
+                    _deleted = value;
+                    OnPropertyChanged("deleted");
+                }
+            }
         }
+        private bool _deleted;
 
         #endregion
         #region Navigation Properties
     
-        public virtual User Owner
+        [DataMember]
+        public User Owner
         {
             get { return _owner; }
             set
@@ -120,12 +223,14 @@ namespace QuestionYourFriendsDataAccess
                     var previousValue = _owner;
                     _owner = value;
                     FixupOwner(previousValue);
+                    OnNavigationPropertyChanged("Owner");
                 }
             }
         }
         private User _owner;
     
-        public virtual User Receiver
+        [DataMember]
+        public User Receiver
         {
             get { return _receiver; }
             set
@@ -135,20 +240,21 @@ namespace QuestionYourFriendsDataAccess
                     var previousValue = _receiver;
                     _receiver = value;
                     FixupReceiver(previousValue);
+                    OnNavigationPropertyChanged("Receiver");
                 }
             }
         }
         private User _receiver;
     
-        public virtual ICollection<Transac> Transacs
+        [DataMember]
+        public TrackableCollection<Transac> Transacs
         {
             get
             {
                 if (_transacs == null)
                 {
-                    var newCollection = new FixupCollection<Transac>();
-                    newCollection.CollectionChanged += FixupTransacs;
-                    _transacs = newCollection;
+                    _transacs = new TrackableCollection<Transac>();
+                    _transacs.CollectionChanged += FixupTransacs;
                 }
                 return _transacs;
             }
@@ -156,27 +262,118 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_transacs, value))
                 {
-                    var previousValue = _transacs as FixupCollection<Transac>;
-                    if (previousValue != null)
+                    if (ChangeTracker.ChangeTrackingEnabled)
                     {
-                        previousValue.CollectionChanged -= FixupTransacs;
+                        throw new InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled");
+                    }
+                    if (_transacs != null)
+                    {
+                        _transacs.CollectionChanged -= FixupTransacs;
                     }
                     _transacs = value;
-                    var newValue = value as FixupCollection<Transac>;
-                    if (newValue != null)
+                    if (_transacs != null)
                     {
-                        newValue.CollectionChanged += FixupTransacs;
+                        _transacs.CollectionChanged += FixupTransacs;
                     }
+                    OnNavigationPropertyChanged("Transacs");
                 }
             }
         }
-        private ICollection<Transac> _transacs;
+        private TrackableCollection<Transac> _transacs;
+
+        #endregion
+        #region ChangeTracking
+    
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+            if (ChangeTracker.State != ObjectState.Added && ChangeTracker.State != ObjectState.Deleted)
+            {
+                ChangeTracker.State = ObjectState.Modified;
+            }
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        protected virtual void OnNavigationPropertyChanged(String propertyName)
+        {
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged{ add { _propertyChanged += value; } remove { _propertyChanged -= value; } }
+        private event PropertyChangedEventHandler _propertyChanged;
+        private ObjectChangeTracker _changeTracker;
+    
+        [DataMember]
+        public ObjectChangeTracker ChangeTracker
+        {
+            get
+            {
+                if (_changeTracker == null)
+                {
+                    _changeTracker = new ObjectChangeTracker();
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+                return _changeTracker;
+            }
+            set
+            {
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging -= HandleObjectStateChanging;
+                }
+                _changeTracker = value;
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+            }
+        }
+    
+        private void HandleObjectStateChanging(object sender, ObjectStateChangingEventArgs e)
+        {
+            if (e.NewState == ObjectState.Deleted)
+            {
+                ClearNavigationProperties();
+            }
+        }
+    
+        protected bool IsDeserializing { get; private set; }
+    
+        [OnDeserializing]
+        public void OnDeserializingMethod(StreamingContext context)
+        {
+            IsDeserializing = true;
+        }
+    
+        [OnDeserialized]
+        public void OnDeserializedMethod(StreamingContext context)
+        {
+            IsDeserializing = false;
+            ChangeTracker.ChangeTrackingEnabled = true;
+        }
+    
+        protected virtual void ClearNavigationProperties()
+        {
+            Owner = null;
+            Receiver = null;
+            Transacs.Clear();
+        }
 
         #endregion
         #region Association Fixup
     
         private void FixupOwner(User previousValue)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (previousValue != null && previousValue.MyQuestions.Contains(this))
             {
                 previousValue.MyQuestions.Remove(this);
@@ -188,15 +385,34 @@ namespace QuestionYourFriendsDataAccess
                 {
                     Owner.MyQuestions.Add(this);
                 }
-                if (id_owner != Owner.id)
+    
+                id_owner = Owner.id;
+            }
+            if (ChangeTracker.ChangeTrackingEnabled)
+            {
+                if (ChangeTracker.OriginalValues.ContainsKey("Owner")
+                    && (ChangeTracker.OriginalValues["Owner"] == Owner))
                 {
-                    id_owner = Owner.id;
+                    ChangeTracker.OriginalValues.Remove("Owner");
+                }
+                else
+                {
+                    ChangeTracker.RecordOriginalValue("Owner", previousValue);
+                }
+                if (Owner != null && !Owner.ChangeTracker.ChangeTrackingEnabled)
+                {
+                    Owner.StartTracking();
                 }
             }
         }
     
         private void FixupReceiver(User previousValue)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (previousValue != null && previousValue.QuestionsToMe.Contains(this))
             {
                 previousValue.QuestionsToMe.Remove(this);
@@ -208,20 +424,47 @@ namespace QuestionYourFriendsDataAccess
                 {
                     Receiver.QuestionsToMe.Add(this);
                 }
-                if (id_receiver != Receiver.id)
+    
+                id_receiver = Receiver.id;
+            }
+            if (ChangeTracker.ChangeTrackingEnabled)
+            {
+                if (ChangeTracker.OriginalValues.ContainsKey("Receiver")
+                    && (ChangeTracker.OriginalValues["Receiver"] == Receiver))
                 {
-                    id_receiver = Receiver.id;
+                    ChangeTracker.OriginalValues.Remove("Receiver");
+                }
+                else
+                {
+                    ChangeTracker.RecordOriginalValue("Receiver", previousValue);
+                }
+                if (Receiver != null && !Receiver.ChangeTracker.ChangeTrackingEnabled)
+                {
+                    Receiver.StartTracking();
                 }
             }
         }
     
         private void FixupTransacs(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (e.NewItems != null)
             {
                 foreach (Transac item in e.NewItems)
                 {
                     item.Question = this;
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        if (!item.ChangeTracker.ChangeTrackingEnabled)
+                        {
+                            item.StartTracking();
+                        }
+                        ChangeTracker.RecordAdditionToCollectionProperties("Transacs", item);
+                    }
                 }
             }
     
@@ -232,6 +475,10 @@ namespace QuestionYourFriendsDataAccess
                     if (ReferenceEquals(item.Question, this))
                     {
                         item.Question = null;
+                    }
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        ChangeTracker.RecordRemovalFromCollectionProperties("Transacs", item);
                     }
                 }
             }
