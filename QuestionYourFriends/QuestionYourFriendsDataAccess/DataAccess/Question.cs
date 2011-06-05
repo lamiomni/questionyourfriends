@@ -181,7 +181,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault();
+                return  qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -200,7 +200,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.ToList();
+                return qyfEntities.Questions.Include("Owner").Include("Receiver").ToList();
             }
             catch (Exception ex)
             {
@@ -224,7 +224,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_answer == null).ToList();
+                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_answer == null).ToList();
             }
             catch (Exception ex)
             {
@@ -244,7 +244,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Where(x => friends.Contains(x.id_receiver)).ToList();
+                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => friends.Contains(x.id_receiver)).ToList();
                 // Where(x => x.private_price == 0)
                 // Where(x => friends.Contains(x.id_receiver))
             }

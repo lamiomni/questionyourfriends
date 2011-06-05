@@ -13,7 +13,7 @@
            <fb:request-form
                     action="http://apps.facebook.com/questionyourfriends/MyQuestions/Delete"
                     target="_top"
-                    method="POST"
+                    method="GET"
                     invite="true"
                     type="Demo"
                     content="Hello"
@@ -24,27 +24,23 @@
            <fb:request-form
                     action="http://apps.facebook.com/questionyourfriends/MyQuestions/Answeree"
                     target="_top"
-                    method="POST"
+                    method="GET"
                     invite="true"
                     type="Demo"
                     content="Hello"
                     label='Accept' >
                <br/>
+               <input type="hidden" value="<%:i.id %>" name="qid"/>
                 <%:i.text%>
                 <br/>
-                De <% if (i.anom_price != 0) {%>
+                De <% if (i.anom_price == 0) {%>
                     <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
                     <% } else { %>
-                     <a href="">???</a>
+                     <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal">???</a>
                      <%} %>
                 <br/>
                 <input type="text" value="" name="answer" />
                 <br/>
-                <select>
-                    <option value="1">public</option>
-                    <option value="2">privé</option>
-                </select>
-                <input type="hidden" value="<%:i.id %>" name="qid"/>
                   
                 <a href="#">annuler</a>
                 <fb:submit>répondre</fb:submit>
