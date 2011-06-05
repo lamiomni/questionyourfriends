@@ -18,7 +18,7 @@
             <fb:request-form
             action="http://apps.facebook.com/questionyourfriends/Ask/Ask"
                     target="_top"
-                    method="GET"
+                    method="POST"
                     invite="true"
                     type="Demo"
                     content="Hello"
