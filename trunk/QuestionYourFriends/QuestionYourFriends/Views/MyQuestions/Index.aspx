@@ -23,19 +23,23 @@
     <fb:serverFbml  width="300px" >
     <script type="text/fbml">
     
-    <%:ViewData["test"]%>
     <% foreach(var i in (List<QuestionYourFriendsDataAccess.Question>)ViewData["questions"])
        {
            %>
            <fb:request-form
-                    action="http://apps.facebook.com/hellototo/MyQuestions/Answeree"
-                    target="_top"
+                    action="http://apps.facebook.com/questionyourfriends/MyQuestions/Delete"
                     method="GET"
-                    invite="true"
-                    type="Demo"
-                    content="Hello"
-                    label='Accept' >
-               <a href="http://apps.facebook.com/hellototo/MyQuestions/Delete">X</a>
+                    type="questionyourfriends"
+                    content="Hello">
+            <input type="hidden" value="<%:i.id %>" name="qid"/>
+            <fb:submit>X</fb:submit>
+            </fb:request-form>
+           <fb:request-form
+                    action="http://apps.facebook.com/questionyourfriends/MyQuestions/Answeree"
+
+                    method="GET"
+                    type="questionyourfriends"
+                    content="Hello">
                <br/>
                 <%:i.text%>
                 <br/>

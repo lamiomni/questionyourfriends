@@ -25,7 +25,6 @@ namespace QuestionYourFriends.Controllers
             List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
             ViewData["questions"] = receiver;
 
-
             return View();
         }
 
@@ -45,6 +44,12 @@ namespace QuestionYourFriends.Controllers
             string qidstring = Request.Params.Get("qid");
             int qid = int.Parse(qidstring);
             Question.Delete(qid);
+            return RedirectToAction("Index", "MyQuestions");
+        }
+
+        public ActionResult Cancel()
+        {
+            Request.Params.Set("answer", "");
             return RedirectToAction("Index", "MyQuestions");
         }
     }
