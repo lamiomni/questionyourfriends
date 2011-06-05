@@ -31,7 +31,7 @@
     <script type="text/fbml">
         <fb:fbml>
             <fb:request-form
-            action="http://apps.facebook.com/hellototo/Ask/Ask"
+            action="http://apps.facebook.com/questionyourfriends/Ask/Ask"
                     target="_top"
                     method="GET"
                     invite="true"
