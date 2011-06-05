@@ -62,5 +62,21 @@ namespace QuestionYourFriends.Caching
                 return false;
             }
         }
+
+        public static bool Flush()
+        {
+            try
+            {
+                _cache.Flush();
+                _logger.InfoFormat("Cache flush success.");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                _logger.Error("Cache flush failed:", e);
+                return false;
+            }
+        }
     }
 }
