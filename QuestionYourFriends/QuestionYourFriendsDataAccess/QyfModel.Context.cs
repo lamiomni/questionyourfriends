@@ -8,8 +8,17 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Data.Objects;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Common;
 using System.Data.EntityClient;
+using System.Data.Metadata.Edm;
+using System.Data.Objects.DataClasses;
+using System.Data.Objects;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 
 namespace QuestionYourFriendsDataAccess
 {
@@ -23,19 +32,45 @@ namespace QuestionYourFriendsDataAccess
         public QuestionYourFriendsEntities()
             : base(ConnectionString, ContainerName)
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            Initialize();
         }
     
         public QuestionYourFriendsEntities(string connectionString)
             : base(connectionString, ContainerName)
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            Initialize();
         }
     
         public QuestionYourFriendsEntities(EntityConnection connection)
             : base(connection, ContainerName)
         {
-            this.ContextOptions.LazyLoadingEnabled = true;
+            Initialize();
+        }
+    
+        private void Initialize()
+        {
+            // Creating proxies requires the use of the ProxyDataContractResolver and
+            // may allow lazy loading which can expand the loaded graph during serialization.
+            ContextOptions.ProxyCreationEnabled = false;
+            ObjectMaterialized += new ObjectMaterializedEventHandler(HandleObjectMaterialized);
+        }
+    
+        private void HandleObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
+        {
+            var entity = e.Entity as IObjectWithChangeTracker;
+            if (entity != null)
+            {
+                bool changeTrackingEnabled = entity.ChangeTracker.ChangeTrackingEnabled;
+                try
+                {
+                    entity.MarkAsUnchanged();
+                }
+                finally
+                {
+                    entity.ChangeTracker.ChangeTrackingEnabled = changeTrackingEnabled;
+                }
+                this.StoreReferenceKeyValues(entity);
+            }
         }
     
         #endregion

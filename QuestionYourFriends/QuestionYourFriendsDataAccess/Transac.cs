@@ -8,86 +8,127 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class Transac
+    [DataContract(IsReference = true)]
+    [KnownType(typeof(Question))]
+    [KnownType(typeof(User))]
+    public partial class Transac: IObjectWithChangeTracker, INotifyPropertyChanged
     {
         #region Primitive Properties
     
-        public virtual int id
+        [DataMember]
+        public int id
         {
-            get;
-            set;
+            get { return _id; }
+            set
+            {
+                if (_id != value)
+                {
+                    if (ChangeTracker.ChangeTrackingEnabled && ChangeTracker.State != ObjectState.Added)
+                    {
+                        throw new InvalidOperationException("The property 'id' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.");
+                    }
+                    _id = value;
+                    OnPropertyChanged("id");
+                }
+            }
         }
+        private int _id;
     
-        public virtual int amount
+        [DataMember]
+        public int amount
         {
-            get;
-            set;
+            get { return _amount; }
+            set
+            {
+                if (_amount != value)
+                {
+                    _amount = value;
+                    OnPropertyChanged("amount");
+                }
+            }
         }
+        private int _amount;
     
-        public virtual int status
+        [DataMember]
+        public int status
         {
-            get;
-            set;
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged("status");
+                }
+            }
         }
+        private int _status;
     
-        public virtual int userId
+        [DataMember]
+        public int userId
         {
             get { return _userId; }
             set
             {
-                try
+                if (_userId != value)
                 {
-                    _settingFK = true;
-                    if (_userId != value)
+                    ChangeTracker.RecordOriginalValue("userId", _userId);
+                    if (!IsDeserializing)
                     {
                         if (User != null && User.id != value)
                         {
                             User = null;
                         }
-                        _userId = value;
                     }
-                }
-                finally
-                {
-                    _settingFK = false;
+                    _userId = value;
+                    OnPropertyChanged("userId");
                 }
             }
         }
         private int _userId;
     
-        public virtual int type
+        [DataMember]
+        public int type
         {
-            get;
-            set;
+            get { return _type; }
+            set
+            {
+                if (_type != value)
+                {
+                    _type = value;
+                    OnPropertyChanged("type");
+                }
+            }
         }
+        private int _type;
     
-        public virtual Nullable<int> questionId
+        [DataMember]
+        public Nullable<int> questionId
         {
             get { return _questionId; }
             set
             {
-                try
+                if (_questionId != value)
                 {
-                    _settingFK = true;
-                    if (_questionId != value)
+                    ChangeTracker.RecordOriginalValue("questionId", _questionId);
+                    if (!IsDeserializing)
                     {
                         if (Question != null && Question.id != value)
                         {
                             Question = null;
                         }
-                        _questionId = value;
                     }
-                }
-                finally
-                {
-                    _settingFK = false;
+                    _questionId = value;
+                    OnPropertyChanged("questionId");
                 }
             }
         }
@@ -96,7 +137,8 @@ namespace QuestionYourFriendsDataAccess
         #endregion
         #region Navigation Properties
     
-        public virtual Question Question
+        [DataMember]
+        public Question Question
         {
             get { return _question; }
             set
@@ -106,12 +148,14 @@ namespace QuestionYourFriendsDataAccess
                     var previousValue = _question;
                     _question = value;
                     FixupQuestion(previousValue);
+                    OnNavigationPropertyChanged("Question");
                 }
             }
         }
         private Question _question;
     
-        public virtual User User
+        [DataMember]
+        public User User
         {
             get { return _user; }
             set
@@ -121,18 +165,104 @@ namespace QuestionYourFriendsDataAccess
                     var previousValue = _user;
                     _user = value;
                     FixupUser(previousValue);
+                    OnNavigationPropertyChanged("User");
                 }
             }
         }
         private User _user;
 
         #endregion
+        #region ChangeTracking
+    
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+            if (ChangeTracker.State != ObjectState.Added && ChangeTracker.State != ObjectState.Deleted)
+            {
+                ChangeTracker.State = ObjectState.Modified;
+            }
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        protected virtual void OnNavigationPropertyChanged(String propertyName)
+        {
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged{ add { _propertyChanged += value; } remove { _propertyChanged -= value; } }
+        private event PropertyChangedEventHandler _propertyChanged;
+        private ObjectChangeTracker _changeTracker;
+    
+        [DataMember]
+        public ObjectChangeTracker ChangeTracker
+        {
+            get
+            {
+                if (_changeTracker == null)
+                {
+                    _changeTracker = new ObjectChangeTracker();
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+                return _changeTracker;
+            }
+            set
+            {
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging -= HandleObjectStateChanging;
+                }
+                _changeTracker = value;
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+            }
+        }
+    
+        private void HandleObjectStateChanging(object sender, ObjectStateChangingEventArgs e)
+        {
+            if (e.NewState == ObjectState.Deleted)
+            {
+                ClearNavigationProperties();
+            }
+        }
+    
+        protected bool IsDeserializing { get; private set; }
+    
+        [OnDeserializing]
+        public void OnDeserializingMethod(StreamingContext context)
+        {
+            IsDeserializing = true;
+        }
+    
+        [OnDeserialized]
+        public void OnDeserializedMethod(StreamingContext context)
+        {
+            IsDeserializing = false;
+            ChangeTracker.ChangeTrackingEnabled = true;
+        }
+    
+        protected virtual void ClearNavigationProperties()
+        {
+            Question = null;
+            User = null;
+        }
+
+        #endregion
         #region Association Fixup
     
-        private bool _settingFK = false;
-    
-        private void FixupQuestion(Question previousValue)
+        private void FixupQuestion(Question previousValue, bool skipKeys = false)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (previousValue != null && previousValue.Transacs.Contains(this))
             {
                 previousValue.Transacs.Remove(this);
@@ -144,19 +274,39 @@ namespace QuestionYourFriendsDataAccess
                 {
                     Question.Transacs.Add(this);
                 }
-                if (questionId != Question.id)
-                {
-                    questionId = Question.id;
-                }
+    
+                questionId = Question.id;
             }
-            else if (!_settingFK)
+            else if (!skipKeys)
             {
                 questionId = null;
+            }
+    
+            if (ChangeTracker.ChangeTrackingEnabled)
+            {
+                if (ChangeTracker.OriginalValues.ContainsKey("Question")
+                    && (ChangeTracker.OriginalValues["Question"] == Question))
+                {
+                    ChangeTracker.OriginalValues.Remove("Question");
+                }
+                else
+                {
+                    ChangeTracker.RecordOriginalValue("Question", previousValue);
+                }
+                if (Question != null && !Question.ChangeTracker.ChangeTrackingEnabled)
+                {
+                    Question.StartTracking();
+                }
             }
         }
     
         private void FixupUser(User previousValue)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (previousValue != null && previousValue.Transacs.Contains(this))
             {
                 previousValue.Transacs.Remove(this);
@@ -168,9 +318,23 @@ namespace QuestionYourFriendsDataAccess
                 {
                     User.Transacs.Add(this);
                 }
-                if (userId != User.id)
+    
+                userId = User.id;
+            }
+            if (ChangeTracker.ChangeTrackingEnabled)
+            {
+                if (ChangeTracker.OriginalValues.ContainsKey("User")
+                    && (ChangeTracker.OriginalValues["User"] == User))
                 {
-                    userId = User.id;
+                    ChangeTracker.OriginalValues.Remove("User");
+                }
+                else
+                {
+                    ChangeTracker.RecordOriginalValue("User", previousValue);
+                }
+                if (User != null && !User.ChangeTracker.ChangeTrackingEnabled)
+                {
+                    User.StartTracking();
                 }
             }
         }

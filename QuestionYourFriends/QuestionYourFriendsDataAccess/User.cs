@@ -8,53 +8,98 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
-    public partial class User
+    [DataContract(IsReference = true)]
+    [KnownType(typeof(Question))]
+    [KnownType(typeof(Transac))]
+    public partial class User: IObjectWithChangeTracker, INotifyPropertyChanged
     {
         #region Primitive Properties
     
-        public virtual int id
+        [DataMember]
+        public int id
         {
-            get;
-            set;
+            get { return _id; }
+            set
+            {
+                if (_id != value)
+                {
+                    if (ChangeTracker.ChangeTrackingEnabled && ChangeTracker.State != ObjectState.Added)
+                    {
+                        throw new InvalidOperationException("The property 'id' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.");
+                    }
+                    _id = value;
+                    OnPropertyChanged("id");
+                }
+            }
         }
+        private int _id;
     
-        public virtual long fid
+        [DataMember]
+        public long fid
         {
-            get;
-            set;
+            get { return _fid; }
+            set
+            {
+                if (_fid != value)
+                {
+                    _fid = value;
+                    OnPropertyChanged("fid");
+                }
+            }
         }
+        private long _fid;
     
-        public virtual int credit_amount
+        [DataMember]
+        public int credit_amount
         {
-            get;
-            set;
+            get { return _credit_amount; }
+            set
+            {
+                if (_credit_amount != value)
+                {
+                    _credit_amount = value;
+                    OnPropertyChanged("credit_amount");
+                }
+            }
         }
+        private int _credit_amount;
     
-        public virtual bool activated
+        [DataMember]
+        public bool activated
         {
-            get;
-            set;
+            get { return _activated; }
+            set
+            {
+                if (_activated != value)
+                {
+                    _activated = value;
+                    OnPropertyChanged("activated");
+                }
+            }
         }
+        private bool _activated;
 
         #endregion
         #region Navigation Properties
     
-        public virtual ICollection<Question> MyQuestions
+        [DataMember]
+        public TrackableCollection<Question> MyQuestions
         {
             get
             {
                 if (_myQuestions == null)
                 {
-                    var newCollection = new FixupCollection<Question>();
-                    newCollection.CollectionChanged += FixupMyQuestions;
-                    _myQuestions = newCollection;
+                    _myQuestions = new TrackableCollection<Question>();
+                    _myQuestions.CollectionChanged += FixupMyQuestions;
                 }
                 return _myQuestions;
             }
@@ -62,31 +107,34 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_myQuestions, value))
                 {
-                    var previousValue = _myQuestions as FixupCollection<Question>;
-                    if (previousValue != null)
+                    if (ChangeTracker.ChangeTrackingEnabled)
                     {
-                        previousValue.CollectionChanged -= FixupMyQuestions;
+                        throw new InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled");
+                    }
+                    if (_myQuestions != null)
+                    {
+                        _myQuestions.CollectionChanged -= FixupMyQuestions;
                     }
                     _myQuestions = value;
-                    var newValue = value as FixupCollection<Question>;
-                    if (newValue != null)
+                    if (_myQuestions != null)
                     {
-                        newValue.CollectionChanged += FixupMyQuestions;
+                        _myQuestions.CollectionChanged += FixupMyQuestions;
                     }
+                    OnNavigationPropertyChanged("MyQuestions");
                 }
             }
         }
-        private ICollection<Question> _myQuestions;
+        private TrackableCollection<Question> _myQuestions;
     
-        public virtual ICollection<Question> QuestionsToMe
+        [DataMember]
+        public TrackableCollection<Question> QuestionsToMe
         {
             get
             {
                 if (_questionsToMe == null)
                 {
-                    var newCollection = new FixupCollection<Question>();
-                    newCollection.CollectionChanged += FixupQuestionsToMe;
-                    _questionsToMe = newCollection;
+                    _questionsToMe = new TrackableCollection<Question>();
+                    _questionsToMe.CollectionChanged += FixupQuestionsToMe;
                 }
                 return _questionsToMe;
             }
@@ -94,31 +142,34 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_questionsToMe, value))
                 {
-                    var previousValue = _questionsToMe as FixupCollection<Question>;
-                    if (previousValue != null)
+                    if (ChangeTracker.ChangeTrackingEnabled)
                     {
-                        previousValue.CollectionChanged -= FixupQuestionsToMe;
+                        throw new InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled");
+                    }
+                    if (_questionsToMe != null)
+                    {
+                        _questionsToMe.CollectionChanged -= FixupQuestionsToMe;
                     }
                     _questionsToMe = value;
-                    var newValue = value as FixupCollection<Question>;
-                    if (newValue != null)
+                    if (_questionsToMe != null)
                     {
-                        newValue.CollectionChanged += FixupQuestionsToMe;
+                        _questionsToMe.CollectionChanged += FixupQuestionsToMe;
                     }
+                    OnNavigationPropertyChanged("QuestionsToMe");
                 }
             }
         }
-        private ICollection<Question> _questionsToMe;
+        private TrackableCollection<Question> _questionsToMe;
     
-        public virtual ICollection<Transac> Transacs
+        [DataMember]
+        public TrackableCollection<Transac> Transacs
         {
             get
             {
                 if (_transacs == null)
                 {
-                    var newCollection = new FixupCollection<Transac>();
-                    newCollection.CollectionChanged += FixupTransacs;
-                    _transacs = newCollection;
+                    _transacs = new TrackableCollection<Transac>();
+                    _transacs.CollectionChanged += FixupTransacs;
                 }
                 return _transacs;
             }
@@ -126,32 +177,131 @@ namespace QuestionYourFriendsDataAccess
             {
                 if (!ReferenceEquals(_transacs, value))
                 {
-                    var previousValue = _transacs as FixupCollection<Transac>;
-                    if (previousValue != null)
+                    if (ChangeTracker.ChangeTrackingEnabled)
                     {
-                        previousValue.CollectionChanged -= FixupTransacs;
+                        throw new InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled");
+                    }
+                    if (_transacs != null)
+                    {
+                        _transacs.CollectionChanged -= FixupTransacs;
                     }
                     _transacs = value;
-                    var newValue = value as FixupCollection<Transac>;
-                    if (newValue != null)
+                    if (_transacs != null)
                     {
-                        newValue.CollectionChanged += FixupTransacs;
+                        _transacs.CollectionChanged += FixupTransacs;
                     }
+                    OnNavigationPropertyChanged("Transacs");
                 }
             }
         }
-        private ICollection<Transac> _transacs;
+        private TrackableCollection<Transac> _transacs;
+
+        #endregion
+        #region ChangeTracking
+    
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+            if (ChangeTracker.State != ObjectState.Added && ChangeTracker.State != ObjectState.Deleted)
+            {
+                ChangeTracker.State = ObjectState.Modified;
+            }
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        protected virtual void OnNavigationPropertyChanged(String propertyName)
+        {
+            if (_propertyChanged != null)
+            {
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged{ add { _propertyChanged += value; } remove { _propertyChanged -= value; } }
+        private event PropertyChangedEventHandler _propertyChanged;
+        private ObjectChangeTracker _changeTracker;
+    
+        [DataMember]
+        public ObjectChangeTracker ChangeTracker
+        {
+            get
+            {
+                if (_changeTracker == null)
+                {
+                    _changeTracker = new ObjectChangeTracker();
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+                return _changeTracker;
+            }
+            set
+            {
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging -= HandleObjectStateChanging;
+                }
+                _changeTracker = value;
+                if(_changeTracker != null)
+                {
+                    _changeTracker.ObjectStateChanging += HandleObjectStateChanging;
+                }
+            }
+        }
+    
+        private void HandleObjectStateChanging(object sender, ObjectStateChangingEventArgs e)
+        {
+            if (e.NewState == ObjectState.Deleted)
+            {
+                ClearNavigationProperties();
+            }
+        }
+    
+        protected bool IsDeserializing { get; private set; }
+    
+        [OnDeserializing]
+        public void OnDeserializingMethod(StreamingContext context)
+        {
+            IsDeserializing = true;
+        }
+    
+        [OnDeserialized]
+        public void OnDeserializedMethod(StreamingContext context)
+        {
+            IsDeserializing = false;
+            ChangeTracker.ChangeTrackingEnabled = true;
+        }
+    
+        protected virtual void ClearNavigationProperties()
+        {
+            MyQuestions.Clear();
+            QuestionsToMe.Clear();
+            Transacs.Clear();
+        }
 
         #endregion
         #region Association Fixup
     
         private void FixupMyQuestions(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (e.NewItems != null)
             {
                 foreach (Question item in e.NewItems)
                 {
                     item.Owner = this;
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        if (!item.ChangeTracker.ChangeTrackingEnabled)
+                        {
+                            item.StartTracking();
+                        }
+                        ChangeTracker.RecordAdditionToCollectionProperties("MyQuestions", item);
+                    }
                 }
             }
     
@@ -163,17 +313,34 @@ namespace QuestionYourFriendsDataAccess
                     {
                         item.Owner = null;
                     }
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        ChangeTracker.RecordRemovalFromCollectionProperties("MyQuestions", item);
+                    }
                 }
             }
         }
     
         private void FixupQuestionsToMe(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (e.NewItems != null)
             {
                 foreach (Question item in e.NewItems)
                 {
                     item.Receiver = this;
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        if (!item.ChangeTracker.ChangeTrackingEnabled)
+                        {
+                            item.StartTracking();
+                        }
+                        ChangeTracker.RecordAdditionToCollectionProperties("QuestionsToMe", item);
+                    }
                 }
             }
     
@@ -185,17 +352,34 @@ namespace QuestionYourFriendsDataAccess
                     {
                         item.Receiver = null;
                     }
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        ChangeTracker.RecordRemovalFromCollectionProperties("QuestionsToMe", item);
+                    }
                 }
             }
         }
     
         private void FixupTransacs(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (IsDeserializing)
+            {
+                return;
+            }
+    
             if (e.NewItems != null)
             {
                 foreach (Transac item in e.NewItems)
                 {
                     item.User = this;
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        if (!item.ChangeTracker.ChangeTrackingEnabled)
+                        {
+                            item.StartTracking();
+                        }
+                        ChangeTracker.RecordAdditionToCollectionProperties("Transacs", item);
+                    }
                 }
             }
     
@@ -206,6 +390,10 @@ namespace QuestionYourFriendsDataAccess
                     if (ReferenceEquals(item.User, this))
                     {
                         item.User = null;
+                    }
+                    if (ChangeTracker.ChangeTrackingEnabled)
+                    {
+                        ChangeTracker.RecordRemovalFromCollectionProperties("Transacs", item);
                     }
                 }
             }
