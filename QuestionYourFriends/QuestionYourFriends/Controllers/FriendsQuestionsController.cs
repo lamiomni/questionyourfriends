@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web.Mvc;
 using QuestionYourFriends.Caching;
 using QuestionYourFriends.Models;
@@ -45,7 +46,12 @@ namespace QuestionYourFriends.Controllers
             return View();
         }
 
-        public ActionResult MakePublic(int qid)
+        /// <summary>
+        /// POST: /FriendsQuestions/Reveal
+        /// </summary>
+        /// <param name="qid"></param>
+        /// <returns></returns>
+        public ActionResult Reveal(int qid)
         {
             dynamic uid = Session["uid"];
 
@@ -56,6 +62,7 @@ namespace QuestionYourFriends.Controllers
             var user = Models.User.Get(uid);
 
             Transac.DesanonymizeQuestion(question, user);
+            Debug.WriteLine("Reveal called qid: " + qid);
             return RedirectToAction("Index", "FriendsQuestions");
         }
     }
