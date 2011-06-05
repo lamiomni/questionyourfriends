@@ -40,20 +40,22 @@ namespace QuestionYourFriends.Controllers
             if (fid == null)
                 return RedirectToAction("Index", "Home");
 
-            string asked_friend = Request.Params.Get("friend_sel");
-            string asked_question = Request.Params.Get("ask");
-            string private_cost_question = Request.Params.Get("private_cost");
-            string annon_cost_question = Request.Params.Get("annon_cost");
+            string askedFriend = Request.Params.Get("friend_sel");
+            string askedQuestion = Request.Params.Get("ask");
+            string privateCostQuestion = Request.Params.Get("private_cost");
+            string annonCostQuestion = Request.Params.Get("annon_cost");
 
-            if (private_cost_question == null)
-                private_cost_question = "0";
-            if (annon_cost_question == null)
-                annon_cost_question = "0";
-            int private_cost = int.Parse(private_cost_question);
-            int annon_cost = int.Parse(annon_cost_question);
-            long ffid = long.Parse(asked_friend);
+            if (privateCostQuestion == null)
+                privateCostQuestion = "0";
+            if (annonCostQuestion == null)
+                annonCostQuestion = "0";
+
+            int privateCost = int.Parse(privateCostQuestion);
+            int annonCost = int.Parse(annonCostQuestion);
+            long ffid = long.Parse(askedFriend);
             QuestionYourFriendsDataAccess.User me = Models.User.Get(fid);
-            if (me.credit_amount > (annon_cost + private_cost))
+
+            if (me.credit_amount > (annonCost + privateCost))
             {
                 QuestionYourFriendsDataAccess.User friend = Models.User.Get(ffid);
                 if (friend == null)
@@ -61,7 +63,7 @@ namespace QuestionYourFriends.Controllers
                     Models.User.Create(ffid);
                     friend = Models.User.Get(ffid);
                 }
-                int qid = Question.Create(me.id, friend.id, asked_question, annon_cost, private_cost, System.DateTime.Now);
+                int qid = Question.Create(me.id, friend.id, askedQuestion, annonCost, privateCost, System.DateTime.Now);
                 QuestionYourFriendsDataAccess.Question q = Question.Get(qid);
                 Transac.SpendAndQuestion(q, me);
             }
