@@ -52,5 +52,14 @@ namespace QuestionYourFriends.Controllers
             Request.Params.Set("answer", "");
             return RedirectToAction("Index", "MyQuestions");
         }
+
+        public ActionResult Reveal()
+        {
+            string qidstring = Request.Params.Get("qid");
+            int qid = int.Parse(qidstring);
+            QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
+            Question.Update(question);
+            return RedirectToAction("Index", "MyQuestions");
+        }
     }
 }
