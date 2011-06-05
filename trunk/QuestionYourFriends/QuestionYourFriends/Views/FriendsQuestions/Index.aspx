@@ -6,33 +6,40 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%:ViewData["Message"]%></h2>
-    <p>
-        
-    Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
     <ul>
     <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
         var friends = (Dictionary<long, dynamic>) ViewData["friends"];
-    foreach (var question in questions)
-    {
-      %>
+        foreach (var question in questions)
+        {
+            if(!friends.ContainsKey(question.Owner.fid))
+                continue;
+%>
       <li>
-        <h2><%:question.text %></h2>
+        <h2><%:question.text%></h2>
 
-        <% if(question.answer != null) { %>
-            <h3><%:question.answer %></h3>
-        <% } %>
-
-        <% if(question.private_price == 0 && friends.ContainsKey(question.Owner.fid)) { %>
-            <span><%:friends[question.Owner.fid] %></span>
-        <% }
-           else
-           {
-            %>
-            <a href="/FriendsQuestions/MakePublic/<%:question.id %>" alt="Découvrir l'auteur de cette question">de ???</a>
+        <%
+            if (question.answer != null)
+            {%>
+            <h3><%:question.answer%></h3>
+        <%
+            }%>
+        <%
+                if (question.anom_price == 0)
+                {%>
+            <span><%:friends[question.Owner.fid].name%></span>
+        <%
+                }
+                else
+                {
+%>
+            <form method="post" action="FriendsQuestions/Reveal">
+                <input type="hidden" name="qid" value="<%:question.id%>" />
+                <button>de ???</button>
+            </form>
             <%
-           }
-        %>
+                }
+%>
 
         <% if(question.Receiver != null) { %>
             <span><%:friends[question.Receiver.fid].name %></span>
@@ -41,6 +48,5 @@
     <%
     }
     %>
-    </ul>    
-    </p>
+    </ul>
 </asp:Content>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using QuestionYourFriendsDataAccess;
 using User = QuestionYourFriends.Models.User;
 
@@ -64,18 +65,22 @@ namespace QuestionYourFriends.Models
 
         #region Higher level methods do deal with the economy
 
+        private static bool withMinValue = false; 
         public static bool AnonymiseQuestion(
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
             // A bid can't be lower than a certain value
-            if (bid < (int) TransacPrice.Anonymize)
+            if (withMinValue && bid < (int)TransacPrice.Anonymize)
                 bid = (int) TransacPrice.Anonymize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
+            {
+                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
                 return false;
+            }
 
             // Creation of the transaction
             bool transCreateRes = Create(bid, user.id, TransacType.Anonymize, question.id) != -1;
@@ -96,12 +101,15 @@ namespace QuestionYourFriends.Models
             int bid)
         {
             // A bid can't be lower than a certain value
-            if (bid < (int)TransacPrice.Privatize)
+            if (withMinValue && bid < (int)TransacPrice.Privatize)
                 bid = (int)TransacPrice.Privatize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
+            {
+                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
                 return false;
+            }
 
             // Creation of the transaction
             bool transCreateRes = Create(bid, question.id_owner, TransacType.Privatize, question.id) != -1;
@@ -121,14 +129,17 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             var bid = question.anom_price;
-            // A bid can't be lower than a certain value
-            if (bid < (int) TransacPrice.Desanonymize)
+            // A bid can't be lower than a certain value or not
+            if (withMinValue && bid < (int)TransacPrice.Desanonymize)
                 bid = (int) TransacPrice.Desanonymize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
+            {
+                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
                 return false;
-
+            }
+                
             // Creation of the transaction
             bool transCreateRes = Create(bid, user.id, TransacType.Desanonymize, question.id) != -1;
 
@@ -148,12 +159,15 @@ namespace QuestionYourFriends.Models
         {
             var bid = question.private_price;
             // A bid can't be lower than a certain value
-            if (bid < (int)TransacPrice.Deprivatize)
+            if (withMinValue && bid < (int)TransacPrice.Deprivatize)
                 bid = (int)TransacPrice.Deprivatize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
+            {
+                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
                 return false;
+            }
 
             // Creation of the transaction
             bool transCreateRes = Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
