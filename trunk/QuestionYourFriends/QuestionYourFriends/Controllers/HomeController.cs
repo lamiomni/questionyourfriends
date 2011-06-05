@@ -20,6 +20,7 @@ namespace QuestionYourFriends.Controllers
             dynamic fid = Session["fid"];
             if (fid == null || RequestCache.Get(fid + "user") != null)
             {
+                RequestCache.Flush();
                 dynamic currentUser = Models.Facebook.GetUserInfo();
                 fid = long.Parse(currentUser.id);
                 Session["fid"] = fid;
