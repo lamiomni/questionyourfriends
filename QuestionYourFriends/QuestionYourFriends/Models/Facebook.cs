@@ -74,7 +74,7 @@ namespace QuestionYourFriends.Models
 
         public static string GetFriendName(long fid)
         {
-            return "";
+            //return "";
             var fb = new FacebookWebClient();
             dynamic result = fb.Get("/" + fid);
             return (result.last_name + " " + result.first_name);

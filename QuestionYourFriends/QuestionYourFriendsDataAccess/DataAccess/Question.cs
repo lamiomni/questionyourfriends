@@ -224,7 +224,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_answer == null).ToList();
+                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false).OrderBy(x => x.date_pub).ToList();
             }
             catch (Exception ex)
             {
