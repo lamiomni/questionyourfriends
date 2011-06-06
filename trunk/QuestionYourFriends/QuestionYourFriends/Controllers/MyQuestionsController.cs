@@ -54,11 +54,9 @@ namespace QuestionYourFriends.Controllers
             return RedirectToAction("Index", "MyQuestions");
         }
 
-        public ActionResult Reveal()
+        public ActionResult Reveal(int qid)
         {
             dynamic uid = Session["uid"];
-            string qidstring = Request.Params.Get("qid");
-            int qid = int.Parse(qidstring);
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = QuestionYourFriends.Models.User.Get(uid);
             if (user.credit_amount > question.anom_price)
@@ -71,11 +69,9 @@ namespace QuestionYourFriends.Controllers
             return RedirectToAction("Index", "MyQuestions");
         }
 
-        public ActionResult ToPublic()
+        public ActionResult ToPublic(int qid)
         {
             dynamic uid = Session["uid"];
-            string qidstring = Request.Params.Get("qid");
-            int qid = int.Parse(qidstring);
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = QuestionYourFriends.Models.User.Get(uid);
             if (user.credit_amount > question.private_price)

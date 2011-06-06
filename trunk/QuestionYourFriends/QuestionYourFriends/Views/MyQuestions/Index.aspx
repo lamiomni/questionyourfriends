@@ -31,19 +31,33 @@
                     label='Accept' >
                <br/>
                <input type="hidden" value="<%:i.id %>" name="qid"/>
+               <% if (i.anom_price == 0) {%>
+                    <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
+               <% } else { %>
+                     <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>">???</a>
+               <%} %> vous a posé une question en 
+               <% if (i.private_price > 0) {%>
+                     privé . <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id %>">Rendre public</a>
+               <% } else { %>
+                     public
+               <% } %>
+                <br/>
                 <%:i.text%>
                 <br/>
-                De <% if (i.anom_price == 0) {%>
-                    <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
-                    <% } else { %>
-                     <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal">???</a>
-                     <%} %>
+                <% if (i.date_answer == null) {%>
+                    <input type="text" value="" name="answer" />
+                <% } else { %>
+                    Vous avez répondu
+                </br>
+                <%:i.text%> <br/> <%:i.date_pub%>
                 <br/>
-                <input type="text" value="" name="answer" />
-                <br/>
-                  
-                <a href="#">annuler</a>
-                <fb:submit>répondre</fb:submit>
+                <% } %>
+                <fb:submit>
+                <% if (i.date_answer == null) {%>
+                    répondre
+                <% } %>
+                </fb:submit>
+                    
             </fb:request-form>
             <br/>
     <% } %>
