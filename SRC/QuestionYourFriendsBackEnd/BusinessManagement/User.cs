@@ -90,12 +90,18 @@ namespace QuestionYourFriendsBackEnd.BusinessManagement
 
         #endregion
 
-
         #region More...
-        public static List<QuestionYourFriendsDataAccess.User> GetUsersFromFids(long[] fids)
+
+        /// <summary>
+        /// Get users from their fid
+        /// </summary>
+        /// <param name="fids">List of fids</param>
+        /// <returns>List of users</returns>
+        public static IEnumerable<QuestionYourFriendsDataAccess.User> GetUsersFromFids(long[] fids)
         {
             return QuestionYourFriendsDataAccess.DataAccess.User.GetUsersFromFids(Context.QyfEntities, fids);
         }
+
         #endregion
     }
 }

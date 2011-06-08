@@ -33,6 +33,9 @@ namespace QuestionYourFriends.Controllers
             return View();
         }
 
+        /// <summary>
+        /// GET: /Ask/Ask
+        /// </summary>
         public ActionResult Ask()
         {
             dynamic fid = Session["fid"];
