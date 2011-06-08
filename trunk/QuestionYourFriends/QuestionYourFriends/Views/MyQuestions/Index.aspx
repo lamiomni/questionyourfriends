@@ -5,6 +5,28 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="question-bloc">
+        <div class="questionner-pic">
+            <img src="" height="52" width="52" alt=""/>
+        </div>
+        <div class="question">
+            <div class="question-status"><span class="name">Antony</span> a posé une question a <span class="name">Antony</span> en <span class="privacy">public</span></div>
+            <div class="question-sentence">Qui es-tu ?</div>
+            <div class="answer-bloc">
+                <div class="answer-pic">
+                    <img src="" height="33" width="33" alt="" />
+                </div>
+                <div class="answer">
+                    <div class="answer-status"><span class="name">Antony</span> vous a répondu en <span class="privacy">public</span> - <a href="">Rendre public</a></div>
+                    <div class="answer-sentence">Je suis Antony</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <fb:serverFbml  width="300px" >
     <script type="text/fbml">
     <% foreach(var i in (List<QuestionYourFriendsDataAccess.Question>)ViewData["questions"])
