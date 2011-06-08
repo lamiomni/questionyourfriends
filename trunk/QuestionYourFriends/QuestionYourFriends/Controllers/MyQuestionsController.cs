@@ -58,13 +58,13 @@ namespace QuestionYourFriends.Controllers
         {
             dynamic uid = Session["uid"];
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-            QuestionYourFriendsDataAccess.User user = QuestionYourFriends.Models.User.Get(uid);
+            QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
             if (user.credit_amount > question.anom_price)
             {
                 user.credit_amount -= question.anom_price;
                 question.anom_price = 0;
                 Question.Update(question);
-                QuestionYourFriends.Models.User.Update(user);
+                Models.User.Update(user);
             }
             return RedirectToAction("Index", "MyQuestions");
         }
@@ -73,13 +73,13 @@ namespace QuestionYourFriends.Controllers
         {
             dynamic uid = Session["uid"];
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-            QuestionYourFriendsDataAccess.User user = QuestionYourFriends.Models.User.Get(uid);
+            QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
             if (user.credit_amount > question.private_price)
             {
                 user.credit_amount -= question.private_price;
                 question.private_price = 0;
                 Question.Update(question);
-                QuestionYourFriends.Models.User.Update(user);
+                Models.User.Update(user);
             }
             return RedirectToAction("Index", "MyQuestions");
         }
