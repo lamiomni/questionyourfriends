@@ -241,7 +241,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
 
         #region More...
 
-        public static List<QuestionYourFriendsDataAccess.User> GetUsersFromFids(QuestionYourFriendsEntities qyfEntities, long[] fids)
+        /// <summary>
+        /// Gets a list of users thanks to their fids
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="fids">List of fids</param>
+        /// <returns>The requested list of users</returns>
+        public static IEnumerable<QuestionYourFriendsDataAccess.User> GetUsersFromFids(QuestionYourFriendsEntities qyfEntities, long[] fids)
         {
             try
             {

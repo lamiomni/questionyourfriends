@@ -49,8 +49,7 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// POST: /FriendsQuestions/Reveal
         /// </summary>
-        /// <param name="qid"></param>
-        /// <returns></returns>
+        /// <param name="qid">Question id</param>
         public ActionResult Reveal(int qid)
         {
             dynamic uid = Session["uid"];

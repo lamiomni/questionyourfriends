@@ -108,6 +108,11 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfOwner(Context.QyfEntities, id);
         }
         
+        /// <summary>
+        /// Get questions of friends
+        /// </summary>
+        /// <param name="friends">Friends uids</param>
+        /// <returns>A list of questions</returns>
         public static  List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(int[] friends)
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetFriendsQuestions(Context.QyfEntities, friends);

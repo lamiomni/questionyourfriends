@@ -14,7 +14,6 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
-        ///
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
@@ -30,6 +29,9 @@ namespace QuestionYourFriends.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Answer a question
+        /// </summary>
         public ActionResult Answeree()
         {
             string answer = Request.Params.Get("answer");
@@ -43,18 +45,29 @@ namespace QuestionYourFriends.Controllers
             return RedirectToAction("Index", "MyQuestions");
         }
 
+        /// <summary>
+        /// Delete a question
+        /// </summary>
+        /// <param name="qid">Question id</param>
         public ActionResult Delete(int qid)
         {
             Question.Delete(qid);
             return RedirectToAction("Index", "MyQuestions");
         }
 
+        /// <summary>
+        /// Cancels an action
+        /// </summary>
         public ActionResult Cancel()
         {
             Request.Params.Set("answer", "qid");
             return RedirectToAction("Index", "MyQuestions");
         }
 
+        /// <summary>
+        /// Reveals a question
+        /// </summary>
+        /// <param name="qid">question id</param>
         public ActionResult Reveal(int qid)
         {
             dynamic uid = Session["uid"];
@@ -70,6 +83,10 @@ namespace QuestionYourFriends.Controllers
             return RedirectToAction("Index", "MyQuestions");
         }
 
+        /// <summary>
+        /// Deprivatize a question
+        /// </summary>
+        /// <param name="qid">question id</param>
         public ActionResult ToPublic(int qid)
         {
             dynamic uid = Session["uid"];

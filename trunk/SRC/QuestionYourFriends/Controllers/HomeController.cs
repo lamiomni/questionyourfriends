@@ -14,7 +14,6 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /Home/
         /// </summary>
-        /// <returns></returns>
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
