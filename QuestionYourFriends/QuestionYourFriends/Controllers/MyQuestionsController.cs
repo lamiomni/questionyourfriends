@@ -24,6 +24,7 @@ namespace QuestionYourFriends.Controllers
                 return RedirectToAction("Index", "Home");
             
             List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
+            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(0);
             ViewData["questions"] = receiver;
 
             return View();

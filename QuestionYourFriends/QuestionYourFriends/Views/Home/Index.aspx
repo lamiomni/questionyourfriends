@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%:ViewData["Message"]%></h2>
     <p>
-
+    
     Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
 
     </p>
