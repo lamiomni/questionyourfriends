@@ -206,93 +206,21 @@ ul#menu li.selected.green a
 }
 
 /* PAGE QUESTIONS */
-.question-bloc
-{
-    border-bottom:1px solid #dcdcdc;
-    padding:15px 20px;
-}
-
-.question-bloc .questionner-pic
-{
-    float:left;
-}
-
-.question-bloc .question
-{
-    padding-left: 60px;
-}
-
-.question-bloc .question .question-status
-{
-    font-size:12px;
-    color:#646464;
-}
-
-.question-bloc .question .question-status .name
-{
-    font-weight:bold;
-    color:#325587;    
-}
-
-.question-bloc .question .question-status .privacy
-{
-    font-weight:bold;
-    color:#558a22;    
-}
-
-
-.question-bloc .question .question-sentence
-{
-    margin-top:4px;
-    font-size:18px;
-    color:#558a22;
-}
-
-.question-bloc .question .answer-bloc
-{
-    background-color:#eeeff4;
-    padding:5px;
-}
-
-.question-bloc .question .answer-bloc .answer-pic
-{
-     float:left;
-}
-
-.question-bloc .question .answer-bloc .answer 
-{
-   padding-left: 40px;
-}
-.question-bloc .question .answer-bloc .answer .answer-status
-{
-    font-size:11px;
-    color:#646464;
-}
-
-.question-bloc .question .answer-bloc .answer .answer-status
-{
-    font-size:11px;
-    color:#646464;
-}
-
-.question-bloc .question .answer-bloc .answer .answer-status .name
-{
-    font-weight:bold;
-    color:#325587;    
-}
-
-.question-bloc .question .answer-bloc .answer .answer-status .privacy
-{
-    font-weight:bold;
-    color:#558a22;    
-}
-
-
-.question-bloc .question .answer-bloc .answer .answer-sentence
-{
-    font-size:11px;
-    color:black;
-}
+.question-bloc{border-bottom:1px solid #dcdcdc;padding:15px 20px;}
+.question-bloc .questionner-pic{float:left;}
+.question-bloc .question{padding-left: 60px;}
+.question-bloc .question .question-status{font-size:12px;color:#646464;}
+.question-bloc .question .question-status .name{font-weight:bold;color:#325587;}
+.question-bloc .question .question-status .privacy{font-weight:bold;color:#558a22;}
+.question-bloc .question .question-sentence{margin-top:4px;font-size:18px;color:#558a22;}
+.question-bloc .question .answer-bloc{background-color:#eeeff4;padding:5px;margin-top: 10px;}
+.question-bloc .question .answer-bloc .answer-pic{float:left;}
+.question-bloc .question .answer-bloc .answer {padding-left: 40px;}
+.question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
+.question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
+.question-bloc .question .answer-bloc .answer .answer-status .name{font-weight:bold;color:#325587;}
+.question-bloc .question .answer-bloc .answer .answer-status .privacy{font-weight:bold;color:#558a22;}
+.question-bloc .question .answer-bloc .answer .answer-sentence{font-size:11px;color:black;}
 
 /* ÉLÉMENTS DE MISE EN FORME DU FORMULAIRE   
 ----------------------------------------------------------*/
