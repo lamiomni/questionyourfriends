@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using QuestionYourFriendsDataAccess;
 
-namespace QuestionYourFriendsDataGen.BusinessManagement
+namespace QuestionYourFriendsBackEnd.BusinessManagement
 {
     /// <summary>
     /// Transaction management

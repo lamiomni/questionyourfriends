@@ -4,21 +4,19 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Site Dynamic Data</title>
+    <title>Question Your Friends Back-End</title>
     <link href="~/Site.css" rel="stylesheet" type="text/css" />
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <h1 class="DDMainHeader">Site Dynamic Data</h1>
-    <div class="DDNavigation">
-        <a runat="server" href="~/"><img alt="Retour à la page d'accueil" runat="server" src="DynamicData/Content/Images/back.gif" />Retour à la page d'accueil</a>
-    </div>
-
     <form id="form1" runat="server">
+    <h1 class="DDMainHeader">Question Your Friends Back-End</h1>
+    <div class="DDNavigation">
+        <a runat="server" href="~/"><img alt="Go back to the homepage" runat="server" src="DynamicData/Content/Images/back.gif" />Go back to the homepage</a>
+        <asp:LoginStatus ID="LoginStatus1" runat="server"/>
+    </div>
     <div>
-        <%-- TODO: activez le rendu partiel en affectant la valeur "true" à l'attribut EnablePartialRendering afin de rendre l'expérience de navigation plus fluide.
-             Si vous laissez le rendu partiel désactivé, l'expérience de débogage est améliorée lors du développement de l'application. --%>
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true"/>
         
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">

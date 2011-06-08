@@ -11,12 +11,12 @@
         </DataControls>
     </asp:DynamicDataManager>
 
-    <h2 class="DDSubHeader">Entrée de la table <%=table.DisplayName%></h2>
+    <h2 class="DDSubHeader">Table entry <%=table.DisplayName%></h2>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" EnableClientScript="true"
-                HeaderText="Liste des erreurs de validation" CssClass="DDValidator" />
+                HeaderText="List of validation errors" CssClass="DDValidator" />
             <asp:DynamicValidator runat="server" ID="DetailsViewValidator" ControlToValidate="FormView1" Display="None" CssClass="DDValidator" />
 
             <asp:FormView runat="server" ID="FormView1" DataSourceID="DetailsDataSource" OnItemDeleted="FormView1_ItemDeleted" RenderOuterTable="false">
@@ -25,15 +25,15 @@
                         <asp:DynamicEntity runat="server" />
                         <tr class="td">
                             <td colspan="2">
-                                <asp:DynamicHyperLink runat="server" Action="Edit" Text="Modifier" />
-                                <asp:LinkButton runat="server" CommandName="Delete" Text="Supprimer"
-                                    OnClientClick='return confirm("Êtes-vous sûr de vouloir supprimer cet élément ?") ;' />
+                                <asp:DynamicHyperLink runat="server" Action="Edit" Text="Edit" />
+                                <asp:LinkButton runat="server" CommandName="Delete" Text="Delete"
+                                    OnClientClick='return confirm("Are you sure you want to delete this item?") ;' />
                             </td>
                         </tr>
                     </table>
                 </ItemTemplate>
                 <EmptyDataTemplate>
-                    <div class="DDNoItem">Aucun élément de ce type.</div>
+                    <div class="DDNoItem">No item of this type.</div>
                 </EmptyDataTemplate>
             </asp:FormView>
 
@@ -46,7 +46,7 @@
             <br />
 
             <div class="DDBottomHyperLink">
-                <asp:DynamicHyperLink ID="ListHyperLink" runat="server" Action="List">Afficher tous les éléments</asp:DynamicHyperLink>
+                <asp:DynamicHyperLink ID="ListHyperLink" runat="server" Action="List">Show all items</asp:DynamicHyperLink>
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

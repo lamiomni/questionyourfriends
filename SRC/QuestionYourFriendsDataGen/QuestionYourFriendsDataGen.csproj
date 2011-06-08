@@ -65,15 +65,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessManagement\Context.cs" />
-    <Compile Include="BusinessManagement\Question.cs" />
-    <Compile Include="BusinessManagement\Transac.cs" />
-    <Compile Include="BusinessManagement\User.cs" />
     <Compile Include="DataSources\RandomEnumSource.cs" />
     <Compile Include="DataSources\RandomLongSource.cs" />
     <Compile Include="DataSources\RandomBooleanSource.cs" />
     <Compile Include="DataSources\RandomIntegerSource.cs" />
     <Compile Include="DataSources\RandomEntitySource.cs" />
+    <Compile Include="BusinessManagement\Context.cs" />
+    <Compile Include="BusinessManagement\Question.cs" />
+    <Compile Include="BusinessManagement\Transac.cs" />
+    <Compile Include="BusinessManagement\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QyfExtensions.cs" />
