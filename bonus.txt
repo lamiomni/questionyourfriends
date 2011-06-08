@@ -1,0 +1,6 @@
+ASP.NET MVC
+AutoPoco (Generation de donnees)
+Enterprise Library Caching Block
+log4net
+Entity Framework
+Facebook.Web.Mvc
