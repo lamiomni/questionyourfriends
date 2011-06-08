@@ -3,14 +3,14 @@ La couleur de base pour ce modèle est #5c87b2. Si vous voulez
 utiliser une autre couleur, remplacez toutes les instances de
 #5c87b2 par la nouvelle couleur.
 ----------------------------------------------------------*/
+*
+{
+    margin:0;
+    padding:0;
+}
 body
 {
-    background-color: #5c87b2;
-    font-size: .75em;
-    font-family: Verdana, Helvetica, Sans-Serif;
-    margin: 0;
-    padding: 0;
-    color: #696969;
+    border:1px solid #C8C8C8;
 }
 
 a:link
@@ -34,8 +34,7 @@ a:active
 
 p, ul
 {
-    margin-bottom: 20px;
-    line-height: 1.6em;
+   
 }
 
 /* TITRES   
@@ -95,8 +94,14 @@ page. Ou bien, vous pouvez spécifier une largeur exacte en pixels. */
     margin-bottom: 0px;
     color: #000;
     padding: 0;
+    height:126px;
+    background-image:url(header-bg.jpg);
 }
 
+#header #logo 
+{
+    float:left;
+}
 #header h1
 {
     font-weight: bold;
@@ -131,54 +136,73 @@ page. Ou bien, vous pouvez spécifier une largeur exacte en pixels. */
 ----------------------------------------------------------*/
 ul#menu
 {
-    border-bottom: 1px #5C87B2 solid;
-    padding: 0 0 2px;
-    position: relative;
-    margin: 0;
-    text-align: right;
+    padding-top: 95px;
 }
 
 ul#menu li
 {
-    display: inline;
+    
+    display: block;
+    margin-right:2px;
     list-style: none;
-}
-
-ul#menu li#greeting
-{
-    padding: 10px 20px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 2.8em;
-    color: #fff;
+    float: left;
 }
 
 ul#menu li a
 {
-    padding: 10px 20px;
+    padding: 7px 9px;
     font-weight: bold;
+    font-size:12px;
     text-decoration: none;
     line-height: 2.8em;
-    background-color: #e8eef4;
-    color: #034af3;
+    background-color: #667cb6;
+    color: white;
 }
 
 ul#menu li a:hover
 {
-    background-color: #fff;
+    background-color: #8495c4;
     text-decoration: none;
+    color:white;
+}
+
+ul#menu li.green a
+{
+   
+    background-color: #7e9f5e;
+    color: white;
+}
+
+ul#menu li.green a:hover
+{
+    background-color: #93b670;
+    color:white;
+}
+
+ul#menu li.green a:active
+{
+    background-color: white;
+    text-decoration: none;
+    color:#667cb6;
 }
 
 ul#menu li a:active
 {
-    background-color: #a6e2a6;
+    background-color: white;
     text-decoration: none;
+    color:#667cb6;
 }
 
 ul#menu li.selected a
 {
     background-color: #fff;
-    color: #000;
+    color: #667cb6;
+}
+
+ul#menu li.selected.green a
+{
+    background-color: #fff;
+    color: #667cb6;
 }
 
 /* ÉLÉMENTS DE MISE EN FORME DU FORMULAIRE   
