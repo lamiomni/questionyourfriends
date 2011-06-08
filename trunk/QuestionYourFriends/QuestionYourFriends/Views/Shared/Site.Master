@@ -24,22 +24,22 @@
                 document.getElementById('fb-root').appendChild(e);
             } ());
         </script>
-    <div class="page">
+    
         
         <div id="header">
-            <div id="title">
-                <h1>Question your friends</h1>
+            <div id="logo">
+                <img src="Content/logo.png" />
             </div>
              
-            <div id="menucontainer">
+           
             
-                <ul id="menu">
-                    <li><%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
-                    <li><%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
-                    <li><%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
-                </ul>
+            <ul id="menu">
+                <li><%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
+                <li><%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
+                <li class="green"><%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
+            </ul>
             
-            </div>
+            
         </div>
 
         <div id="main">
@@ -48,6 +48,6 @@
             <div id="footer">
             </div>
         </div>
-    </div>
+
 </body>
 </html>
