@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QuestionYourFriendsDataGen.BusinessManagement
+namespace QuestionYourFriendsBackEnd.BusinessManagement
 {
     /// <summary>
     /// User management

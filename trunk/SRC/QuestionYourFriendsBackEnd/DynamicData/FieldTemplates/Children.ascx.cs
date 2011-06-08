@@ -23,7 +23,7 @@ namespace QuestionYourFriendsBackEnd.DynamicData.FieldTemplates
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            HyperLink1.Text = "Afficher " + ChildrenColumn.ChildTable.DisplayName;
+            HyperLink1.Text = "Show " + ChildrenColumn.ChildTable.DisplayName;
         }
 
         protected string GetChildrenPath()

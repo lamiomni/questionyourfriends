@@ -87,6 +87,36 @@ namespace QuestionYourFriendsDataAccess
             }
         }
         private bool _activated;
+    
+        [DataMember]
+        public string login
+        {
+            get { return _login; }
+            set
+            {
+                if (_login != value)
+                {
+                    _login = value;
+                    OnPropertyChanged("login");
+                }
+            }
+        }
+        private string _login;
+    
+        [DataMember]
+        public string passwd
+        {
+            get { return _passwd; }
+            set
+            {
+                if (_passwd != value)
+                {
+                    _passwd = value;
+                    OnPropertyChanged("passwd");
+                }
+            }
+        }
+        private string _passwd;
 
         #endregion
         #region Navigation Properties

@@ -36,10 +36,10 @@
                 <Columns>
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:DynamicHyperLink runat="server" Action="Edit" Text="Modifier"
-                            />&nbsp;<asp:LinkButton runat="server" CommandName="Delete" Text="Supprimer"
+                            <asp:DynamicHyperLink runat="server" Action="Edit" Text="Edit"
+                            />&nbsp;<asp:LinkButton runat="server" CommandName="Delete" Text="Delete"
                                 OnClientClick='return confirm("Êtes-vous sûr de vouloir supprimer cet élément ?") ;'
-                            />&nbsp;<asp:DynamicHyperLink runat="server" Text="Détails" />
+                            />&nbsp;<asp:DynamicHyperLink runat="server" Text="Details" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
