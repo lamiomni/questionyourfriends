@@ -97,6 +97,16 @@ namespace QuestionYourFriends.Models
         {
             return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfReceiver(Context.QyfEntities, id);
         }
+
+        /// <summary>
+        /// Get questions where we are owners
+        /// </summary>
+        /// <param name="id">Our id</param>
+        /// <returns>A list of questions</returns>
+        public static List<QuestionYourFriendsDataAccess.Question> GetListOfOwner(int id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.Question.GetListOfOwner(Context.QyfEntities, id);
+        }
         
         public static  List<QuestionYourFriendsDataAccess.Question> GetFriendsQuestions(int[] friends)
         {

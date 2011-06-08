@@ -60,7 +60,7 @@ namespace QuestionYourFriendsDataGen
                 // Impose transaction informations
                 x.AddFromAssemblyContainingType<Transac>();
                 x.Include<Transac>()
-                    .Setup(t => t.amount).Use<RandomIntegerSource>(25000)
+                    .Setup(t => t.amount).Use<RandomIntegerSource>(250)
                     .Setup(t => t.User).Use<RandomEntitySource<User>>(_qyfe.Users)
                     .Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
                     .Setup(t => t.type).Use<RandomEnumSource<TransacType>>()
@@ -70,8 +70,8 @@ namespace QuestionYourFriendsDataGen
                 x.AddFromAssemblyContainingType<User>();
                 x.Include<User>()
                     .Setup(u => u.fid).Use<RandomLongSource>()
-                    .Setup(u => u.activated).Use<RandomBooleanSource>()
-                    .Setup(u => u.credit_amount).Use<RandomIntegerSource>(25000);
+                    .Setup(u => u.activated).Use<ValueSource<bool>>(true)
+                    .Setup(u => u.credit_amount).Use<ValueSource<int>>(2500);
             });
 
             // Generate one of these per test (factory will be a static variable most likely)
@@ -141,7 +141,7 @@ namespace QuestionYourFriendsDataGen
 
         private static void AddData()
         {
-            const int nbUser = 4;
+            const int nbUser = 5;
             const int nbTransac = 80;
             const int nbQuestion = 40;
 
@@ -150,6 +150,8 @@ namespace QuestionYourFriendsDataGen
             Console.Write(@"      - Users");
             var users = _session.List<User>(nbUser)
                 .First(1)
+                    .Impose(u => u.fid, 0)
+                .Next(1)
                     .Impose(u => u.fid, FidJr)
                 .Next(1)
                     .Impose(u => u.fid, FidVictor)

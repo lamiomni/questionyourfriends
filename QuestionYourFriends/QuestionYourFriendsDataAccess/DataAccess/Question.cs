@@ -256,6 +256,26 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
         }
 
+        /// <summary>
+        /// Get the list of owners
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Owner id</param>
+        /// <returns>List of questions where we are receiver</returns>
+        public static List<QuestionYourFriendsDataAccess.Question> GetListOfOwner(QuestionYourFriendsEntities qyfEntities, int id)
+        {
+            try
+            {
+                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false).OrderBy(x => x.date_pub).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get questions", ex);
+                Debug.WriteLine(ex);
+                return new List<QuestionYourFriendsDataAccess.Question>();
+            }
+        }
+
         #endregion
     }
 }
