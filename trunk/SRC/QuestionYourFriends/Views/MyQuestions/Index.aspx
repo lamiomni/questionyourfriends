@@ -1,15 +1,11 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" CodeBehind="~/Controllers/MyQuestionsController.cs"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Mes questions
+    My Questions
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-
-
-    
-
     <fb:serverFbml  width="670px" >
     
     <script type="text/fbml">
@@ -61,10 +57,10 @@
                
          
                     
-                    <% if (i.anom_price == 0) {%>
-                        <img src="http://graph.facebook.com/<%:i.Owner.fid %>/picture" height="52" width="52" alt=""/>
-                    <% } else { %>
+                    <% if (i.anom_price > 0) {%>
                         <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="52" width="52" alt=""/>
+                    <% } else { %>
+                        <img src="http://graph.facebook.com/<%:i.Owner.fid %>/picture" height="52" width="52" alt=""/>
                     <%} %> 
                     <div class="question">
                         <input type="hidden" value="<%:i.id %>" name="qid"/>
@@ -74,33 +70,30 @@
                            <% } else { %>
                                  <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>">???</a>
                            <%} %> 
-                        </span> a posé une question a <span class="name">Antony</span> en 
-                        <span class="privacy">
+                        </span> asked you a 
                         <% if (i.private_price > 0) {%>
-                                privé . <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id %>">Rendre public</a>
+                                <span class="privacy">private</span>
                         <% } else { %>
-                                public
+                                <span class="privacy">public</span>
                         <% } %>
-                        </span></div>
+                        question.
+                        <% if (i.anom_price > 0) {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>">Reveal.</a><% } %>
+                        <% if (i.private_price > 0) {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id %>">Make public.</a> <% } %>
+                        </div>
                         <div class="question-sentence"><%:i.text%></div>
                         <div class="answer-bloc">
-                            <% if (i.anom_price == 0) {%>
-                                <img src="http://graph.facebook.com/<%:i.Receiver.fid %>/picture" height="33" width="33" alt=""/>
-                            <% } else { %>
-                                <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="33" width="33" alt=""/>
-                            <%} %> 
+                            <img src="http://graph.facebook.com/<%:i.Receiver.fid %>/picture" height="33" width="33" alt=""/>
                             <div class="answer">
-                                <div class="answer-status"><span class="name">Antony</span> vous a répondu en <span class="privacy">public</span> - <a href="">Rendre public</a></div>
-                                <div class="answer-sentence">
                                 <% if (i.date_answer == null) {%>
+                                <div class="answer-status">You did not answer this question yet:</div>
+                                <div class="answer-sentence">
                                     <input type="text" value="" name="answer" />
                                     <fb:submit>
-                                        Répondre
+                                        Answer
                                     </fb:submit>
                                 <% } else { %>
-                    
+                                    <div class="answer-status">You answered:</div>
                                     <%:i.answer%> <br/> <%:i.date_pub%>
-                    
                                 <% } %>
                                 </div>
                             </div>

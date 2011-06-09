@@ -38,5 +38,11 @@ namespace QuestionYourFriends.Controllers
             }
             return RedirectToAction("Index", "MyQuestions");
         }
+
+        public ActionResult Clear()
+        {
+            RequestCache.Flush();
+            return RedirectToAction("Index", "MyQuestions");
+        }
     }
 }
