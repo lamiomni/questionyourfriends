@@ -31,12 +31,37 @@
                 <img src="Content/logo.png" />
             </div>
              
-           
-            
             <ul id="menu">
-                <li><%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
-                <li><%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
-                <li class="green"><%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
+                <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "MyQuestions")
+                  {	
+                    %><li class="green"><%               
+                  }
+                  else
+                  {
+                      %><li><%
+                  }    
+                 %>
+                <%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
+                <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "FriendsQuestions")
+                  {	
+                    %><li class="green"><%               
+                  }
+                  else
+                  {
+                      %><li><%
+                  }    
+                 %>
+                <%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
+                <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "Ask")
+                  {	
+                    %><li class="green"><%               
+                  }
+                  else
+                  {
+                      %><li><%
+                  }    
+                 %>
+                <%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
             </ul>
             
             
