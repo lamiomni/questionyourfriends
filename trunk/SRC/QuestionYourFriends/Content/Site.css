@@ -11,6 +11,7 @@ utiliser une autre couleur, remplacez toutes les instances de
 body
 {
     border:1px solid #C8C8C8;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 a:link
