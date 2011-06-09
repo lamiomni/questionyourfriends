@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
+using log4net;
 using QuestionYourFriendsDataAccess;
 
 namespace QuestionYourFriendsDataGen.BusinessManagement
@@ -9,6 +11,8 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
     /// </summary>
     public static class Transac
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region CRUD methods
 
         /// <summary>
@@ -18,7 +22,12 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         /// <returns>The id of the created transaction</returns>
         public static int Create(QuestionYourFriendsDataAccess.Transac transac)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
+            if (transac == null)
+                return -1;
+            var res = QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, transac);
+            User.UpdateMoney(transac.userId);
+            return res;
+
         }
 
         /// <summary>
@@ -31,8 +40,10 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         /// <returns>The id of the created question</returns>
         public static int Create(int amount, int userId, TransacType type, int? questionId)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
-                                                                                  type, questionId);
+            var res = QuestionYourFriendsDataAccess.DataAccess.Transac.Create(Context.QyfEntities, amount, userId,
+                                                                              type, questionId);
+            User.UpdateMoney(userId);
+            return res;
         }
 
         /// <summary>
@@ -87,9 +98,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         #endregion
 
         #region Higher level methods do deal with the economy
-
-        private static bool withMinValue = false;
-
+        
         /// <summary>
         /// Anonymize a question
         /// </summary>
@@ -102,14 +111,11 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Anonymize)
-                bid = (int) TransacPrice.Anonymize;
-
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
-                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
+                _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
+                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
                 return false;
             }
 
@@ -120,11 +126,6 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             {
                 // Update Question's price
                 question.anom_price = bid;
-
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
             }
             return check;
         }
@@ -141,14 +142,11 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Privatize)
-                bid = (int)TransacPrice.Privatize;
-
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
-                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
+                _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
+                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
                 return false;
             }
 
@@ -159,11 +157,6 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             {
                 // Update Question's price
                 question.private_price = bid;
-
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
             }
             return check;
         }
@@ -179,14 +172,12 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             var bid = question.anom_price;
-            // A bid can't be lower than a certain value or not
-            if (withMinValue && bid < (int)TransacPrice.Desanonymize)
-                bid = (int) TransacPrice.Desanonymize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
-                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
+                _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
+                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
                 return false;
             }
                 
@@ -197,11 +188,6 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             {
                 // Update Question's price
                 question.anom_price = 0;
-
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
             }
             return check;
         }
@@ -217,14 +203,12 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             var bid = question.private_price;
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Deprivatize)
-                bid = (int)TransacPrice.Deprivatize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
-                Debug.WriteLine("You are out of cash: " + user.credit_amount + " it costs: " + bid);
+                _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
+                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
                 return false;
             }
 
@@ -235,11 +219,6 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             {
                 // Update Question's price
                 question.private_price = 0;
-
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
             }
             return check;
         }
@@ -255,16 +234,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             int amount)
         {
             // Creation of the transaction
-            bool check = Create(amount, user.id, TransacType.Purchase, 0) != -1;
-
-            if (check)
-            {
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += amount;
-                check &= User.Update(user);
-            }
-            return check;
+            return Create(amount, user.id, TransacType.Purchase, 0) != -1;
         }
 
         /// <summary>
@@ -276,16 +246,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool check = Create((int)TransacPrice.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
-
-            if (check)
-            {
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += (int) TransacPrice.EarningStartup;
-                check &= User.Update(user);
-            }
-            return check;
+            return Create(QyfData.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
         }
 
         /// <summary>
@@ -297,17 +258,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool transCreateRes = Create((int)TransacPrice.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
-            bool userModifyRes = transCreateRes;
-
-            if (userModifyRes)
-            {
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += (int) TransacPrice.EarningAnswer;
-                userModifyRes &= User.Update(user);
-            }
-            return userModifyRes;
+            return Create(QyfData.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
         }
 
         /// <summary>
@@ -321,18 +272,20 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool transCreateRes = Create(question.anom_price, user.id, TransacType.Anonymize, question.id) != -1;
-            bool transCreateRes2 = Create(question.private_price, user.id, TransacType.Privatize, question.id) != -1;
-
-            bool check = transCreateRes && transCreateRes2;
+            int transacId = Create(question.anom_price, user.id, TransacType.Anonymize, question.id);
+            bool check = transacId != -1;
             if (check)
             {
-                // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= question.anom_price;
-                user.credit_amount -= question.private_price;
-                check &= User.Update(user);
+                transacId = Create(question.private_price, user.id, TransacType.Privatize, question.id);
+                check &= transacId != -1;
             }
+            else
+            {
+                var transac = Get(transacId);
+                transac.SetTransacStatus(TransacStatus.Ko);
+                Update(transac);
+            }
+
             return check;
         }
 

@@ -151,6 +151,7 @@ namespace QuestionYourFriendsDataGen
             var users = _session.List<User>(nbUser)
                 .First(1)
                     .Impose(u => u.fid, 0)
+                    .Impose(u => u.login, "Question Your Friends")
                 .Next(1)
                     .Impose(u => u.fid, FidJr)
                     .Impose(u => u.login, "jr")

@@ -55,6 +55,7 @@
     <Compile Include="DataAccess\Question.cs" />
     <Compile Include="DataAccess\Transac.cs" />
     <Compile Include="DataAccess\User.cs" />
+    <Compile Include="QyfData.cs" />
     <Compile Include="QyfEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QyfExtensions.cs" />
