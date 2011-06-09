@@ -111,6 +111,11 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
+
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
@@ -120,13 +125,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Anonymize, question.id) != -1;
+            check = Create(-bid, user.id, TransacType.Anonymize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.anom_price = bid;
-            }
+
             return check;
         }
 
@@ -142,6 +146,11 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
+
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
@@ -151,13 +160,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            bool check = Create(bid, question.id_owner, TransacType.Privatize, question.id) != -1;
+            check = Create(-bid, question.id_owner, TransacType.Privatize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.private_price = bid;
-            }
+
             return check;
         }
 
@@ -171,9 +179,13 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            var bid = question.anom_price;
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
 
             // Get the user and check his wallet
+            var bid = question.anom_price;
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
@@ -182,13 +194,12 @@ namespace QuestionYourFriends.Models
             }
                 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Desanonymize, question.id) != -1;
+            check = Create(-bid, user.id, TransacType.Desanonymize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.anom_price = 0;
-            }
+
             return check;
         }
 
@@ -202,9 +213,13 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            var bid = question.private_price;
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
 
             // Get the user and check his wallet
+            var bid = question.private_price;
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
@@ -213,13 +228,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
+            check &= Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.private_price = 0;
-            }
+
             return check;
         }
 

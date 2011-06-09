@@ -41,7 +41,7 @@
                       %><li><%
                   }    
                  %>
-                <%:Html.ActionLink("Mes questions", "Index", "MyQuestions")%></li>
+                <%:Html.ActionLink("My questions", "Index", "MyQuestions")%></li>
                 <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "FriendsQuestions")
                   {	
                     %><li class="green"><%               
@@ -51,7 +51,7 @@
                       %><li><%
                   }    
                  %>
-                <%:Html.ActionLink("Questions de mes amis", "Index", "FriendsQuestions")%></li>
+                <%:Html.ActionLink("My friend's questions", "Index", "FriendsQuestions")%></li>
                 <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "Ask")
                   {	
                     %><li class="green"><%               
@@ -61,7 +61,10 @@
                       %><li><%
                   }    
                  %>
-                <%:Html.ActionLink("Poser une question", "Index", "Ask")%></li>
+                <%:Html.ActionLink("Ask a question", "Index", "Ask")%></li>
+                <li>
+                    <a>My credits: <%: QuestionYourFriends.Models.User.Get((long)Session["fid"]).credit_amount %></a>
+                </li>
             </ul>
             
             
