@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Facebook.Web;
+using log4net;
 
 namespace QuestionYourFriends.Models
 {
@@ -9,6 +13,8 @@ namespace QuestionYourFriends.Models
     /// </summary>
     public static class Facebook
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Info User
         /// http://developers.facebook.com/docs/reference/api/
@@ -16,9 +22,18 @@ namespace QuestionYourFriends.Models
         /// <returns>A Json Array</returns>
         public static dynamic GetUserInfo()
         {
-            var fb = new FacebookWebClient();
-            dynamic result = fb.Get("me");
-            return result;
+            try
+            {
+                var fb = new FacebookWebClient();
+                dynamic result = fb.Get("me");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get userInfo", ex);
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -29,9 +44,18 @@ namespace QuestionYourFriends.Models
         /// <returns>Json Array</returns>
         public static dynamic GetUserFriends()
         {
-            var fb = new FacebookWebClient();
-            dynamic result = fb.Get("/me/friends");
-            return result;
+            try
+            {
+                var fb = new FacebookWebClient();
+                dynamic result = fb.Get("/me/friends");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get userFriends", ex);
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -40,12 +64,21 @@ namespace QuestionYourFriends.Models
         /// <returns></returns>
         public static dynamic GetUserFriendsDictionary()
         {
-            dynamic friends = GetUserFriends();
-            var res = new Dictionary<long, object>();
+            try
+            {
+                dynamic friends = GetUserFriends();
+                var res = new Dictionary<long, object>();
 
-            foreach (dynamic friend in friends.data)
-                res.Add(long.Parse(friend.id), friend);
-            return res;
+                foreach (dynamic friend in friends.data)
+                    res.Add(long.Parse(friend.id), friend);
+                return res;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get userFriendsDictionary", ex);
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -55,9 +88,18 @@ namespace QuestionYourFriends.Models
         /// <returns>A Json Array</returns>
         public static dynamic GetFriendInfo(long fid)
         {
-            var fb = new FacebookWebClient();
-            dynamic result = fb.Get("/" + fid);
-            return result;
+            try
+            {
+                var fb = new FacebookWebClient();
+                dynamic result = fb.Get("/" + fid);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get friendsInfo", ex);
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -67,7 +109,6 @@ namespace QuestionYourFriends.Models
         public static dynamic GetUidFromFid(long[] fids)
         {
             var friends = User.GetUsersFromFids(fids);
-
             return friends.ToDictionary(friend => friend.fid, friend => friend.id);
         }
 
@@ -77,9 +118,18 @@ namespace QuestionYourFriends.Models
         /// <param name="fid">Friend's fid</param>
         public static string GetFriendName(long fid)
         {
-            var fb = new FacebookWebClient();
-            dynamic result = fb.Get("/" + fid);
-            return (result.last_name + " " + result.first_name);
+            try
+            {
+                var fb = new FacebookWebClient();
+                dynamic result = fb.Get("/" + fid);
+                return (result.last_name + " " + result.first_name);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get friendsName", ex);
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -88,24 +138,31 @@ namespace QuestionYourFriends.Models
         public static void Publish(long wallId, string message, string picture = null, string link = null,
                                    string name = null, string caption = null, string description = null,
                                    string source = null)
+        {
+            try
+            {
+                var fb = new FacebookWebClient();
+                var dic = new Dictionary<string, string> {{"message", message}};
+                if (picture != null)
+                    dic.Add("picture", picture);
+                if (link != null)
+                    dic.Add("link", link);
+                if (name != null)
+                    dic.Add("name", name);
+                if (caption != null)
+                    dic.Add("caption", caption);
+                if (description != null)
+                    dic.Add("description", description);
+                if (source != null)
+                    dic.Add("source", source);
 
-    {
-        var fb = new FacebookWebClient();
-        var dic = new Dictionary<string, string> {{"message", message}};
-        if (picture != null)
-            dic.Add("picture", picture);
-        if (link != null)
-            dic.Add("link", link);
-        if (name != null)
-            dic.Add("name", name);
-        if (caption != null)
-            dic.Add("caption", caption);
-        if (description != null)
-            dic.Add("description", description);
-        if (source != null)
-            dic.Add("source", source);
-
-        fb.Post("/" + wallId + "/feed", dic);
-    }
+                fb.Post("/" + wallId + "/feed", dic);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot publish", ex);
+                Debug.WriteLine(ex);
+            }
+        }
     }
 }
