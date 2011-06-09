@@ -99,7 +99,7 @@
                                     </fb:submit>
                                 <% } else { %>
                     
-                                    <%:i.text%> <br/> <%:i.date_pub%>
+                                    <%:i.answer%> <br/> <%:i.date_pub%>
                     
                                 <% } %>
                                 </div>
