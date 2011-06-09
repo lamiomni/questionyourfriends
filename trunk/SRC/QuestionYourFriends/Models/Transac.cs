@@ -33,7 +33,7 @@ namespace QuestionYourFriends.Models
         /// <summary>
         /// Adds a transaction
         /// </summary>
-        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="amount">Amount of the transaction, negative if it needs to be paid</param>
         /// <param name="userId">Id of the user</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="questionId">Id of the question</param>
@@ -286,11 +286,11 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            int transacId = Create(question.anom_price, user.id, TransacType.Anonymize, question.id);
+            int transacId = Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
             bool check = transacId != -1;
             if (check)
             {
-                transacId = Create(question.private_price, user.id, TransacType.Privatize, question.id);
+                transacId = Create(-question.private_price, user.id, TransacType.Privatize, question.id);
                 check &= transacId != -1;
             }
             else
