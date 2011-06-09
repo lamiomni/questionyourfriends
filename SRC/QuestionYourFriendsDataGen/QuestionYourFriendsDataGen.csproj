@@ -69,11 +69,12 @@
     <Compile Include="DataSources\RandomLongSource.cs" />
     <Compile Include="DataSources\RandomBooleanSource.cs" />
     <Compile Include="DataSources\RandomIntegerSource.cs" />
-    <Compile Include="DataSources\RandomEntitySource.cs" />
+    <Compile Include="DataSources\RandomListSource.cs" />
     <Compile Include="BusinessManagement\Context.cs" />
     <Compile Include="BusinessManagement\Question.cs" />
     <Compile Include="BusinessManagement\Transac.cs" />
     <Compile Include="BusinessManagement\User.cs" />
+    <Compile Include="Data\DataGen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QyfExtensions.cs" />

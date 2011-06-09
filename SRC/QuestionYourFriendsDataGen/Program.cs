@@ -49,27 +49,28 @@ namespace QuestionYourFriendsDataGen
                 // Impose question informations
                 x.AddFromAssemblyContainingType<Question>();
                 x.Include<Question>()
-                    .Setup(q => q.anom_price).Use<RandomIntegerSource>(250)
                     .Setup(q => q.date_pub).Use<DateOfBirthSource>()
-                    .Setup(q => q.Owner).Use<RandomEntitySource<User>>(_qyfe.Users)
-                    .Setup(q => q.Receiver).Use<RandomEntitySource<User>>(_qyfe.Users)
+                    .Setup(q => q.Owner).Use<RandomListSource<User>>(_qyfe.Users)
+                    .Setup(q => q.Receiver).Use<RandomListSource<User>>(_qyfe.Users)
                     .Setup(q => q.private_price).Use<RandomIntegerSource>(250)
-                    .Setup(q => q.undesirable).Use<RandomBooleanSource>()
-                    .Setup(q => q.deleted).Use<RandomBooleanSource>();
+                    .Setup(q => q.anom_price).Use<RandomIntegerSource>(250)
+                    .Setup(q => q.undesirable).Use<ValueSource<bool>>(false)
+                    .Setup(q => q.deleted).Use<ValueSource<bool>>(false)
+                    .Setup(q => q.text).Use<RandomListSource<string>>(Data.DataGen.Questions)
+                    .Setup(q => q.answer).Use<RandomListSource<string>>(Data.DataGen.Answers);
 
                 // Impose transaction informations
                 x.AddFromAssemblyContainingType<Transac>();
                 x.Include<Transac>()
                     .Setup(t => t.amount).Use<RandomIntegerSource>(250)
-                    .Setup(t => t.User).Use<RandomEntitySource<User>>(_qyfe.Users)
+                    .Setup(t => t.User).Use<RandomListSource<User>>(_qyfe.Users)
+                    .Setup(t => t.Question).Use<RandomListSource<Question>>(_qyfe.Questions)
                     .Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
-                    .Setup(t => t.type).Use<RandomEnumSource<TransacType>>()
-                    .Setup(t => t.Question).Use<RandomEntitySource<Question>>(_qyfe.Questions);
+                    .Setup(t => t.type).Use<RandomEnumSource<TransacType>>();
 
                 // Impose user informations
                 x.AddFromAssemblyContainingType<User>();
                 x.Include<User>()
-                    .Setup(u => u.fid).Use<RandomLongSource>()
                     .Setup(u => u.activated).Use<ValueSource<bool>>(true)
                     .Setup(u => u.credit_amount).Use<ValueSource<int>>(2500);
             });
@@ -142,8 +143,8 @@ namespace QuestionYourFriendsDataGen
         private static void AddData()
         {
             const int nbUser = 5;
-            const int nbTransac = 80;
-            const int nbQuestion = 40;
+            const int nbTransac = 30;
+            const int nbQuestion = 20;
 
 
             // Add users
@@ -189,51 +190,34 @@ namespace QuestionYourFriendsDataGen
 
             // Add questions
             Console.Write(@"      - Questions");
-            var lis = new LoremIpsumSource();
-            var rnd = new Random(1337);
             var questions = _session.List<Question>(nbQuestion)
                 .First(nbQuestion / 2)
                     .Impose(q => q.date_answer, DateTime.Now)
-                    .Impose(q => q.answer, lis.Next(null).Substring(0, rnd.Next(240, 480)) + ".")
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                 .Next(nbQuestion / 2 - 6)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
+                    .Impose(q => q.answer, null)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, jrid)
                     .Impose(q => q.id_receiver, antonyid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
+                    .Impose(q => q.answer, null)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, jrid)
                     .Impose(q => q.id_receiver, tonyid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
+                    .Impose(q => q.answer, null)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, jrid)
                     .Impose(q => q.id_receiver, victorid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, antonyid)
                     .Impose(q => q.id_receiver, jrid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
+                    .Impose(q => q.answer, null)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, tonyid)
                     .Impose(q => q.id_receiver, jrid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
+                    .Impose(q => q.answer, null)
                 .Next(1)
-                    .Impose(q => q.text, lis.Next(null).Substring(0, rnd.Next(120, 240)) + "?")
                     .Impose(q => q.id_owner, victorid)
                     .Impose(q => q.id_receiver, jrid)
-                    .Impose(q => q.deleted, false)
-                    .Impose(q => q.undesirable, false)
+                    .Impose(q => q.answer, null)
                 .All()
                     .Get();
             Console.Write(@".");
