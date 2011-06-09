@@ -11,21 +11,7 @@
         Deprivatize,
         Purchase,
         EarningStartup,
-        EarningAnswer // Jr added this here and did nothing else, will it work ?
-    }
-
-    /// <summary>
-    /// Transaction prices
-    /// </summary>
-    public enum TransacPrice
-    {
-        Anonymize = 1000, // min value
-        Privatize = 5000, // min value
-        Desanonymize = 1000, // min value
-        Deprivatize = 5000, // min value
-        Purchase = 0,
-        EarningStartup = 10000,
-        EarningAnswer = 2000,
+        EarningAnswer
     }
 
     /// <summary>

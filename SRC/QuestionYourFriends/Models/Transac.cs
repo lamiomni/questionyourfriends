@@ -87,9 +87,7 @@ namespace QuestionYourFriends.Models
         #endregion
 
         #region Higher level methods do deal with the economy
-
-        private static bool withMinValue = false;
-
+        
         /// <summary>
         /// Anonymize a question
         /// </summary>
@@ -102,10 +100,6 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Anonymize)
-                bid = (int) TransacPrice.Anonymize;
-
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
@@ -122,9 +116,7 @@ namespace QuestionYourFriends.Models
                 question.anom_price = bid;
 
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -141,10 +133,6 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Privatize)
-                bid = (int)TransacPrice.Privatize;
-
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
@@ -161,9 +149,7 @@ namespace QuestionYourFriends.Models
                 question.private_price = bid;
 
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -179,9 +165,6 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             var bid = question.anom_price;
-            // A bid can't be lower than a certain value or not
-            if (withMinValue && bid < (int)TransacPrice.Desanonymize)
-                bid = (int) TransacPrice.Desanonymize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
@@ -199,9 +182,7 @@ namespace QuestionYourFriends.Models
                 question.anom_price = 0;
 
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -217,9 +198,6 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             var bid = question.private_price;
-            // A bid can't be lower than a certain value
-            if (withMinValue && bid < (int)TransacPrice.Deprivatize)
-                bid = (int)TransacPrice.Deprivatize;
 
             // Get the user and check his wallet
             if (user.credit_amount < bid)
@@ -237,9 +215,7 @@ namespace QuestionYourFriends.Models
                 question.private_price = 0;
 
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= bid;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -260,9 +236,7 @@ namespace QuestionYourFriends.Models
             if (check)
             {
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += amount;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -276,14 +250,12 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool check = Create((int)TransacPrice.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
+            bool check = Create(2500, user.id, TransacType.EarningStartup, 0) != -1;
 
             if (check)
             {
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += (int) TransacPrice.EarningStartup;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }
@@ -297,17 +269,14 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            bool transCreateRes = Create((int)TransacPrice.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
-            bool userModifyRes = transCreateRes;
+            bool check = Create((int)TransacPrice.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
 
-            if (userModifyRes)
+            if (check)
             {
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount += (int) TransacPrice.EarningAnswer;
-                userModifyRes &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
-            return userModifyRes;
+            return check;
         }
 
         /// <summary>
@@ -328,10 +297,7 @@ namespace QuestionYourFriends.Models
             if (check)
             {
                 // Update of the user's wallet
-                // Todo: recalculate credit_amount from transactions
-                user.credit_amount -= question.anom_price;
-                user.credit_amount -= question.private_price;
-                check &= User.Update(user);
+                check &= User.UpdateMoney(user.id);
             }
             return check;
         }

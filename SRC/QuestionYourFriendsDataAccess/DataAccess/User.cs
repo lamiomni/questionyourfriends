@@ -209,7 +209,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault();
+                return qyfEntities.Users
+                    .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
+                    .Where(x => x.fid == fid).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -228,7 +230,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Users.ToList();
+                return qyfEntities.Users
+                    .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -247,17 +251,47 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// <param name="qyfEntities">Entity context</param>
         /// <param name="fids">List of fids</param>
         /// <returns>The requested list of users</returns>
-        public static IEnumerable<QuestionYourFriendsDataAccess.User> GetUsersFromFids(QuestionYourFriendsEntities qyfEntities, long[] fids)
+        public static IEnumerable<QuestionYourFriendsDataAccess.User> GetUsersFromFids(QuestionYourFriendsEntities qyfEntities, IEnumerable<long> fids)
         {
             try
             {
-                return qyfEntities.Users.Where(x => fids.Contains(x.fid)).ToList();
+                return qyfEntities.Users
+                    .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
+                    .Where(x => fids.Contains(x.fid)).ToList();
             }
             catch (Exception ex)
             {
                 _logger.Error("Cannot get users", ex);
                 Debug.WriteLine(ex);
                 return new List<QuestionYourFriendsDataAccess.User>();
+            }
+        }
+
+        /// <summary>
+        /// Recalculate credit amount from the transactions
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <param name="id">Id of the user to update</param>
+        /// <returns>True if the process is ok</returns>
+        public static bool UpdateMoney(QuestionYourFriendsEntities qyfEntities, int id)
+        {
+            try
+            {
+                var user = qyfEntities.Users.Where(u => u.id == id).FirstOrDefault();
+                if (user == null)
+                    return false;
+                var transacs = qyfEntities.Transacs
+                    .Where(t => t.userId == id && t.status != (int)TransacStatus.Ko);
+                int sum = Enumerable.Sum(transacs, transac => transac.amount);
+                user.credit_amount = sum;
+                qyfEntities.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot update money", ex);
+                Debug.WriteLine(ex);
+                return false;
             }
         }
 

@@ -102,6 +102,16 @@ namespace QuestionYourFriends.Models
             return QuestionYourFriendsDataAccess.DataAccess.User.GetUsersFromFids(Context.QyfEntities, fids);
         }
 
+        /// <summary>
+        /// Update money of an user
+        /// </summary>
+        /// <param name="id">User's id</param>
+        /// <returns>True if the process is ok</returns>
+        public static bool UpdateMoney(int id)
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.UpdateMoney(Context.QyfEntities, id);
+        }
+
         #endregion
     }
 }

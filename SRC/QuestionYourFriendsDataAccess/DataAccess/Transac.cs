@@ -169,7 +169,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault();
+                return qyfEntities.Transacs.Include("Question").Include("User")
+                    .Where(x => x.id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -188,7 +189,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Transacs.ToList();
+                return qyfEntities.Transacs.Include("Question").Include("User").ToList();
             }
             catch (Exception ex)
             {
