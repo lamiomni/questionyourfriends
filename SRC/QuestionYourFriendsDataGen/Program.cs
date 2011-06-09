@@ -63,11 +63,14 @@ namespace QuestionYourFriendsDataGen
                 // Impose transaction informations
                 x.AddFromAssemblyContainingType<Transac>();
                 x.Include<Transac>()
-                    .Setup(t => t.amount).Use<RandomIntegerSource>(250)
-                    .Setup(t => t.User).Use<RandomListSource<User>>(_qyfe.Users)
-                    .Setup(t => t.Question).Use<RandomListSource<Question>>(_qyfe.Questions)
-                    .Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
-                    .Setup(t => t.type).Use<RandomEnumSource<TransacType>>();
+                    .Setup(t => t.amount).Use<ValueSource<int>>(QyfData.EarningStartup)
+                    .Setup(t => t.status).Use<ValueSource<int>>(TransacStatus.Ok)
+                    .Setup(t => t.type).Use<ValueSource<int>>(TransacType.EarningStartup);
+                    //.Setup(t => t.amount).Use<RandomIntegerSource>(250)
+                    //.Setup(t => t.User).Use<RandomListSource<User>>(_qyfe.Users)
+                    //.Setup(t => t.Question).Use<RandomListSource<Question>>(_qyfe.Questions)
+                    //.Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
+                    //.Setup(t => t.type).Use<RandomEnumSource<TransacType>>();
 
                 // Impose user informations
                 x.AddFromAssemblyContainingType<User>();
@@ -144,7 +147,7 @@ namespace QuestionYourFriendsDataGen
         private static void AddData()
         {
             const int nbUser = 5;
-            const int nbTransac = 0;
+            const int nbTransac = 4;
             const int nbQuestion = 30;
             int i = 0;
 
@@ -188,13 +191,12 @@ namespace QuestionYourFriendsDataGen
             }
 
             // Add questions
+            int jrid = BusinessManagement.User.Get(FidJr).id;
+            int tonyid = BusinessManagement.User.Get(FidTony).id;
+            int antonyid = BusinessManagement.User.Get(FidAntony).id;
+            int victorid = BusinessManagement.User.Get(FidVictor).id;
             if (nbQuestion > 0)
             {
-                int jrid = BusinessManagement.User.Get(FidJr).id;
-                int tonyid = BusinessManagement.User.Get(FidTony).id;
-                int antonyid = BusinessManagement.User.Get(FidAntony).id;
-                int victorid = BusinessManagement.User.Get(FidVictor).id;
-
                 Console.Write(@"      - Questions");
                 var questions = _session.List<Question>(nbQuestion)
                     .First(nbQuestion/2)
@@ -258,11 +260,16 @@ namespace QuestionYourFriendsDataGen
             {
                 Console.Write(@"      - Transacs");
                 var transacs = _session.List<Transac>(nbTransac)
-                    .First(nbTransac/2)
-                    .Impose(t => t.questionId, null)
-                    .Impose(t => t.Question, null)
+                    .First(1)
+                        .Impose(u => u.userId, tonyid)
+                    .Next(1)
+                        .Impose(u => u.userId, jrid)
+                    .Next(1)
+                        .Impose(u => u.userId, antonyid)
+                    .Next(1)
+                        .Impose(u => u.userId, victorid)
                     .All()
-                    .Get();
+                        .Get();
                 Console.Write(@".");
                 i = 0;
                 foreach (var transac in transacs)
@@ -275,6 +282,16 @@ namespace QuestionYourFriendsDataGen
                 _logger.InfoFormat(string.Format("  - {0} transactions generated.", i));
                 Console.WriteLine(string.Format(". {0} transactions generated.", i));
             }
+
+            // Recalculate amounts
+            Console.Write(@"      - Update users..");
+            var us = _qyfe.Users;
+            foreach (var user in us)
+                BusinessManagement.User.UpdateMoney(user.id);
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.Info("  - Users updated.");
+            Console.WriteLine(@". Users updated.");
         }
     }
 }
