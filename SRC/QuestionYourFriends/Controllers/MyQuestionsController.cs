@@ -39,8 +39,7 @@ namespace QuestionYourFriends.Controllers
             int qid = int.Parse(qidstring);
             QuestionYourFriendsDataAccess.Question q =  Question.Get(qid);
             q.answer = answer;
-            DateTime timeNow = DateTime.Now;
-            q.date_answer = timeNow;
+            q.date_answer = DateTime.Now;
             Question.Update(q);
             return RedirectToAction("Index", "MyQuestions");
         }
@@ -73,13 +72,7 @@ namespace QuestionYourFriends.Controllers
             dynamic uid = Session["uid"];
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
-            if (user.credit_amount > question.anom_price)
-            {
-                user.credit_amount -= question.anom_price;
-                question.anom_price = 0;
-                Question.Update(question);
-                Models.User.Update(user);
-            }
+            Transac.DesanonymizeQuestion(question, user);
             return RedirectToAction("Index", "MyQuestions");
         }
 
@@ -90,15 +83,13 @@ namespace QuestionYourFriends.Controllers
         public ActionResult ToPublic(int qid)
         {
             dynamic uid = Session["uid"];
+
+            if (uid == null)
+                return RedirectToAction("Index", "Home");
+
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
-            if (user.credit_amount > question.private_price)
-            {
-                user.credit_amount -= question.private_price;
-                question.private_price = 0;
-                Question.Update(question);
-                Models.User.Update(user);
-            }
+            Transac.DeprivatizeQuestion(question, user);
             return RedirectToAction("Index", "MyQuestions");
         }
     }

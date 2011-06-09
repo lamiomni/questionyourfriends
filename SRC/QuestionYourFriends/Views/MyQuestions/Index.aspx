@@ -85,7 +85,7 @@
                         <div class="question-sentence"><%:i.text%></div>
                         <div class="answer-bloc">
                             <% if (i.anom_price == 0) {%>
-                                <img src="http://graph.facebook.com/<%:i.Owner.fid %>/picture" height="33" width="33" alt=""/>
+                                <img src="http://graph.facebook.com/<%:i.Receiver.fid %>/picture" height="33" width="33" alt=""/>
                             <% } else { %>
                                 <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="33" width="33" alt=""/>
                             <%} %> 
