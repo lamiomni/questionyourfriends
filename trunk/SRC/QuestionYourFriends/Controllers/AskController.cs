@@ -91,6 +91,16 @@ namespace QuestionYourFriends.Controllers
                     Transac.SpendAndQuestion(q, me);
                 }
                 ViewData["Info"] = "Your question has been sent successfully.";
+                // Publication sur facebook
+                try
+                {
+                    if (annonCost == 0)
+                        QuestionYourFriends.Models.Facebook.Publish(ffid, askedQuestion, "http://www.pierreferrari2011.com/wp-content/uploads/2011/01/question-mark.jpg");
+                }
+                catch (Facebook.FacebookApiException e)
+                {
+
+                }
             }
             catch (ApplicationException e)
             {
