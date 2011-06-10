@@ -47,14 +47,20 @@
       var img_url = document.getElementById('img_el').value;
       var product_url = document.getElementById('product_el').value;
 
-      var order_info = 'abc123';
 
       // calling the API ...
+      var order_info = { "title": title,
+          "description": "fezfze",
+          "price": "1",
+          "image_url": "http://www.facebook.com/images/gifts/21.png",
+          "product_url": "http://www.facebook.com/images/gifts/21.png"
+      };
+
       var obj = {
-        method: 'pay',
-        order_info: order_info,
-        purchase_type: 'item'
-    };
+          method: 'pay',
+          order_info: order_info,
+          purchase_type: 'item'
+      };
 
       FB.ui(obj, callback);
     }
