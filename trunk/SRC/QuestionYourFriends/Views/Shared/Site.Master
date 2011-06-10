@@ -73,6 +73,13 @@
         </div>
 
         <div id="main">
+        <%if (ViewData.ContainsKey("Error"))
+          {%>
+            <div class="fberrorbox">
+                <%:ViewData["Error"]%>
+            </div> 
+            <%
+          }%>
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
 
             <div id="footer">
