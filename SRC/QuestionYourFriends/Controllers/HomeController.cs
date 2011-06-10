@@ -51,7 +51,7 @@ namespace QuestionYourFriends.Controllers
         public ActionResult Clear()
         {
             RequestCache.Flush();
-            return RedirectToAction("Index", "MyQuestions");
+            return View("Index");
         }
     }
 }

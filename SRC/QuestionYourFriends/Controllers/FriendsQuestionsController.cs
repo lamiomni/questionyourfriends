@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Web.Mvc;
@@ -22,32 +23,40 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            dynamic fid = Session["fid"];
-
-            if (fid == null)
-                return RedirectToAction("Index", "Home");
-
-            dynamic result = RequestCache.Get(fid + "user");
-            dynamic friends = RequestCache.Get(fid + "friends");
-            dynamic dict = RequestCache.Get(fid + "fid2uid");
-            dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
-
-            if (result == null || friends == null || dict == null || friendsDict == null)
-                return RedirectToAction("Index", "Home");
-             
-            ViewData["friends"] = friendsDict;
-            ViewData["Firstname"] = result.first_name;
-            ViewData["Lastname"] = result.last_name;
-            var friendsId = new List<int>();
-            foreach (var friend in friends.data)
+            try
             {
-                var id = long.Parse(friend.id);
-                if (dict.ContainsKey(id))
-                    friendsId.Add(dict[id]);
-            }
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
-            var questions = Question.GetFriendsQuestions(friendsId.ToArray());
-            ViewData["questions"] = questions;
+                dynamic result = RequestCache.Get(fid + "user");
+                dynamic friends = RequestCache.Get(fid + "friends");
+                dynamic dict = RequestCache.Get(fid + "fid2uid");
+                dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
+
+                if (result == null || friends == null || dict == null || friendsDict == null)
+                    return RedirectToAction("Index", "Home");
+
+                ViewData["friends"] = friendsDict;
+                ViewData["Firstname"] = result.first_name;
+                ViewData["Lastname"] = result.last_name;
+                var friendsId = new List<int>();
+                foreach (var friend in friends.data)
+                {
+                    var id = long.Parse(friend.id);
+                    if (dict.ContainsKey(id))
+                        friendsId.Add(dict[id]);
+                }
+
+                var questions = Question.GetFriendsQuestions(friendsId.ToArray());
+                ViewData["questions"] = questions;
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View();
         }
 
@@ -57,16 +66,25 @@ namespace QuestionYourFriends.Controllers
         /// <param name="qid">Question id</param>
         public ActionResult Reveal(int qid)
         {
-            dynamic uid = Session["uid"];
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
-            if (uid == null)
-                return RedirectToAction("Index", "Home");
-            
-            var question = Question.Get(qid);
-            var user = Models.User.Get(uid);
+                var question = Question.Get(qid);
+                var user = Models.User.Get(uid);
 
-            Transac.DesanonymizeQuestion(question, user);
-            Debug.WriteLine("Reveal called qid: " + qid);
+                Transac.DesanonymizeQuestion(question, user);
+                ViewData["Info"] = "The user has been successfully revealed.";
+                Debug.WriteLine("Reveal called qid: " + qid);
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
     }

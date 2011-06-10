@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -50,8 +49,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new question", ex);
-                Debug.WriteLine(ex);
-                return -1;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -72,8 +70,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new question", ex);
-                Debug.WriteLine(ex);
-                return -1;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -100,8 +97,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
-                Debug.WriteLine(ex);
-                throw new ApplicationException("Database error.");
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -128,8 +124,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -166,8 +161,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update a question", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -186,8 +180,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get a question", ex);
-                Debug.WriteLine(ex);
-                return null;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -205,8 +198,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.Question>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -226,7 +218,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver").
-                    Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false)
+                    Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)
                     .OrderBy(x => x.date_pub).ToList();
                 res.Reverse();
                 return res;
@@ -234,8 +226,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.Question>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
         
@@ -251,7 +242,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver")
-                    .Where(x => friends.Contains(x.id_receiver) && x.deleted == false && x.undesirable == false && x.private_price == 0)
+                    .Where(x => friends.Contains(x.id_receiver) && x.deleted == false && x.undesirable == false && x.private_price == 0 && x.date_pub < DateTime.Now)
                     .OrderBy(x => x.date_pub).ToList();
                 res.Reverse();
                 return res;
@@ -259,8 +250,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.Question>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -276,7 +266,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver")
-                    .Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false)
+                    .Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)
                     .OrderBy(x => x.date_pub).ToList();
                 res.Reverse();
                 return res;
@@ -284,8 +274,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get questions", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.Question>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
