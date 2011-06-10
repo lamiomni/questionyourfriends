@@ -224,7 +224,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false).OrderBy(x => x.date_pub).ToList();
+                var res = qyfEntities.Questions
+                    .Include("Owner").Include("Receiver").
+                    Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false)
+                    .OrderBy(x => x.date_pub).ToList();
+                res.Reverse();
+                return res;
             }
             catch (Exception ex)
             {
@@ -244,9 +249,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => friends.Contains(x.id_receiver)).ToList();
-                // Where(x => x.private_price == 0)
-                // Where(x => friends.Contains(x.id_receiver))
+                var res = qyfEntities.Questions
+                    .Include("Owner").Include("Receiver")
+                    .Where(x => friends.Contains(x.id_receiver) && x.deleted == false && x.undesirable == false && x.private_price == 0)
+                    .OrderBy(x => x.date_pub).ToList();
+                res.Reverse();
+                return res;
             }
             catch (Exception ex)
             {
@@ -266,7 +274,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false).OrderBy(x => x.date_pub).ToList();
+                var res = qyfEntities.Questions
+                    .Include("Owner").Include("Receiver")
+                    .Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false)
+                    .OrderBy(x => x.date_pub).ToList();
+                res.Reverse();
+                return res;
             }
             catch (Exception ex)
             {

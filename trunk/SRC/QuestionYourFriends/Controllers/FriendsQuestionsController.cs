@@ -63,7 +63,7 @@ namespace QuestionYourFriends.Controllers
 
             Transac.DesanonymizeQuestion(question, user);
             Debug.WriteLine("Reveal called qid: " + qid);
-            return RedirectToAction("Index", "FriendsQuestions");
+            return View("Index");
         }
     }
 }

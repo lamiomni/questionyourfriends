@@ -148,7 +148,7 @@ namespace QuestionYourFriendsDataGen
         {
             const int nbUser = 5;
             const int nbTransac = 4;
-            const int nbQuestion = 30;
+            const int nbQuestion = 50;
             int i = 0;
 
 
@@ -199,9 +199,15 @@ namespace QuestionYourFriendsDataGen
             {
                 Console.Write(@"      - Questions");
                 var questions = _session.List<Question>(nbQuestion)
-                    .First(nbQuestion/2)
+                    .First(nbQuestion/4)
                         .Impose(q => q.date_answer, DateTime.Now)
-                    .Next(nbQuestion/2 - 6)
+                    .Next(nbQuestion / 4)
+                        .Impose(q => q.date_answer, DateTime.Now)
+                        .Impose(q => q.anom_price, 0)
+                    .Next(nbQuestion / 4)
+                        .Impose(q => q.date_answer, DateTime.Now)
+                        .Impose(q => q.private_price, 0)
+                    .Next(nbQuestion/4 - 6)
                         .Impose(q => q.answer, null)
                     .Next(1)
                         .Impose(q => q.id_owner, jrid)
