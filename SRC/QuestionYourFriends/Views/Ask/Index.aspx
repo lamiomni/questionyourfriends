@@ -18,10 +18,10 @@
                     label='Accept' >
                 <fb:friend-selector name="uid" idname="friend_sel" />
                 <fb:editor-textarea name="ask" />
-                <label for="annon_cost">Mise annonymisation</label>
-                <input type="text" name="annon_cost" id="annon_cost"/>
-                <label for="private_cost">Mise privatisation</label>
-                <input type="text" name="private_cost" id="private_cost"/>
+                <label for="annon_cost">Anonymize price</label>
+                <input type="text" name="annon_cost" id="annon_cost" value="0"/>
+                <label for="private_cost">Privatize price</label>
+                <input type="text" name="private_cost" id="private_cost" value="0"/>
                 <fb:submit >Poser</fb:submit>
             </fb:request-form>
       </fb:fbml>

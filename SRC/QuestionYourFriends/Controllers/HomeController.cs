@@ -25,6 +25,11 @@ namespace QuestionYourFriends.Controllers
                 Session["fid"] = fid;
                 QuestionYourFriendsDataAccess.User u = Models.User.Get(fid);
                 Session["uid"] = u == null ? Models.User.Create(fid) : u.id;
+                if (u == null)
+                {
+                    u = Models.User.Get(fid);
+                    Models.Transac.EarningStartup(u);
+                }
 
                 RequestCache.Add(fid + "user", currentUser);
                 RequestCache.Add(fid + "friends", Models.Facebook.GetUserFriends());
