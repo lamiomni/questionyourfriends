@@ -101,7 +101,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 _logger.Error("Cannot update a question", ex);
                 Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("Database error.");
             }
         }
 

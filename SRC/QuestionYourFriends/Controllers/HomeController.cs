@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Web.Mvc;
 using Facebook.Web.Mvc;
+using log4net;
 using QuestionYourFriends.Caching;
 
 namespace QuestionYourFriends.Controllers
@@ -11,6 +13,8 @@ namespace QuestionYourFriends.Controllers
     [HandleError]
     public class HomeController : Controller
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// GET: /Home/
         /// </summary>

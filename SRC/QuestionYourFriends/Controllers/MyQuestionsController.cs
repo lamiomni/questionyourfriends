@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Reflection;
+using System.Web.Mvc;
 using System.Collections.Generic;
+using log4net;
 using QuestionYourFriends.Models;
 using Facebook.Web.Mvc;
 using System;
@@ -12,6 +14,8 @@ namespace QuestionYourFriends.Controllers
     [HandleError]
     public class MyQuestionsController : Controller
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
