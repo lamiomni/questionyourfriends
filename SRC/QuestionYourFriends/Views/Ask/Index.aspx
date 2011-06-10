@@ -4,15 +4,8 @@
     Page d'accueil
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%:ViewData["Message"]%></h2>
-    <p>
-    
-        Ask!
-        
-    Hello World, <%:ViewData["Firstname"]%> <%:ViewData["Lastname"]%>
-    </p>
-   
-    <fb:serverFbml  width="300px" >
+<div style="text-align:center;margin:auto;margin-top:30px">
+    <fb:serverFbml  width="300px"  >
     <script type="text/fbml">
         <fb:fbml>
             <fb:request-form
@@ -34,4 +27,5 @@
       </fb:fbml>
     </script>
   </fb:serverFbml>
+  </div>
 </asp:Content>

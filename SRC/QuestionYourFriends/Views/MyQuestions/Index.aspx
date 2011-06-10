@@ -5,6 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div style="width:100%;margin-bottom:40px;">
+    </div>
     <ul id="boxes">
     <%
         var received = (ViewData["tab"].ToString() == "toMe") ? "class=actif" : "";
