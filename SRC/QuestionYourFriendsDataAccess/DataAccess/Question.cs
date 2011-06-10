@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -45,7 +47,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 question.date_answer = null;
                 question.deleted = false;
                 qyfEntities.Questions.AddObject(question);
-                qyfEntities.SaveChanges();
+                try
+                {
+                    qyfEntities.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException e)
+                {
+                    _logger.Error("Concurrency error:", e);
+
+                    // Resolve the concurrency conflict by refreshing the 
+                    // object context before re-saving changes. 
+                    qyfEntities.Refresh(RefreshMode.ClientWins, question);
+
+                    // Save changes.
+                    qyfEntities.SaveChanges();
+                }
                 _logger.InfoFormat("New question id: {0}", question.id);
                 return question.id;
             }
@@ -69,7 +85,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 _logger.InfoFormat("New question creation: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
                     q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                 qyfEntities.Questions.AddObject(q);
-                qyfEntities.SaveChanges();
+                try
+                {
+                    qyfEntities.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException e)
+                {
+                    _logger.Error("Concurrency error:", e);
+
+                    // Resolve the concurrency conflict by refreshing the 
+                    // object context before re-saving changes. 
+                    qyfEntities.Refresh(RefreshMode.ClientWins, q);
+
+                    // Save changes.
+                    qyfEntities.SaveChanges();
+                }
                 _logger.InfoFormat("New question id: {0}", q.id);
                 return q.id;
             }
@@ -96,7 +126,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 {
                     _logger.InfoFormat("Question deletion: id({0})", id);
                     questionFound.deleted = true;
-                    qyfEntities.SaveChanges();
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
+
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, questionFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -125,7 +169,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     _logger.InfoFormat("Question deletion: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
                            q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                     questionFound.deleted = true;
-                    qyfEntities.SaveChanges();
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
+
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, questionFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -163,8 +221,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     questionFound.date_pub = q.date_pub;
                     questionFound.date_answer = q.date_answer;
                     questionFound.deleted = q.deleted;
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
 
-                    qyfEntities.SaveChanges();
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, questionFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
