@@ -9,6 +9,7 @@ namespace QuestionYourFriends.Controllers
     /// <summary>
     /// Home pages controller
     /// </summary>
+    [HandleError]
     public class HomeController : Controller
     {
         /// <summary>

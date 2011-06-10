@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using QuestionYourFriends.Caching;
 using QuestionYourFriends.Models;
 
@@ -7,6 +8,7 @@ namespace QuestionYourFriends.Controllers
     /// <summary>
     /// Ask pages controller
     /// </summary>
+    [HandleError]
     public class AskController : Controller
     {
         /// <summary>

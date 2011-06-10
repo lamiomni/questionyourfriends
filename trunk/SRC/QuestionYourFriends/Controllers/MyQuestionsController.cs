@@ -9,6 +9,7 @@ namespace QuestionYourFriends.Controllers
     /// <summary>
     /// My quesions pages controller
     /// </summary>
+    [HandleError]
     public class MyQuestionsController : Controller
     {
         /// <summary>
