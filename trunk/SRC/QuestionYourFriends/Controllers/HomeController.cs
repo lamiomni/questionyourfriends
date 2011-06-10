@@ -49,11 +49,12 @@ namespace QuestionYourFriends.Controllers
             }
             return RedirectToAction("Index", "MyQuestions");
         }
-
+#if DEBUG
         public ActionResult Clear()
         {
             RequestCache.Flush();
             return View("Index");
         }
+#endif
     }
 }

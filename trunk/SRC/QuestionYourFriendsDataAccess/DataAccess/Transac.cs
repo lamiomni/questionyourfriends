@@ -29,6 +29,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("New transaction creation: amount({0}), userId({1}), type({2})", amount, userId, type);
                 QuestionYourFriendsDataAccess.Transac transac = qyfEntities.Transacs.CreateObject();
                 transac.amount = amount;
                 transac.userId = userId;
@@ -37,11 +38,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 transac.questionId = questionId;
                 qyfEntities.Transacs.AddObject(transac);
                 qyfEntities.SaveChanges();
+                _logger.InfoFormat("New transaction id: {0}", transac.id);
                 return transac.id;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot create a new transac", ex);
+                _logger.Error("Cannot create a new transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -50,19 +52,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// Adds a transaction
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
-        /// <param name="transac">Transaction to add</param>
+        /// <param name="t">Transaction to add</param>
         /// <returns>Id of the created transaction</returns>
-        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac transac)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Transac t)
         {
             try
             {
-                qyfEntities.Transacs.AddObject(transac);
+                _logger.InfoFormat("New transaction creation: amount({0}), userId({1}), type({2})", t.amount, t.userId, t.type);
+                qyfEntities.Transacs.AddObject(t);
                 qyfEntities.SaveChanges();
-                return transac.id;
+                _logger.InfoFormat("New transaction id: {0}", t.id);
+                return t.id;
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot create a new transac", ex);
+                _logger.Error("Cannot create a new transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -81,6 +85,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Transacs.Where(x => x.id == id).FirstOrDefault();
                 if (transacFound != null)
                 {
+                    _logger.InfoFormat("Transaction deletion: amount({0}), userId({1}), type({2})",
+                        transacFound.amount, transacFound.userId, transacFound.type);
                     transacFound.status = 0;
                     qyfEntities.SaveChanges();
                     return true;
@@ -89,7 +95,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update a question", ex);
+                _logger.Error("Cannot update a transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -108,6 +114,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Transacs.Where(x => x.id == t.id).FirstOrDefault();
                 if (transacFound != null)
                 {
+                    _logger.InfoFormat("Transaction deletion: amount({0}), userId({1}), type({2})",
+                        transacFound.amount, transacFound.userId, transacFound.type);
                     transacFound.status = 0;
                     qyfEntities.SaveChanges();
                     return true;
@@ -116,7 +124,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update a question", ex);
+                _logger.Error("Cannot update a transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -135,6 +143,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Transacs.Where(x => x.id == transac.id).FirstOrDefault();
                 if (transacFound != null)
                 {
+                    _logger.InfoFormat("Transaction update: amount({0}), userId({1}), type({2})",
+                        transacFound.amount, transacFound.userId, transacFound.type);
                     transacFound.amount = transac.amount;
                     transacFound.status = transac.status;
                     transacFound.userId = transac.userId;
@@ -148,7 +158,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update a transac", ex);
+                _logger.Error("Cannot update a transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -163,12 +173,13 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Get transaction: id({0})", id);
                 return qyfEntities.Transacs.Include("Question").Include("User")
                     .Where(x => x.id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot get a transac", ex);
+                _logger.Error("Cannot get a transaction", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -182,11 +193,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.Info("Get transactions");
                 return qyfEntities.Transacs.Include("Question").Include("User").ToList();
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot get transacs", ex);
+                _logger.Error("Cannot get transactions", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }

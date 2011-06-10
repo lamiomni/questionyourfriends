@@ -25,12 +25,14 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("New user creation: fid({0})", fid);
                 QuestionYourFriendsDataAccess.User user = qyfEntities.Users.CreateObject();
                 user.fid = fid;
                 user.activated = true;
                 user.credit_amount = 0;
                 qyfEntities.Users.AddObject(user);
                 qyfEntities.SaveChanges();
+                _logger.InfoFormat("New user id: {0}", user.id);
                 return user.id;
             }
             catch (Exception ex)
@@ -50,8 +52,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("New user creation: fid({0})", user.fid);
                 qyfEntities.Users.AddObject(user);
                 qyfEntities.SaveChanges();
+                _logger.InfoFormat("New user id: {0}", user.id);
                 return user.id;
             }
             catch (Exception ex)
@@ -75,7 +79,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Users.Where(x => x.fid == fid).FirstOrDefault();
                 if (userFound != null)
                 {
-                    userFound.activated = true;
+                    _logger.InfoFormat("User deletion: id ({0}), fid({1})", userFound.id, fid);
+                    userFound.activated = false;
                     qyfEntities.SaveChanges();
                     return true;
                 }
@@ -83,7 +88,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update an user", ex);
+                _logger.Error("Cannot delete an user", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -102,7 +107,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
                 if (userFound != null)
                 {
-                    userFound.activated = true;
+                    _logger.InfoFormat("User deletion: id ({0}), fid({1})", id, userFound.fid);
+                    userFound.activated = false;
                     qyfEntities.SaveChanges();
                     return true;
                 }
@@ -110,7 +116,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update an user", ex);
+                _logger.Error("Cannot delete an user", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -129,7 +135,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     qyfEntities.Users.Where(x => x.id == u.id).FirstOrDefault();
                 if (userFound != null)
                 {
-                    userFound.activated = true;
+                    _logger.InfoFormat("User deletion: id ({0}), fid({1})", userFound.id, userFound.fid);
+                    userFound.activated = false;
                     qyfEntities.SaveChanges();
                     return true;
                 }
@@ -137,7 +144,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             }
             catch (Exception ex)
             {
-                _logger.Error("Cannot update an user", ex);
+                _logger.Error("Cannot delete an user", ex);
                 throw new ApplicationException("A database error occured during the operation.");
             }
         }
@@ -146,19 +153,20 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// Updates an user
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
-        /// <param name="user">User to update</param>
+        /// <param name="u">User to update</param>
         /// <returns>True if the update is ok</returns>
-        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User user)
+        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.User u)
         {
             try
             {
                 QuestionYourFriendsDataAccess.User userFound =
-                    qyfEntities.Users.Where(x => x.id == user.id).FirstOrDefault();
+                    qyfEntities.Users.Where(x => x.id == u.id).FirstOrDefault();
                 if (userFound != null)
                 {
-                    userFound.fid = user.fid;
-                    userFound.credit_amount = user.credit_amount;
-                    userFound.activated = user.activated;
+                    _logger.InfoFormat("User update: id({0}), fid({1}), credit({2}), activ({3})", u.id, u.fid, u.credit_amount, u.activated);
+                    userFound.fid = u.fid;
+                    userFound.credit_amount = u.credit_amount;
+                    userFound.activated = u.activated;
 
                     qyfEntities.SaveChanges();
                     return true;
@@ -182,6 +190,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Get user: id({0})", id);
                 return qyfEntities.Users.Where(x => x.id == id).FirstOrDefault();
             }
             catch (Exception ex)
@@ -201,6 +210,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Get user: fid({0})", fid);
                 return qyfEntities.Users
                     .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
                     .Where(x => x.fid == fid).FirstOrDefault();
@@ -221,6 +231,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.Info("Get users");
                 return qyfEntities.Users
                     .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
                     .ToList();
@@ -246,6 +257,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.Info("Get users from fid");
                 return qyfEntities.Users
                     .Include("QuestionsToMe").Include("MyQuestions").Include("Transacs")
                     .Where(x => fids.Contains(x.fid)).ToList();
@@ -267,6 +279,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Update money of user: id({0})", id);
                 var user = qyfEntities.Users.Where(u => u.id == id).FirstOrDefault();
                 if (user == null)
                     return false;
