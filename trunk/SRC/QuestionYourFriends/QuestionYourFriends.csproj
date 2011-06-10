@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\CreditsController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Facebook.cs" />
     <Compile Include="Models\Question.cs" />
@@ -131,6 +132,7 @@
     <Content Include="Views\Credits\Index.aspx" />
     <Content Include="Views\FriendsQuestions\Index.aspx" />
     <Content Include="Views\MyQuestions\Index.aspx" />
+    <Content Include="Views\Question\Index.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
