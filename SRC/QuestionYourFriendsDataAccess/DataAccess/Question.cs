@@ -90,11 +90,11 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                _logger.InfoFormat("Question deletion: id({0})", id);
                 QuestionYourFriendsDataAccess.Question questionFound =
                     qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault();
                 if (questionFound != null)
                 {
+                    _logger.InfoFormat("Question deletion: id({0})", id);
                     questionFound.deleted = true;
                     qyfEntities.SaveChanges();
                     return true;
@@ -118,12 +118,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                _logger.InfoFormat("Question deletion: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
-                       q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                 QuestionYourFriendsDataAccess.Question questionFound =
                     qyfEntities.Questions.Where(x => x.id == q.id).FirstOrDefault();
                 if (questionFound != null)
                 {
+                    _logger.InfoFormat("Question deletion: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
+                           q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                     questionFound.deleted = true;
                     qyfEntities.SaveChanges();
                     return true;
@@ -141,26 +141,28 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// Updates a question
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
-        /// <param name="question">Question to update</param>
+        /// <param name="q">Question to update</param>
         /// <returns>True if the update is ok</returns>
-        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
+        public static bool Update(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question q)
         {
             try
             {
                 QuestionYourFriendsDataAccess.Question questionFound =
-                    qyfEntities.Questions.Where(x => x.id == question.id).FirstOrDefault();
+                    qyfEntities.Questions.Where(x => x.id == q.id).FirstOrDefault();
                 if (questionFound != null)
                 {
-                    questionFound.id_owner = question.id_owner;
-                    questionFound.id_receiver = question.id_receiver;
-                    questionFound.text = question.text;
-                    questionFound.answer = question.answer;
-                    questionFound.anom_price = question.anom_price;
-                    questionFound.private_price = question.private_price;
-                    questionFound.undesirable = question.undesirable;
-                    questionFound.date_pub = question.date_pub;
-                    questionFound.date_answer = question.date_answer;
-                    questionFound.deleted = question.deleted;
+                    _logger.InfoFormat("Question update: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
+                              q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
+                    questionFound.id_owner = q.id_owner;
+                    questionFound.id_receiver = q.id_receiver;
+                    questionFound.text = q.text;
+                    questionFound.answer = q.answer;
+                    questionFound.anom_price = q.anom_price;
+                    questionFound.private_price = q.private_price;
+                    questionFound.undesirable = q.undesirable;
+                    questionFound.date_pub = q.date_pub;
+                    questionFound.date_answer = q.date_answer;
+                    questionFound.deleted = q.deleted;
 
                     qyfEntities.SaveChanges();
                     return true;
@@ -184,7 +186,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return  qyfEntities.Questions.Include("Owner").Include("Receiver").Where(x => x.id == id).FirstOrDefault();
+                _logger.InfoFormat("Get question: id({0})", id);
+                return qyfEntities.Questions
+                    .Include("Owner").Include("Receiver")
+                    .Where(x => x.id == id).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -202,7 +207,10 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
-                return qyfEntities.Questions.Include("Owner").Include("Receiver").ToList();
+                _logger.Info("Get questions");
+                return qyfEntities.Questions
+                    .Include("Owner").Include("Receiver")
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -225,6 +233,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Get my questions: id({0})", id);
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver").
                     Where(x => x.id_receiver == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)
@@ -249,6 +258,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.Info("Get friends questions");
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver")
                     .Where(x => friends.Contains(x.id_receiver) && x.deleted == false && x.undesirable == false && x.private_price == 0 && x.date_pub < DateTime.Now)
@@ -273,6 +283,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Get questions to me: id({0})", id);
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver")
                     .Where(x => x.id_owner == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)

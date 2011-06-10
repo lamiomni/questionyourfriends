@@ -48,6 +48,7 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View();
         }
@@ -112,20 +113,22 @@ namespace QuestionYourFriends.Controllers
                     Transac.SpendAndQuestion(q, me);
                 }
                 ViewData["Info"] = "Your question has been sent successfully.";
-                // Publication sur facebook
+
+                // Publication sur Fb
                 try
                 {
                     if (annonCost == 0)
-                        QuestionYourFriends.Models.Facebook.Publish(ffid, askedQuestion, "http://www.pierreferrari2011.com/wp-content/uploads/2011/01/question-mark.jpg");
+                        Models.Facebook.Publish(ffid, askedQuestion, "http://www.pierreferrari2011.com/wp-content/uploads/2011/01/question-mark.jpg");
                 }
                 catch (Facebook.FacebookApiException e)
                 {
-
+                    _logger.Error(e.Message);
                 }
             }
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View("Index");
         }

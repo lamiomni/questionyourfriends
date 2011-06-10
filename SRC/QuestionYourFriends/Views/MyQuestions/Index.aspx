@@ -9,8 +9,8 @@
     </div>
     <ul id="boxes">
     <%
-        var received = (ViewData["tab"].ToString() == "toMe") ? "class=actif" : "";
-        var sent = (ViewData["tab"].ToString() == "fromMe") ? "class=actif" : "";
+        var received = ((string) ViewData["tab"] == "toMe") ? "class=actif" : "";
+        var sent = ((string) ViewData["tab"] == "fromMe") ? "class=actif" : "";
     %>
         <li <%:received %>><%:Html.ActionLink("Questions received", "ToMe", "MyQuestions")%></li>
         <li <%:sent %>><%:Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>

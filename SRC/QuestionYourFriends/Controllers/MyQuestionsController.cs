@@ -52,7 +52,10 @@ namespace QuestionYourFriends.Controllers
             }
             catch (ApplicationException e)
             {
+                ViewData["questions"] = new List<QuestionYourFriendsDataAccess.Question>();
+                ViewData["tab"] = "toMe";
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View("Index");
         }
@@ -86,7 +89,10 @@ namespace QuestionYourFriends.Controllers
             }
             catch (ApplicationException e)
             {
+                ViewData["questions"] = new List<QuestionYourFriendsDataAccess.Question>();
+                ViewData["tab"] = "toMe";
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View("Index");
         }
@@ -129,8 +135,9 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -161,8 +168,9 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -192,8 +200,9 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -227,8 +236,9 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -262,8 +272,9 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

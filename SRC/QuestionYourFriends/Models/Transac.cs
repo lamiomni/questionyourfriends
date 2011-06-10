@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using log4net;
 using QuestionYourFriendsDataAccess;
@@ -120,8 +120,7 @@ namespace QuestionYourFriends.Models
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
@@ -155,8 +154,7 @@ namespace QuestionYourFriends.Models
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
@@ -189,8 +187,7 @@ namespace QuestionYourFriends.Models
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
                 
             // Creation of the transaction
@@ -223,12 +220,11 @@ namespace QuestionYourFriends.Models
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
-            check &= Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
+            check &= Create(-bid, user.id, TransacType.Deprivatize, question.id) != -1;
 
             // Update Question's price
             if (check)

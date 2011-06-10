@@ -1,18 +1,15 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
+using System.Reflection;
 using System.Web.Mvc;
+using log4net;
 
 namespace QuestionYourFriends.Controllers
 {
     public class QuestionController : Controller
     {
-        //
-        // GET: /Question/
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        // GET: /Question/
         public ActionResult Index()
         {
             string qidstring = Request.Params.Get("qid");
@@ -20,20 +17,18 @@ namespace QuestionYourFriends.Controllers
             try {
                 qid = int.Parse(qidstring);
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
                 qid = 0;
             }
             if (qid > 0)
             {
-                QuestionYourFriendsDataAccess.Question q = QuestionYourFriends.Models.Question.Get(qid);
+                QuestionYourFriendsDataAccess.Question q = Models.Question.Get(qid);
                 ViewData["question"] = q;
                 return View();
             }
-            else
-            {
-                return RedirectToAction("Index", "MyQuestions");
-            }
-            
+            return RedirectToAction("Index", "MyQuestions");
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Web.Mvc;
 using log4net;
@@ -65,6 +64,7 @@ namespace QuestionYourFriends.Controllers
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View();
         }
@@ -97,11 +97,33 @@ namespace QuestionYourFriends.Controllers
                 var user = Models.User.Get(uid);
                 Transac.DesanonymizeQuestion(question, user);
                 ViewData["Info"] = "The user has been successfully revealed.";
-                Debug.WriteLine("Reveal called qid: " + qid);
+
+                // Fetch parameters
+                dynamic result = RequestCache.Get(fid + "user");
+                dynamic friends = RequestCache.Get(fid + "friends");
+                dynamic dict = RequestCache.Get(fid + "fid2uid");
+                dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
+                if (result == null || friends == null || dict == null || friendsDict == null)
+                    return RedirectToAction("Index", "Home");
+
+                // Compute data
+                ViewData["friends"] = friendsDict;
+                ViewData["Firstname"] = result.first_name;
+                ViewData["Lastname"] = result.last_name;
+                var friendsId = new List<int>();
+                foreach (var friend in friends.data)
+                {
+                    var id = long.Parse(friend.id);
+                    if (dict.ContainsKey(id))
+                        friendsId.Add(dict[id]);
+                }
+                var questions = Question.GetFriendsQuestions(friendsId.ToArray());
+                ViewData["questions"] = questions;
             }
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
             }
             return View("Index");
         }

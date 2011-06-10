@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using log4net;
 using QuestionYourFriendsDataAccess;
@@ -33,7 +33,7 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         /// <summary>
         /// Adds a transaction
         /// </summary>
-        /// <param name="amount">Amount of the transaction</param>
+        /// <param name="amount">Amount of the transaction, negative if it needs to be paid</param>
         /// <param name="userId">Id of the user</param>
         /// <param name="type">Type of the transaction</param>
         /// <param name="questionId">Id of the question</param>
@@ -111,22 +111,25 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
+
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Anonymize, question.id) != -1;
+            check = Create(-bid, user.id, TransacType.Anonymize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.anom_price = bid;
-            }
+
             return check;
         }
 
@@ -142,22 +145,25 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
+
             // Get the user and check his wallet
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
-            bool check = Create(bid, question.id_owner, TransacType.Privatize, question.id) != -1;
+            check = Create(-bid, question.id_owner, TransacType.Privatize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.private_price = bid;
-            }
+
             return check;
         }
 
@@ -171,24 +177,26 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            var bid = question.anom_price;
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
 
             // Get the user and check his wallet
+            var bid = question.anom_price;
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
                 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Desanonymize, question.id) != -1;
+            check = Create(-bid, user.id, TransacType.Desanonymize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.anom_price = 0;
-            }
+
             return check;
         }
 
@@ -202,24 +210,26 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            var bid = question.private_price;
+            bool check = question != null && user != null;
+
+            if (!check)
+                return false;
 
             // Get the user and check his wallet
+            var bid = question.private_price;
             if (user.credit_amount < bid)
             {
                 _logger.ErrorFormat("You are out of cash: {0} it costs: {1}", user.credit_amount, bid);
-                Debug.WriteLine(string.Format("You are out of cash: {0} it costs: {1}", user.credit_amount, bid));
-                return false;
+                throw new ApplicationException(string.Format("You run out of cash! It costs {1} credits but you have only {0} credit left!", user.credit_amount, bid));
             }
 
             // Creation of the transaction
-            bool check = Create(bid, user.id, TransacType.Deprivatize, question.id) != -1;
+            check &= Create(-bid, user.id, TransacType.Deprivatize, question.id) != -1;
 
+            // Update Question's price
             if (check)
-            {
-                // Update Question's price
                 question.private_price = 0;
-            }
+
             return check;
         }
 
@@ -272,11 +282,11 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            int transacId = Create(question.anom_price, user.id, TransacType.Anonymize, question.id);
+            int transacId = Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
             bool check = transacId != -1;
             if (check)
             {
-                transacId = Create(question.private_price, user.id, TransacType.Privatize, question.id);
+                transacId = Create(-question.private_price, user.id, TransacType.Privatize, question.id);
                 check &= transacId != -1;
             }
             else
