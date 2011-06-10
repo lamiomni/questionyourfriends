@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using log4net;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
@@ -20,12 +19,10 @@ namespace QuestionYourFriends.Caching
             try
             {
                 _cache = CacheFactory.GetCacheManager();
-                Debug.WriteLine("Cache initialized.");
                 _logger.Info("Cache initialized.");
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
                 _logger.Error("Cache initialisation failed:", e);
             }
         }
@@ -42,14 +39,13 @@ namespace QuestionYourFriends.Caching
                 dynamic res = _cache.GetData(key);
                 if (res != null)
                 {
-                    _logger.InfoFormat("Cache get success: {0}", key);
+                    _logger.DebugFormat("Cache get success: {0}", key);
                     return res;
                 }
                 throw new ApplicationException("GetData returns null.");
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
                 _logger.Error("Cache get failed: " + key, e);
                 return null;
             }
@@ -66,12 +62,11 @@ namespace QuestionYourFriends.Caching
             try
             {
                 _cache.Add(key, o, CacheItemPriority.Normal, null, new AbsoluteTime(new TimeSpan(0, 5, 0)));
-                _logger.InfoFormat("Cache add success: {0}", key);
+                _logger.DebugFormat("Cache add success: {0}", key);
                 return true;
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
                 _logger.Error("Cache add failed:", e);
                 return false;
             }
@@ -91,7 +86,6 @@ namespace QuestionYourFriends.Caching
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
                 _logger.Error("Cache flush failed:", e);
                 return false;
             }
