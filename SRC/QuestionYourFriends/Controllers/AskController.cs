@@ -26,11 +26,21 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
+
+                // Do work
                 dynamic user = RequestCache.Get(fid + "user");
                 if (user == null)
                     return RedirectToAction("Index", "Home");
-
                 ViewData["Firstname"] = user.first_name;
                 ViewData["Lastname"] = user.last_name;
                 ViewData["Message"] = "Bienvenue sur QuestionYourFriends !";
@@ -53,7 +63,18 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
+
+                // Fetch parameters
                 string askedFriend = Request.Params.Get("friend_sel");
                 string askedQuestion = Request.Params.Get("ask");
                 string privateCostQuestion = Request.Params.Get("private_cost");
@@ -62,7 +83,7 @@ namespace QuestionYourFriends.Controllers
                 int annonCost;
                 long ffid;
 
-                // Parameters checking
+                // Check parameters
                 if (!long.TryParse(askedFriend, out ffid))
                     throw new ApplicationException("Please select a friend.");
                 if (askedQuestion == null)

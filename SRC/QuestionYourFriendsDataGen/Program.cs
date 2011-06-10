@@ -66,11 +66,11 @@ namespace QuestionYourFriendsDataGen
                     .Setup(t => t.amount).Use<ValueSource<int>>(QyfData.EarningStartup)
                     .Setup(t => t.status).Use<ValueSource<int>>(TransacStatus.Ok)
                     .Setup(t => t.type).Use<ValueSource<int>>(TransacType.EarningStartup);
-                    //.Setup(t => t.amount).Use<RandomIntegerSource>(250)
-                    //.Setup(t => t.User).Use<RandomListSource<User>>(_qyfe.Users)
-                    //.Setup(t => t.Question).Use<RandomListSource<Question>>(_qyfe.Questions)
-                    //.Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
-                    //.Setup(t => t.type).Use<RandomEnumSource<TransacType>>();
+                //.Setup(t => t.amount).Use<RandomIntegerSource>(250)
+                //.Setup(t => t.User).Use<RandomListSource<User>>(_qyfe.Users)
+                //.Setup(t => t.Question).Use<RandomListSource<Question>>(_qyfe.Questions)
+                //.Setup(t => t.status).Use<RandomEnumSource<TransacStatus>>()
+                //.Setup(t => t.type).Use<RandomEnumSource<TransacType>>();
 
                 // Impose user informations
                 x.AddFromAssemblyContainingType<User>();
@@ -148,146 +148,120 @@ namespace QuestionYourFriendsDataGen
         {
             const int nbUser = 5;
             const int nbTransac = 4;
-            const int nbQuestion = 50;
+            const int nbQuestion = 64;
             int i = 0;
 
 
             // Add users
-            if (nbUser > 0)
+            Console.Write(@"      - Users");
+            var users = _session.List<User>(nbUser)
+                .First(1)
+                    .Impose(u => u.fid, 0)
+                    .Impose(u => u.login, "Question Your Friends")
+                .Next(1)
+                    .Impose(u => u.fid, FidJr)
+                    .Impose(u => u.login, "jr")
+                    .Impose(u => u.passwd, "jr")
+                .Next(1)
+                    .Impose(u => u.fid, FidVictor)
+                    .Impose(u => u.login, "vic")
+                    .Impose(u => u.passwd, "vic")
+                .Next(1)
+                    .Impose(u => u.fid, FidAntony)
+                    .Impose(u => u.login, "pricebuzz")
+                    .Impose(u => u.passwd, "pricebuzz")
+                .Next(1)
+                    .Impose(u => u.fid, FidTony)
+                    .Impose(u => u.login, "lamiomni")
+                    .Impose(u => u.passwd, "lamiomni")
+                .All()
+                    .Get();
+            Console.Write(@".");
+            foreach (var user in users)
             {
-                Console.Write(@"      - Users");
-                var users = _session.List<User>(nbUser)
-                    .First(1)
-                        .Impose(u => u.fid, 0)
-                        .Impose(u => u.login, "Question Your Friends")
-                    .Next(1)
-                        .Impose(u => u.fid, FidJr)
-                        .Impose(u => u.login, "jr")
-                        .Impose(u => u.passwd, "jr")
-                    .Next(1)
-                        .Impose(u => u.fid, FidVictor)
-                        .Impose(u => u.login, "vic")
-                        .Impose(u => u.passwd, "vic")
-                    .Next(1)
-                        .Impose(u => u.fid, FidAntony)
-                        .Impose(u => u.login, "pricebuzz")
-                        .Impose(u => u.passwd, "pricebuzz")
-                    .Next(1)
-                        .Impose(u => u.fid, FidTony)
-                        .Impose(u => u.login, "lamiomni")
-                        .Impose(u => u.passwd, "lamiomni")
-                    .All()
-                        .Get();
-                Console.Write(@".");
-                foreach (var user in users)
-                {
-                    _qyfe.Users.AddObject(user);
-                    i++;
-                }
-                Console.Write(@".");
-                _qyfe.SaveChanges();
-                _logger.InfoFormat(string.Format("  - {0} users generated.", i));
-                Console.WriteLine(string.Format(". {0} users generated.", i));
+                _qyfe.Users.AddObject(user);
+                i++;
             }
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} users generated.", i));
+            Console.WriteLine(string.Format(". {0} users generated.", i));
+
 
             // Add questions
+            Console.Write(@"      - Questions");
+            var questions = _session.List<Question>(nbQuestion)
+                .First(nbQuestion / 44)
+                    .Impose(q => q.date_answer, DateTime.Now)
+                    .Impose(q => q.anom_price, 0)
+                .Next(nbQuestion / 4)
+                    .Impose(q => q.date_answer, DateTime.Now)
+                    .Impose(q => q.private_price, 0)
+                .Next(nbQuestion / 4)
+                    .Impose(q => q.answer, null)
+                    .Impose(q => q.private_price, 0)
+                .Next(nbQuestion / 4)
+                    .Impose(q => q.answer, null)
+                    .Impose(q => q.anom_price, 0)
+                .All()
+                    .Get();
+            Console.Write(@".");
+            i = 0;
+            foreach (var question in questions)
+            {
+                _qyfe.Questions.AddObject(question);
+                i++;
+            }
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} questions generated.", i));
+            Console.WriteLine(string.Format(". {0} questions generated.", i));
+
+
+            // Anti-schizophrenia feature
+            Console.Write(@"      - Anti-schizophrenia check.");
+            var qs = _qyfe.Questions;
+            i = 0;
+            foreach (var question in qs.Where(question => question.id_owner == question.id_receiver))
+            {
+                _qyfe.Questions.DeleteObject(question);
+                i++;
+            }
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} questions deleted.", i));
+            Console.WriteLine(string.Format(". {0} questions deleted.", i));
+
+
+            // Add transactions
             int jrid = BusinessManagement.User.Get(FidJr).id;
             int tonyid = BusinessManagement.User.Get(FidTony).id;
             int antonyid = BusinessManagement.User.Get(FidAntony).id;
             int victorid = BusinessManagement.User.Get(FidVictor).id;
-            if (nbQuestion > 0)
+            Console.Write(@"      - Transacs");
+            var transacs = _session.List<Transac>(nbTransac)
+                .First(1)
+                    .Impose(u => u.userId, tonyid)
+                .Next(1)
+                    .Impose(u => u.userId, jrid)
+                .Next(1)
+                    .Impose(u => u.userId, antonyid)
+                .Next(1)
+                    .Impose(u => u.userId, victorid)
+                .All()
+                    .Get();
+            Console.Write(@".");
+            i = 0;
+            foreach (var transac in transacs)
             {
-                Console.Write(@"      - Questions");
-                var questions = _session.List<Question>(nbQuestion)
-                    .First(nbQuestion/4)
-                        .Impose(q => q.date_answer, DateTime.Now)
-                    .Next(nbQuestion / 4)
-                        .Impose(q => q.date_answer, DateTime.Now)
-                        .Impose(q => q.anom_price, 0)
-                    .Next(nbQuestion / 4)
-                        .Impose(q => q.date_answer, DateTime.Now)
-                        .Impose(q => q.private_price, 0)
-                    .Next(nbQuestion/4 - 6)
-                        .Impose(q => q.answer, null)
-                    .Next(1)
-                        .Impose(q => q.id_owner, jrid)
-                        .Impose(q => q.id_receiver, antonyid)
-                        .Impose(q => q.answer, null)
-                    .Next(1)
-                        .Impose(q => q.id_owner, jrid)
-                        .Impose(q => q.id_receiver, tonyid)
-                        .Impose(q => q.answer, null)
-                    .Next(1)
-                        .Impose(q => q.id_owner, jrid)
-                        .Impose(q => q.id_receiver, victorid)
-                    .Next(1)
-                        .Impose(q => q.id_owner, antonyid)
-                        .Impose(q => q.id_receiver, jrid)
-                        .Impose(q => q.answer, null)
-                    .Next(1)
-                        .Impose(q => q.id_owner, tonyid)
-                        .Impose(q => q.id_receiver, jrid)
-                        .Impose(q => q.answer, null)
-                    .Next(1)
-                        .Impose(q => q.id_owner, victorid)
-                        .Impose(q => q.id_receiver, jrid)
-                        .Impose(q => q.answer, null)
-                    .All()
-                        .Get();
-                Console.Write(@".");
-                i = 0;
-                foreach (var question in questions)
-                {
-                    _qyfe.Questions.AddObject(question);
-                    i++;
-                }
-                Console.Write(@".");
-                _qyfe.SaveChanges();
-                _logger.InfoFormat(string.Format("  - {0} questions generated.", i));
-                Console.WriteLine(string.Format(". {0} questions generated.", i));
-
-                // Anti-schizophrenia feature
-                Console.Write(@"      - Anti-schizophrenia check.");
-                var qs = _qyfe.Questions;
-                i = 0;
-                foreach (var question in qs.Where(question => question.id_owner == question.id_receiver))
-                {
-                    _qyfe.Questions.DeleteObject(question);
-                    i++;
-                }
-                Console.Write(@".");
-                _qyfe.SaveChanges();
-                _logger.InfoFormat(string.Format("  - {0} questions deleted.", i));
-                Console.WriteLine(string.Format(". {0} questions deleted.", i));
+                _qyfe.Transacs.AddObject(transac);
+                i++;
             }
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} transactions generated.", i));
+            Console.WriteLine(string.Format(". {0} transactions generated.", i));
 
-            // Add transactions
-            if (nbTransac > 0)
-            {
-                Console.Write(@"      - Transacs");
-                var transacs = _session.List<Transac>(nbTransac)
-                    .First(1)
-                        .Impose(u => u.userId, tonyid)
-                    .Next(1)
-                        .Impose(u => u.userId, jrid)
-                    .Next(1)
-                        .Impose(u => u.userId, antonyid)
-                    .Next(1)
-                        .Impose(u => u.userId, victorid)
-                    .All()
-                        .Get();
-                Console.Write(@".");
-                i = 0;
-                foreach (var transac in transacs)
-                {
-                    _qyfe.Transacs.AddObject(transac);
-                    i++;
-                }
-                Console.Write(@".");
-                _qyfe.SaveChanges();
-                _logger.InfoFormat(string.Format("  - {0} transactions generated.", i));
-                Console.WriteLine(string.Format(". {0} transactions generated.", i));
-            }
 
             // Recalculate amounts
             Console.Write(@"      - Update users..");

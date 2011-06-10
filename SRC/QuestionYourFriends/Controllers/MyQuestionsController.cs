@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using log4net;
 using QuestionYourFriends.Models;
-using Facebook.Web.Mvc;
 using System;
 
 namespace QuestionYourFriends.Controllers
@@ -35,7 +34,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 // Compute data
                 List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
@@ -60,7 +68,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 // Compute data
                 List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
@@ -85,7 +102,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 // Question update
                 string answer = Request.Params.Get("answer");
@@ -119,7 +145,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 Question.Delete(qid);
             }
@@ -141,7 +176,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 Request.Params.Set("answer", "qid");
             }
@@ -164,7 +208,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 // Compute data
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
@@ -190,7 +243,16 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
+
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
                 // Compute data
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);

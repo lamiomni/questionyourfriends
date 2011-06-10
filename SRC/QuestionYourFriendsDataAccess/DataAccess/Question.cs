@@ -31,6 +31,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("New question creation: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
+                    idOwner, idReceiver, text, anonPrice, privatePrice, datePub);
                 QuestionYourFriendsDataAccess.Question question = qyfEntities.Questions.CreateObject();
                 question.id_owner = idOwner;
                 question.id_receiver = idReceiver;
@@ -44,6 +46,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 question.deleted = false;
                 qyfEntities.Questions.AddObject(question);
                 qyfEntities.SaveChanges();
+                _logger.InfoFormat("New question id: {0}", question.id);
                 return question.id;
             }
             catch (Exception ex)
@@ -57,15 +60,18 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         /// Adds a question
         /// </summary>
         /// <param name="qyfEntities">Entity context</param>
-        /// <param name="question">Question to add</param>
+        /// <param name="q">Question to add</param>
         /// <returns>The id of the created Question</returns>
-        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question question)
+        public static int Create(QuestionYourFriendsEntities qyfEntities, QuestionYourFriendsDataAccess.Question q)
         {
             try
             {
-                qyfEntities.Questions.AddObject(question);
+                _logger.InfoFormat("New question creation: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
+                    q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
+                qyfEntities.Questions.AddObject(q);
                 qyfEntities.SaveChanges();
-                return question.id;
+                _logger.InfoFormat("New question id: {0}", q.id);
+                return q.id;
             }
             catch (Exception ex)
             {
@@ -84,6 +90,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Question deletion: id({0})", id);
                 QuestionYourFriendsDataAccess.Question questionFound =
                     qyfEntities.Questions.Where(x => x.id == id).FirstOrDefault();
                 if (questionFound != null)
@@ -111,6 +118,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
         {
             try
             {
+                _logger.InfoFormat("Question deletion: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
+                       q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                 QuestionYourFriendsDataAccess.Question questionFound =
                     qyfEntities.Questions.Where(x => x.id == q.id).FirstOrDefault();
                 if (questionFound != null)
