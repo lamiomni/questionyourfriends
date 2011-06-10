@@ -70,11 +70,21 @@
                     <%} %> 
                     <div class="question">
                         <input type="hidden" value="<%:i.id %>" name="qid"/>
+                        <fb:dialog id="my_dialog-reveal<%:i.id %>" cancel_button=1>
+                            <fb:dialog-title>Confirmation</fb:dialog-title>	
+                            <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
+                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>" /> 
+                        </fb:dialog>
+                        <fb:dialog id="my_dialog-topublic<%:i.id %>" cancel_button=1>
+                            <fb:dialog-title>Confirmation</fb:dialog-title>	
+                            <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
+                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>" /> 
+                        </fb:dialog>
                         <div class="question-status"><span class="name">
                          <% if (i.anom_price == 0) {%>
                                 <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
                            <% } else { %>
-                                 <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>">???</a>
+                                <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id %>">???</a>
                            <%} %> 
                         </span> asked you a 
                         <% if (i.private_price > 0) {%>
@@ -83,8 +93,8 @@
                                 <span class="privacy">public</span>
                         <% } %>
                         question.
-                        <% if (i.anom_price > 0) {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>">Reveal.</a><% } %>
-                        <% if (i.private_price > 0) {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id %>">Make public.</a> <% } %>
+                        <% if (i.anom_price > 0) {%> <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id %>">Reveal.</a><% } %>
+                        <% if (i.private_price > 0) {%> <a href="#" clicktoshowdialog="my_dialog-topublic<%:i.id %>">Make public.</a> <% } %>
                         </div>
                         <div class="question-sentence"><%:i.text%></div>
                         <div class="answer-bloc">
