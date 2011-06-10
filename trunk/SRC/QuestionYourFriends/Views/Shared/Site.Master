@@ -28,8 +28,14 @@
         
         <div id="header">
             <div id="logo">
-                <img src="Content/logo.png" />
+                
             </div>
+
+            <ul id="wallet">
+                <li>  
+                    <a href="javascript:alert('Not yet implemented')">My credits: <%: QuestionYourFriends.Models.User.Get((long)Session["fid"]).credit_amount %></a>
+                </li>
+            </ul>
              
             <ul id="menu">
                 <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "MyQuestions")
@@ -61,12 +67,8 @@
                       %><li><%
                   }    
                  %>
-                <%:Html.ActionLink("Ask a question", "Index", "Ask")%></li>
-                <li>
-                    <a>My credits: <%: QuestionYourFriends.Models.User.Get((long)Session["fid"]).credit_amount %></a>
-                </li>
-            </ul>
-            
+                 <%:Html.ActionLink("Ask a question", "Index", "Ask")%></li>
+            </ul>   
             
         </div>
 
