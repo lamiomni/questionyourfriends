@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -31,7 +33,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 user.activated = true;
                 user.credit_amount = 0;
                 qyfEntities.Users.AddObject(user);
-                qyfEntities.SaveChanges();
+                try
+                {
+                    qyfEntities.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException e)
+                {
+                    _logger.Error("Concurrency error:", e);
+
+                    // Resolve the concurrency conflict by refreshing the 
+                    // object context before re-saving changes. 
+                    qyfEntities.Refresh(RefreshMode.ClientWins, user);
+
+                    // Save changes.
+                    qyfEntities.SaveChanges();
+                }
                 _logger.InfoFormat("New user id: {0}", user.id);
                 return user.id;
             }
@@ -54,7 +70,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 _logger.InfoFormat("New user creation: fid({0})", user.fid);
                 qyfEntities.Users.AddObject(user);
-                qyfEntities.SaveChanges();
+                try
+                {
+                    qyfEntities.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException e)
+                {
+                    _logger.Error("Concurrency error:", e);
+
+                    // Resolve the concurrency conflict by refreshing the 
+                    // object context before re-saving changes. 
+                    qyfEntities.Refresh(RefreshMode.ClientWins, user);
+
+                    // Save changes.
+                    qyfEntities.SaveChanges();
+                }
                 _logger.InfoFormat("New user id: {0}", user.id);
                 return user.id;
             }
@@ -81,7 +111,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 {
                     _logger.InfoFormat("User deletion: id ({0}), fid({1})", userFound.id, fid);
                     userFound.activated = false;
-                    qyfEntities.SaveChanges();
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
+
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, userFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -109,7 +153,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 {
                     _logger.InfoFormat("User deletion: id ({0}), fid({1})", id, userFound.fid);
                     userFound.activated = false;
-                    qyfEntities.SaveChanges();
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
+
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, userFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -137,7 +195,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 {
                     _logger.InfoFormat("User deletion: id ({0}), fid({1})", userFound.id, userFound.fid);
                     userFound.activated = false;
-                    qyfEntities.SaveChanges();
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
+
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, userFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -167,8 +239,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     userFound.fid = u.fid;
                     userFound.credit_amount = u.credit_amount;
                     userFound.activated = u.activated;
+                    try
+                    {
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException e)
+                    {
+                        _logger.Error("Concurrency error:", e);
 
-                    qyfEntities.SaveChanges();
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, userFound);
+
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
                     return true;
                 }
                 return false;
@@ -287,7 +372,21 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     .Where(t => t.userId == id && t.status != (int)TransacStatus.Ko);
                 int sum = Enumerable.Sum(transacs, transac => transac.amount);
                 user.credit_amount = sum;
-                qyfEntities.SaveChanges();
+                try
+                {
+                    qyfEntities.SaveChanges();
+                }
+                catch (OptimisticConcurrencyException e)
+                {
+                    _logger.Error("Concurrency error:", e);
+
+                    // Resolve the concurrency conflict by refreshing the 
+                    // object context before re-saving changes. 
+                    qyfEntities.Refresh(RefreshMode.ClientWins, user);
+
+                    // Save changes.
+                    qyfEntities.SaveChanges();
+                }
                 return true;
             }
             catch (Exception ex)

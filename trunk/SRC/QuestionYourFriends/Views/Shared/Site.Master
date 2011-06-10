@@ -31,11 +31,15 @@
                 
             </div>
 
+            <%if (Session["fid"] != null)
+              {%>
             <ul id="wallet">
                 <li>  
-                    <a href="javascript:alert('Not yet implemented')">My credits: <%: QuestionYourFriends.Models.User.Get((long)Session["fid"]).credit_amount %></a>
+                    <a href="javascript:alert('Not yet implemented')" title="Add credits">My credits: <%:QuestionYourFriends.Models.User.Get((long) Session["fid"]).credit_amount%></a>
                 </li>
             </ul>
+            <%
+              }%>
              
             <ul id="menu">
                 <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "MyQuestions")

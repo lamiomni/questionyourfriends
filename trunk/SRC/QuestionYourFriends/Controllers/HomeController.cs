@@ -26,14 +26,19 @@ namespace QuestionYourFriends.Controllers
             {
                 dynamic currentUser = Models.Facebook.GetUserInfo();
                 fid = long.Parse(currentUser.id);
-                Session["fid"] = fid;
                 QuestionYourFriendsDataAccess.User u = Models.User.Get(fid);
-                Session["uid"] = u == null ? Models.User.Create(fid) : u.id;
                 if (u == null)
                 {
+                    Models.User.Create(fid);
                     u = Models.User.Get(fid);
                     Models.Transac.EarningStartup(u);
                 }
+
+                if (!u.activated)
+                    return View();
+
+                Session["fid"] = fid;
+                Session["uid"] = u.id;
 
                 RequestCache.Add(fid + "user", currentUser);
                 RequestCache.Add(fid + "friends", Models.Facebook.GetUserFriends());
@@ -49,6 +54,7 @@ namespace QuestionYourFriends.Controllers
             }
             return RedirectToAction("Index", "MyQuestions");
         }
+
 #if DEBUG
         public ActionResult Clear()
         {
