@@ -5,8 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
     <h2><%:ViewData["Message"]%></h2>
-    <ul>
     <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
         var friends = (Dictionary<long, dynamic>) ViewData["friends"];
@@ -15,38 +15,49 @@
             if(!friends.ContainsKey(question.Owner.fid))
                 continue;
 %>
-      <li>
-        <h2><%:question.text%></h2>
-
+       <div class="question-bloc">
+       <% if (question.anom_price > 0) {%>
+		    <img src="Content/annon.jpg" height="52" width="52" alt=""/>
+	    <% } else { %>
+		    <img src="http://graph.facebook.com/<%:question.Owner.fid %>/picture" height="52" width="52" alt=""/>
+	    <%} %>
+        <div class="question">
+            <div class="question-status">
+            <%
+              if (question.anom_price == 0)
+              {
+            %>
+                <span class="name">
+                <%:friends[question.Owner.fid].name%>
+                </span>
         <%
-            if (question.answer != null)
-            {%>
-            <h3><%:question.answer%></h3>
-        <%
-            }%>
-        <%
-                if (question.anom_price == 0)
-                {%>
-            <span><%:friends[question.Owner.fid].name%></span>
-        <%
-                }
-                else
-                {
-%>
+               }
+               else
+               {
+        %>
             <form method="post" action="FriendsQuestions/Reveal">
                 <input type="hidden" name="qid" value="<%:question.id%>" />
-                <button>de ???</button>
+                <button type="submit">???</button>
             </form>
-            <%
+        <%
                 }
-%>
+        %>
+        asked <span class="name"><%:friends[question.Receiver.fid].name %></span>
 
-        <% if(question.Receiver != null) { %>
-            <span><%:friends[question.Receiver.fid].name %></span>
-        <% } %>
-    </li>
+            <div class="question-sentence"><%:question.text%></div>
+            <% if (question.answer != null) {%>
+		    <div class="answer-bloc">
+			<img src="http://graph.facebook.com/<%:question.Receiver.fid %>/picture" height="33" width="33" alt=""/>
+			<div class="answer">
+				<div class="answer-status"><%:friends[question.Receiver.fid].name%> answered:</div>
+				<%:question.answer%> <br/> <%:question.date_pub%>
+			</div>
+			</div>
+            <% } %>
+		</div>
+        </div>
+    </div>
     <%
     }
     %>
-    </ul>
 </asp:Content>

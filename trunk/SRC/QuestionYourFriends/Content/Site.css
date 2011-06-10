@@ -120,7 +120,7 @@ page. Ou bien, vous pouvez spécifier une largeur exacte en pixels. */
 #main
 {
     position:relative;
-    padding: 40px 30px 15px 30px;
+    padding: 15px 30px 15px 30px;
     background-color: #fff;
     margin-bottom: 30px;
     _height: 1px; /* seul IE6 applique des propriétés CSS en commençant par un trait de soulignement */
@@ -214,20 +214,22 @@ ul#menu li.selected.green a
 
 /* PAGE QUESTIONS */
 .question-bloc{border-bottom:1px solid #dcdcdc;padding:15px 20px;}
-.question-bloc .questionner-pic{float:left;}
+.question-bloc img{float:left;border:1px solid #C8C8C8;}
 .question-bloc .question{padding-left: 60px;}
 .question-bloc .question .question-status{font-size:12px;color:#646464;}
 .question-bloc .question .question-status .name{font-weight:bold;color:#325587;}
 .question-bloc .question .question-status .privacy{font-weight:bold;color:#558a22;}
 .question-bloc .question .question-sentence{margin-top:4px;font-size:18px;color:#558a22;}
 .question-bloc .question .answer-bloc{background-color:#eeeff4;padding:5px;margin-top: 10px;}
-.question-bloc .question .answer-bloc .answer-pic{float:left;}
+.question-bloc .question .answer-bloc img{float:left;border:1px solid #C8C8C8;}
 .question-bloc .question .answer-bloc .answer {padding-left: 40px;}
 .question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
 .question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
 .question-bloc .question .answer-bloc .answer .answer-status .name{font-weight:bold;color:#325587;}
 .question-bloc .question .answer-bloc .answer .answer-status .privacy{font-weight:bold;color:#558a22;}
 .question-bloc .question .answer-bloc .answer .answer-sentence{font-size:11px;color:black;}
+.question-bloc .delete-cross { float: right;}
+.question-bloc button {display: inline; float:left; margin-right: 4px}
 
 /* ÉLÉMENTS DE MISE EN FORME DU FORMULAIRE   
 ----------------------------------------------------------*/
@@ -413,12 +415,10 @@ div#title
 {
     padding: 7px 9px;
     font-weight: bold;
-    font-size:12px;
+    font-size:22px;
     text-decoration: none;
     line-height: 2.8em;
-    color: #7e9f5e;
-
-    background-color: White;
+    color: white;
 }
 
 #wallet a:hover
@@ -454,12 +454,10 @@ div#title
 
 ul#boxes li a
 {
-    
     font-weight: bold;
     font-size:16px;
     text-decoration: none;
-    line-height: 12px;
-    color: #667cb6;
+    line-height: 16px;
     width: 100%;
 }
 
