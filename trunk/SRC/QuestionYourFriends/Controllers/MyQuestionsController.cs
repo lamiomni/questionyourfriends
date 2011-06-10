@@ -19,38 +19,58 @@ namespace QuestionYourFriends.Controllers
         /// <summary>
         /// GET: /MyQuestions/
         /// </summary>
-        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
             return RedirectToAction("ToMe", "MyQuestions");
-        } 
-        
-        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
+        }
+
+        /// <summary>
+        /// GET: /MyQuestions/ToMe
+        /// </summary>
         public ActionResult ToMe()
         {
-            dynamic uid = Session["uid"];
-            if (uid == null)
-                return RedirectToAction("Index", "Home");
-            
-            List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
-            ViewData["questions"] = receiver;
-            ViewData["tab"] = "toMe";
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
+                // Compute data
+                List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
+                ViewData["questions"] = receiver;
+                ViewData["tab"] = "toMe";
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
-        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult fromMe()
+        /// <summary>
+        /// GET: /MyQuestions/FromMe
+        /// </summary>
+        public ActionResult FromMe()
         {
-            dynamic uid = Session["uid"];
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
-            if (uid == null)
-                return View("Index");
-
-            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
-            ViewData["questions"] = toAll;
-            ViewData["tab"] = "fromMe";
-
+                // Compute data
+                List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
+                ViewData["questions"] = toAll;
+                ViewData["tab"] = "fromMe";
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
@@ -59,22 +79,31 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Answeree()
         {
-            dynamic uid = Session["uid"];
-            if (uid == null)
-                return View("Index");
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
-            // Question update
-            string answer = Request.Params.Get("answer");
-            string qidstring = Request.Params.Get("qid");
-            int qid = int.Parse(qidstring);
-            QuestionYourFriendsDataAccess.Question q =  Question.Get(qid);
-            q.answer = answer;
-            q.date_answer = DateTime.Now;
-            Question.Update(q);
+                // Question update
+                string answer = Request.Params.Get("answer");
+                string qidstring = Request.Params.Get("qid");
+                int qid = int.Parse(qidstring);
+                QuestionYourFriendsDataAccess.Question q = Question.Get(qid);
+                q.answer = answer;
+                q.date_answer = DateTime.Now;
+                Question.Update(q);
 
-            // Earning answer transaction
-            QuestionYourFriendsDataAccess.User u = Models.User.Get(uid);
-            Transac.EarningAnswer(u);
+                // Earning answer transaction
+                QuestionYourFriendsDataAccess.User u = Models.User.Get(uid);
+                Transac.EarningAnswer(u);
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
@@ -84,7 +113,20 @@ namespace QuestionYourFriends.Controllers
         /// <param name="qid">Question id</param>
         public ActionResult Delete(int qid)
         {
-            Question.Delete(qid);
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
+
+                Question.Delete(qid);
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
@@ -93,7 +135,20 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Cancel()
         {
-            Request.Params.Set("answer", "qid");
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
+
+                Request.Params.Set("answer", "qid");
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
@@ -103,10 +158,23 @@ namespace QuestionYourFriends.Controllers
         /// <param name="qid">question id</param>
         public ActionResult Reveal(int qid)
         {
-            dynamic uid = Session["uid"];
-            QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-            QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
-            Transac.DesanonymizeQuestion(question, user);
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
+
+                // Compute data
+                QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
+                QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
+                Transac.DesanonymizeQuestion(question, user);
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
 
@@ -116,14 +184,23 @@ namespace QuestionYourFriends.Controllers
         /// <param name="qid">question id</param>
         public ActionResult ToPublic(int qid)
         {
-            dynamic uid = Session["uid"];
+            try
+            {
+                // Fetch data
+                dynamic uid = Session["uid"];
+                dynamic fid = Session["fid"];
+                if (uid == null || fid == null)
+                    return RedirectToAction("Index", "Home");
 
-            if (uid == null)
-                return View("Index");
-
-            QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-            QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
-            Transac.DeprivatizeQuestion(question, user);
+                // Compute data
+                QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
+                QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
+                Transac.DeprivatizeQuestion(question, user);
+            }
+            catch (ApplicationException e)
+            {
+                ViewData["Error"] = e.Message;
+            }
             return View("Index");
         }
     }

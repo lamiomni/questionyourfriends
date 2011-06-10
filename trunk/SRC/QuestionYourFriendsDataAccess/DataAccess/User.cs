@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using log4net;
@@ -37,8 +36,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new user", ex);
-                Debug.WriteLine(ex);
-                return -1;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -59,8 +57,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot create a new user", ex);
-                Debug.WriteLine(ex);
-                return -1;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -87,8 +84,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -115,8 +111,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -143,8 +138,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -174,8 +168,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update an user", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -194,8 +187,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get an user", ex);
-                Debug.WriteLine(ex);
-                return null;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -216,8 +208,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get an user", ex);
-                Debug.WriteLine(ex);
-                return null;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -237,27 +228,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get users", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.User>();
-            }
-        }
-
-        /// <summary>
-        /// Get the list of all users
-        /// </summary>
-        /// <param name="qyfEntities">Entity context</param>
-        /// <returns>The list of all users</returns>
-        public static List<QuestionYourFriendsDataAccess.User> GetListForSerialisation(QuestionYourFriendsEntities qyfEntities)
-        {
-            try
-            {
-                return qyfEntities.Users.ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Cannot get users", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.User>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -282,8 +253,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot get users", ex);
-                Debug.WriteLine(ex);
-                return new List<QuestionYourFriendsDataAccess.User>();
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 
@@ -310,8 +280,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             catch (Exception ex)
             {
                 _logger.Error("Cannot update money", ex);
-                Debug.WriteLine(ex);
-                return false;
+                throw new ApplicationException("A database error occured during the operation.");
             }
         }
 

@@ -23,8 +23,9 @@ namespace QuestionYourFriends.Controllers
             try
             {
                 // Fetch data
+                dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
-                if (fid == null)
+                if (uid == null || fid == null)
                     return RedirectToAction("Index", "Home");
                 dynamic user = RequestCache.Get(fid + "user");
                 if (user == null)
@@ -49,8 +50,9 @@ namespace QuestionYourFriends.Controllers
             try
             {
                 // Fetch data
+                dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
-                if (fid == null)
+                if (uid == null || fid == null)
                     return RedirectToAction("Index", "Home");
                 string askedFriend = Request.Params.Get("friend_sel");
                 string askedQuestion = Request.Params.Get("ask");

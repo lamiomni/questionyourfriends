@@ -13,7 +13,7 @@
         var sent = (ViewData["tab"].ToString() == "fromMe") ? "class=actif" : "";
     %>
         <li <%:received %>><%:Html.ActionLink("Questions received", "ToMe", "MyQuestions")%></li>
-        <li <%:sent %>><%:Html.ActionLink("Questions sent", "fromMe", "Myquestions")%></li>
+        <li <%:sent %>><%:Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>
     </ul>
     <fb:serverFbml  width="670px" >
     
@@ -63,9 +63,6 @@
                     content="Hello"
                     label='Accept' >
                
-               
-         
-                    
                     <% if (i.anom_price > 0) {%>
                         <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="52" width="52" alt=""/>
                     <% } else { %>
