@@ -16,21 +16,19 @@ namespace QuestionYourFriends.Controllers
         /// GET: /MyQuestions/
         /// </summary>
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult Index(string test)
+        public ActionResult Index()
         {
-            return RedirectToAction("toMe", "MyQuestions");
+            return RedirectToAction("ToMe", "MyQuestions");
         } 
         
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult toMe(string test)
+        public ActionResult ToMe()
         {
             dynamic uid = Session["uid"];
-
             if (uid == null)
                 return RedirectToAction("Index", "Home");
             
             List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
-            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
             ViewData["questions"] = receiver;
             ViewData["tab"] = "toMe";
 
@@ -38,12 +36,12 @@ namespace QuestionYourFriends.Controllers
         }
 
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult fromMe(string test)
+        public ActionResult fromMe()
         {
             dynamic uid = Session["uid"];
 
             if (uid == null)
-                return RedirectToAction("Index", "Home");
+                return View("Index");
 
             List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
             ViewData["questions"] = toAll;
@@ -57,6 +55,11 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Answeree()
         {
+            dynamic uid = Session["uid"];
+            if (uid == null)
+                return View("Index");
+
+            // Question update
             string answer = Request.Params.Get("answer");
             string qidstring = Request.Params.Get("qid");
             int qid = int.Parse(qidstring);
@@ -64,7 +67,11 @@ namespace QuestionYourFriends.Controllers
             q.answer = answer;
             q.date_answer = DateTime.Now;
             Question.Update(q);
-            return RedirectToAction("Index", "MyQuestions");
+
+            // Earning answer transaction
+            QuestionYourFriendsDataAccess.User u = Models.User.Get(uid);
+            Transac.EarningAnswer(u);
+            return View("Index");
         }
 
         /// <summary>
@@ -74,7 +81,7 @@ namespace QuestionYourFriends.Controllers
         public ActionResult Delete(int qid)
         {
             Question.Delete(qid);
-            return RedirectToAction("Index", "MyQuestions");
+            return View("Index");
         }
 
         /// <summary>
@@ -83,7 +90,7 @@ namespace QuestionYourFriends.Controllers
         public ActionResult Cancel()
         {
             Request.Params.Set("answer", "qid");
-            return RedirectToAction("Index", "MyQuestions");
+            return View("Index");
         }
 
         /// <summary>
@@ -96,7 +103,7 @@ namespace QuestionYourFriends.Controllers
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
             Transac.DesanonymizeQuestion(question, user);
-            return RedirectToAction("Index", "MyQuestions");
+            return View("Index");
         }
 
         /// <summary>
@@ -108,12 +115,12 @@ namespace QuestionYourFriends.Controllers
             dynamic uid = Session["uid"];
 
             if (uid == null)
-                return RedirectToAction("Index", "Home");
+                return View("Index");
 
             QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
             QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
             Transac.DeprivatizeQuestion(question, user);
-            return RedirectToAction("Index", "MyQuestions");
+            return View("Index");
         }
     }
 }

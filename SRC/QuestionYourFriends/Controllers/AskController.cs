@@ -52,7 +52,7 @@ namespace QuestionYourFriends.Controllers
             if (!long.TryParse(askedFriend, out ffid))
             {
                 ViewData["Error"] = "Please select a friend.";
-                return RedirectToAction("Index", "Ask");
+                return View("Index");
             }
             if (askedQuestion == null)
             {
@@ -67,7 +67,7 @@ namespace QuestionYourFriends.Controllers
                 || annonCost > 9999999)
             {
                 ViewData["Error"] = "Please enter a valid number (> 0 and < 9,999,999) for the prices!";
-                return RedirectToAction("Index", "Ask");
+                return View("Index");
             }
 
             // Do work
@@ -81,11 +81,12 @@ namespace QuestionYourFriends.Controllers
                     friend = Models.User.Get(ffid);
                     Transac.EarningStartup(friend);
                 }
-                int qid = Question.Create(me.id, friend.id, askedQuestion, annonCost, privateCost, System.DateTime.Now);
+                int qid = Question.Create(me.id, friend.id, askedQuestion, annonCost, privateCost, DateTime.Now);
                 QuestionYourFriendsDataAccess.Question q = Question.Get(qid);
                 Transac.SpendAndQuestion(q, me);
             }
-            return RedirectToAction("Index", "Ask");
+            ViewData["Info"] = "Your question has been sent successfully.";
+            return View("Index");
         }
     }
 }

@@ -12,7 +12,7 @@
         var received = (ViewData["tab"].ToString() == "toMe") ? "class=actif" : "";
         var sent = (ViewData["tab"].ToString() == "fromMe") ? "class=actif" : "";
     %>
-        <li <%:received %>><%:Html.ActionLink("Questions received", "toMe", "MyQuestions")%></li>
+        <li <%:received %>><%:Html.ActionLink("Questions received", "ToMe", "MyQuestions")%></li>
         <li <%:sent %>><%:Html.ActionLink("Questions sent", "fromMe", "Myquestions")%></li>
     </ul>
     <fb:serverFbml  width="670px" >

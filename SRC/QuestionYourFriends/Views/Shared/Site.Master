@@ -67,12 +67,19 @@
                       %><li><%
                   }    
                  %>
-                 <%:Html.ActionLink("Ask a question", "Index", "Ask")%></li>
+                 <%:Html.ActionLink("Send a question", "Index", "Ask")%></li>
             </ul>   
             
         </div>
 
         <div id="main">
+        <%if (ViewData.ContainsKey("Info"))
+          {%>
+            <div class="fbinfobox">
+                <%:ViewData["Info"]%>
+            </div> 
+            <%
+          }%>
         <%if (ViewData.ContainsKey("Error"))
           {%>
             <div class="fberrorbox">

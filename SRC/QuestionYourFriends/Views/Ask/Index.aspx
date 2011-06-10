@@ -27,24 +27,24 @@
                     label='Accept' >
                 <table>
                     <tr>
-                        <td><label for="friend">Ami à qui vous voulez poser une question :</label></td>
+                        <td style="text-align:right;"><label for="friend">Friend's name:</label></td>
                         <td><fb:friend-selector name="uid" idname="friend_sel" id="friend"/></td>
                     </tr>
                     <tr>
-                        <td><label for="question">Posez votre question</label></td>
+                        <td style="text-align:right;"><label for="question">Formulate your question:</label></td>
                         <td><textarea name="ask" rows="5" cols="57" id="question" ></textarea></td>
                     </tr>
                     <tr>
-                        <td><label for="annon_cost">Mise annonymisation</label></td>
-                        <td><input type="text" name="annon_cost" id="annon_cost"/></td>
+                        <td style="text-align:right;"><label for="annon_cost">Anonymize price:</label></td>
+                        <td><input type="text" name="annon_cost" id="annon_cost" value="0"/></td>
                     </tr>
                     <tr>
-                        <td><label for="private_cost">Mise privatisation</label></td>
-                        <td><input type="text" name="private_cost" id="private_cost"/></td>
+                        <td style="text-align:right;"><label for="private_cost">Privatize price:</label></td>
+                        <td><input type="text" name="private_cost" id="private_cost" value="0"/></td>
                     </td>
                     <tr>
                         <td></td>
-                        <td><label class="fbCommentButton uiButton uiButtonConfirm"><fb:submit >Poser</fb:submit></label></td>
+                        <td><label class="fbCommentButton uiButton uiButtonConfirm"><fb:submit>Send</fb:submit></label></td>
                     </tr>
                 </table>
                 
