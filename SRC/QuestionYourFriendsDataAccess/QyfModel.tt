@@ -32,6 +32,9 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
 {
     fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(namespaceName, code);
+#>
+[Serializable]
+<#
     WriteEntityTypeSerializationInfo(entity, ItemCollection, code, ef);
 #>
 <#=Accessibility.ForType(entity)#> <#=code.SpaceAfter(code.AbstractOption(entity))#>partial class <#=code.Escape(entity)#><#=code.StringBefore(" : ", code.Escape(entity.BaseType))#><#=entity.BaseType == null ? ": " : ", "#>IObjectWithChangeTracker, INotifyPropertyChanged
@@ -201,6 +204,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
 
     foreach (NavigationProperty navProperty in entity.NavigationProperties.Where(np => np.DeclaringType == entity))
     {
+		
         NavigationProperty inverse = ef.Inverse(navProperty);
         if (inverse != null &&  !IsReadWriteAccessibleProperty(inverse))
         {
@@ -208,6 +212,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         }
 #>
 
+	[XmlIgnore]
     [DataMember]
 <#
         if (navProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
@@ -1290,6 +1295,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 <#=String.Join(String.Empty, extraUsings.Select(u => "using " + u + ";" + Environment.NewLine).ToArray())#>
 <#+
     fileManager.EndBlock();
@@ -1429,7 +1435,7 @@ public class ObjectChangeTracker
     private bool _isDeserializing;
     private ObjectState _objectState = ObjectState.Added;
     private bool _changeTrackingEnabled;
-    private OriginalValuesDictionary _originalValues;
+	private OriginalValuesDictionary _originalValues;
     private ExtendedPropertiesDictionary _extendedProperties;
     private ObjectsAddedToCollectionProperties _objectsAddedToCollections = new ObjectsAddedToCollectionProperties();
     private ObjectsRemovedFromCollectionProperties _objectsRemovedFromCollections = new ObjectsRemovedFromCollectionProperties();
@@ -1472,6 +1478,7 @@ public class ObjectChangeTracker
 
     // Returns the removed objects to collection valued properties that were changed.
     [DataMember]
+	[XmlIgnore]
     public ObjectsRemovedFromCollectionProperties ObjectsRemovedFromCollectionProperties
     {
         get
@@ -1486,6 +1493,7 @@ public class ObjectChangeTracker
 
     // Returns the original values for properties that were changed.
     [DataMember]
+	[XmlIgnore]
     public OriginalValuesDictionary OriginalValues
     {
         get
@@ -1502,6 +1510,7 @@ public class ObjectChangeTracker
     // This includes key values for independent associations that are needed for the
     // concurrency model in the Entity Framework
     [DataMember]
+	[XmlIgnore]
     public ExtendedPropertiesDictionary ExtendedProperties
     {
         get
@@ -1516,6 +1525,7 @@ public class ObjectChangeTracker
 
     // Returns the added objects to collection valued properties that were changed.
     [DataMember]
+	[XmlIgnore]
     public ObjectsAddedToCollectionProperties ObjectsAddedToCollectionProperties
     {
         get

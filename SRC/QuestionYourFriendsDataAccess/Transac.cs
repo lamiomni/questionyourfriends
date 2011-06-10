@@ -14,9 +14,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
+    [Serializable]
     [DataContract(IsReference = true)]
     [KnownType(typeof(Question))]
     [KnownType(typeof(User))]
@@ -137,6 +139,7 @@ namespace QuestionYourFriendsDataAccess
         #endregion
         #region Navigation Properties
     
+    	[XmlIgnore]
         [DataMember]
         public Question Question
         {
@@ -154,6 +157,7 @@ namespace QuestionYourFriendsDataAccess
         }
         private Question _question;
     
+    	[XmlIgnore]
         [DataMember]
         public User User
         {

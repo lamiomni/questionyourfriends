@@ -14,9 +14,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
+    [Serializable]
     [DataContract(IsReference = true)]
     [KnownType(typeof(User))]
     [KnownType(typeof(Transac))]
@@ -212,6 +214,7 @@ namespace QuestionYourFriendsDataAccess
         #endregion
         #region Navigation Properties
     
+    	[XmlIgnore]
         [DataMember]
         public User Owner
         {
@@ -229,6 +232,7 @@ namespace QuestionYourFriendsDataAccess
         }
         private User _owner;
     
+    	[XmlIgnore]
         [DataMember]
         public User Receiver
         {
@@ -246,6 +250,7 @@ namespace QuestionYourFriendsDataAccess
         }
         private User _receiver;
     
+    	[XmlIgnore]
         [DataMember]
         public TrackableCollection<Transac> Transacs
         {
