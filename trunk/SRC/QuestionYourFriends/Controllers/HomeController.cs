@@ -44,6 +44,8 @@ namespace QuestionYourFriends.Controllers
                 foreach (var friend in friends.data)
                     friendsId.Add(long.Parse(friend.id));
                 RequestCache.Add(fid + "fid2uid", Models.Facebook.GetUidFromFid(friendsId.ToArray()));
+
+                _logger.InfoFormat("Fetch cache for {0} (FbId: {1}) done.", u.id, fid);
             }
             return RedirectToAction("Index", "MyQuestions");
         }

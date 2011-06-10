@@ -29,16 +29,26 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
 
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
+
+                // Fetch parameters
                 dynamic result = RequestCache.Get(fid + "user");
                 dynamic friends = RequestCache.Get(fid + "friends");
                 dynamic dict = RequestCache.Get(fid + "fid2uid");
                 dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
-
                 if (result == null || friends == null || dict == null || friendsDict == null)
                     return RedirectToAction("Index", "Home");
 
+                // Compute data
                 ViewData["friends"] = friendsDict;
                 ViewData["Firstname"] = result.first_name;
                 ViewData["Lastname"] = result.last_name;
@@ -49,7 +59,6 @@ namespace QuestionYourFriends.Controllers
                     if (dict.ContainsKey(id))
                         friendsId.Add(dict[id]);
                 }
-
                 var questions = Question.GetFriendsQuestions(friendsId.ToArray());
                 ViewData["questions"] = questions;
             }
@@ -72,11 +81,20 @@ namespace QuestionYourFriends.Controllers
                 dynamic uid = Session["uid"];
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
 
+                // Logging
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                string folder = mb.DeclaringType.Name;
+                folder = folder.Substring(0, folder.Length - 10);
+                _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
+
+                // Compute data
                 var question = Question.Get(qid);
                 var user = Models.User.Get(uid);
-
                 Transac.DesanonymizeQuestion(question, user);
                 ViewData["Info"] = "The user has been successfully revealed.";
                 Debug.WriteLine("Reveal called qid: " + qid);
