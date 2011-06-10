@@ -5,7 +5,14 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
+    <ul id="boxes">
+    <%
+        var received = (ViewData["tab"].ToString() == "toMe") ? "class=actif" : "";
+        var sent = (ViewData["tab"].ToString() == "fromMe") ? "class=actif" : "";
+    %>
+        <li <%:received %>><%:Html.ActionLink("Questions received", "toMe", "MyQuestions")%></li>
+        <li <%:sent %>><%:Html.ActionLink("Questions sent", "fromMe", "Myquestions")%></li>
+    </ul>
     <fb:serverFbml  width="670px" >
     
     <script type="text/fbml">

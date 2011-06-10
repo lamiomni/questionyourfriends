@@ -15,7 +15,13 @@ namespace QuestionYourFriends.Controllers
         /// GET: /MyQuestions/
         /// </summary>
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
-        public ActionResult Index()
+        public ActionResult Index(string test)
+        {
+            return RedirectToAction("toMe", "MyQuestions");
+        } 
+        
+        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
+        public ActionResult toMe(string test)
         {
             dynamic uid = Session["uid"];
 
@@ -23,10 +29,26 @@ namespace QuestionYourFriends.Controllers
                 return RedirectToAction("Index", "Home");
             
             List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
-            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(0);
+            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
             ViewData["questions"] = receiver;
+            ViewData["tab"] = "toMe";
 
-            return View();
+            return View("Index");
+        }
+
+        [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
+        public ActionResult fromMe(string test)
+        {
+            dynamic uid = Session["uid"];
+
+            if (uid == null)
+                return RedirectToAction("Index", "Home");
+
+            List<QuestionYourFriendsDataAccess.Question> toAll = Question.GetListOfOwner(uid);
+            ViewData["questions"] = toAll;
+            ViewData["tab"] = "fromMe";
+
+            return View("Index");
         }
 
         /// <summary>
