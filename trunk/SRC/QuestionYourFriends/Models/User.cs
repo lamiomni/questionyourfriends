@@ -88,6 +88,15 @@ namespace QuestionYourFriends.Models
             return QuestionYourFriendsDataAccess.DataAccess.User.GetList(Context.QyfEntities);
         }
 
+        /// <summary>
+        /// Get list of all the user
+        /// </summary>
+        /// <returns>List of all users</returns>
+        public static List<QuestionYourFriendsDataAccess.User> GetListForSerialisation()
+        {
+            return QuestionYourFriendsDataAccess.DataAccess.User.GetListForSerialisation(Context.QyfEntities);
+        }
+
         #endregion
 
         #region More...

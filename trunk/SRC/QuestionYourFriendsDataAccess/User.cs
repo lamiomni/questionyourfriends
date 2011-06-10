@@ -14,9 +14,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
+    [Serializable]
     [DataContract(IsReference = true)]
     [KnownType(typeof(Question))]
     [KnownType(typeof(Transac))]
@@ -121,6 +123,7 @@ namespace QuestionYourFriendsDataAccess
         #endregion
         #region Navigation Properties
     
+    	[XmlIgnore]
         [DataMember]
         public TrackableCollection<Question> MyQuestions
         {
@@ -156,6 +159,7 @@ namespace QuestionYourFriendsDataAccess
         }
         private TrackableCollection<Question> _myQuestions;
     
+    	[XmlIgnore]
         [DataMember]
         public TrackableCollection<Question> QuestionsToMe
         {
@@ -191,6 +195,7 @@ namespace QuestionYourFriendsDataAccess
         }
         private TrackableCollection<Question> _questionsToMe;
     
+    	[XmlIgnore]
         [DataMember]
         public TrackableCollection<Transac> Transacs
         {

@@ -241,6 +241,26 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 return new List<QuestionYourFriendsDataAccess.User>();
             }
         }
+
+        /// <summary>
+        /// Get the list of all users
+        /// </summary>
+        /// <param name="qyfEntities">Entity context</param>
+        /// <returns>The list of all users</returns>
+        public static List<QuestionYourFriendsDataAccess.User> GetListForSerialisation(QuestionYourFriendsEntities qyfEntities)
+        {
+            try
+            {
+                return qyfEntities.Users.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Cannot get users", ex);
+                Debug.WriteLine(ex);
+                return new List<QuestionYourFriendsDataAccess.User>();
+            }
+        }
+
         #endregion
 
         #region More...

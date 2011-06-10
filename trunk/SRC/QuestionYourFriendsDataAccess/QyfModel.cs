@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
@@ -27,7 +28,7 @@ namespace QuestionYourFriendsDataAccess
         private bool _isDeserializing;
         private ObjectState _objectState = ObjectState.Added;
         private bool _changeTrackingEnabled;
-        private OriginalValuesDictionary _originalValues;
+    	private OriginalValuesDictionary _originalValues;
         private ExtendedPropertiesDictionary _extendedProperties;
         private ObjectsAddedToCollectionProperties _objectsAddedToCollections = new ObjectsAddedToCollectionProperties();
         private ObjectsRemovedFromCollectionProperties _objectsRemovedFromCollections = new ObjectsRemovedFromCollectionProperties();
@@ -70,6 +71,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Returns the removed objects to collection valued properties that were changed.
         [DataMember]
+    	[XmlIgnore]
         public ObjectsRemovedFromCollectionProperties ObjectsRemovedFromCollectionProperties
         {
             get
@@ -84,6 +86,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Returns the original values for properties that were changed.
         [DataMember]
+    	[XmlIgnore]
         public OriginalValuesDictionary OriginalValues
         {
             get
@@ -100,6 +103,7 @@ namespace QuestionYourFriendsDataAccess
         // This includes key values for independent associations that are needed for the
         // concurrency model in the Entity Framework
         [DataMember]
+    	[XmlIgnore]
         public ExtendedPropertiesDictionary ExtendedProperties
         {
             get
@@ -114,6 +118,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Returns the added objects to collection valued properties that were changed.
         [DataMember]
+    	[XmlIgnore]
         public ObjectsAddedToCollectionProperties ObjectsAddedToCollectionProperties
         {
             get
