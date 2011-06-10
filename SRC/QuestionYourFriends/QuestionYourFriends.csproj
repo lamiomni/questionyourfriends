@@ -104,6 +104,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CreditsController.cs" />
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Facebook.cs" />
     <Compile Include="Models\Question.cs" />
@@ -126,6 +127,8 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Views\Ask\Index.aspx" />
+    <Content Include="Views\Credits\CallBack.aspx" />
+    <Content Include="Views\Credits\Index.aspx" />
     <Content Include="Views\FriendsQuestions\Index.aspx" />
     <Content Include="Views\MyQuestions\Index.aspx" />
     <Content Include="Web.config">
