@@ -23,9 +23,9 @@ namespace QuestionYourFriendsDataGen.BusinessManagement
         static Context()
         {
             QyfEntities = new QuestionYourFriendsEntities();
-            QyfEntities.Users.MergeOption = MergeOption.OverwriteChanges;
-            QyfEntities.Transacs.MergeOption = MergeOption.OverwriteChanges;
-            QyfEntities.Questions.MergeOption = MergeOption.OverwriteChanges;
+            QyfEntities.Users.MergeOption = MergeOption.AppendOnly;
+            QyfEntities.Transacs.MergeOption = MergeOption.AppendOnly;
+            QyfEntities.Questions.MergeOption = MergeOption.AppendOnly;
             _logger.Info("Context initialized.");
         }
     }
