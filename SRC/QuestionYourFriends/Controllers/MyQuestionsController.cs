@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Collections.Generic;
 using log4net;
+using QuestionYourFriends.Caching;
 using QuestionYourFriends.Models;
 using System;
 
@@ -76,6 +77,19 @@ namespace QuestionYourFriends.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
+                // Fetch parameters
+                dynamic result = RequestCache.Get(fid + "user");
+                dynamic friends = RequestCache.Get(fid + "friends");
+                dynamic dict = RequestCache.Get(fid + "fid2uid");
+                dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
+                if (result == null || friends == null || dict == null || friendsDict == null)
+                    return RedirectToAction("Index", "Home");
+
+                // Compute data
+                ViewData["friends"] = friendsDict;
+                ViewData["Firstname"] = result.first_name;
+                ViewData["Lastname"] = result.last_name;
+
                 // Logging
                 MethodBase mb = MethodBase.GetCurrentMethod();
                 string folder = mb.DeclaringType.Name;
@@ -94,7 +108,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return View("IndexSent");
         }
 
         /// <summary>
