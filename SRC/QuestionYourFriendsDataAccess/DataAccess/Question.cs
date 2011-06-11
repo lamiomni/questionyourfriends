@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
@@ -47,27 +46,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 question.date_answer = null;
                 question.deleted = false;
                 qyfEntities.Questions.AddObject(question);
-                try
-                {
-                    qyfEntities.SaveChanges();
-                }
-                catch (OptimisticConcurrencyException e)
-                {
-                    _logger.Error("Concurrency error:", e);
-                    try
-                    {
-                        // Resolve the concurrency conflict by refreshing the 
-                        // object context before re-saving changes. 
-                        qyfEntities.Refresh(RefreshMode.ClientWins, question);
-
-                        // Save changes.
-                        qyfEntities.SaveChanges();
-                    }
-                    catch (UpdateException ex)
-                    {
-                        _logger.Error("Update error:", ex);
-                    }
-                }
+                qyfEntities.SaveChanges();
                 _logger.InfoFormat("New question id: {0}", question.id);
                 return question.id;
             }
@@ -91,21 +70,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 _logger.InfoFormat("New question creation: owner({0}), receiver({1}), text({2}), anon({3}), priv({4}), datePub({5})",
                     q.id_owner, q.id_receiver, q.text, q.anom_price, q.private_price, q.date_pub);
                 qyfEntities.Questions.AddObject(q);
-                try
-                {
-                    qyfEntities.SaveChanges();
-                }
-                catch (OptimisticConcurrencyException e)
-                {
-                    _logger.Error("Concurrency error:", e);
-
-                    // Resolve the concurrency conflict by refreshing the 
-                    // object context before re-saving changes. 
-                    qyfEntities.Refresh(RefreshMode.ClientWins, q);
-
-                    // Save changes.
-                    qyfEntities.SaveChanges();
-                }
+                qyfEntities.SaveChanges();
                 _logger.InfoFormat("New question id: {0}", q.id);
                 return q.id;
             }
@@ -136,9 +101,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 
@@ -179,9 +144,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 
@@ -231,9 +196,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 

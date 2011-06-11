@@ -256,7 +256,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            return Create(QyfData.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
+            return Create(QyfData.EarningStartup, user.id, TransacType.EarningStartup, null) != -1;
         }
 
 
@@ -280,7 +280,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            return Create(QyfData.EarningAnswer, user.id, TransacType.EarningAnswer, 0) != -1;
+            return Create(QyfData.EarningAnswer, user.id, TransacType.EarningAnswer, null) != -1;
         }
 
         /// <summary>
