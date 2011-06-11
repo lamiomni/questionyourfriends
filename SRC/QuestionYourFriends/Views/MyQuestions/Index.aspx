@@ -84,12 +84,16 @@
                         <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="52" width="52" alt=""/>
                     <%
                 }
-                else
+                else if (i.Owner.fid != 0)
                 {%>
                         <img src="http://graph.facebook.com/<%:i.Owner.fid%>/picture" height="52" width="52" alt=""/>
                     <%
-                }%> 
-                    <div class="question">
+                } else
+                {%> 
+                        <img src="http://localhost/QuestionYourFriends/Content/logo_small.jpg" height="52" width="52" alt=""/>
+                <%
+                }%>
+                <div class="question">
                         <input type="hidden" value="<%:i.id%>" name="qid"/>
                         <fb:dialog id="my_dialog-reveal<%:i.id%>" cancel_button=1>
                             <fb:dialog-title>Confirmation</fb:dialog-title>	
@@ -104,9 +108,18 @@
                         <div class="question-status"><span class="name">
                          <%
                 if (i.anom_price == 0)
-                {%>
+                {
+                    if (i.Owner.fid != 0)
+                    {%>
+
                                 <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
-                           <%
+                  <%} else
+                    {%>
+                    
+                                Question Your Friends
+                  <%
+                    }%>
+                <%
                 }
                 else
                 {%>
