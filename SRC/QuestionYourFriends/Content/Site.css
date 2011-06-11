@@ -569,3 +569,19 @@ ul#boxes li.actif a:hover
     color: #ffffff;
     cursor: hand;
 }
+
+.friendAnonymous 
+{
+    background-color: #EEEFF4;
+    border: 1px solid #5c87b2;
+    color: #5c87b2;
+    border-radius: 2px;
+    width:32px
+}
+
+.friendAnonymous:hover
+{
+    background-color: #EEEFF4;
+    border: 1px solid #558A22;
+    color: #558A22;
+}
