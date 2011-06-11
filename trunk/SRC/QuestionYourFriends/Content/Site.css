@@ -117,6 +117,11 @@ page. Ou bien, vous pouvez spécifier une largeur exacte en pixels. */
     font-size: 32px !important;
 }
 
+#header .fb-header
+{
+    padding-top: 60px;
+    margin-left: 260px;  
+}
 #main
 {
     position:relative;
