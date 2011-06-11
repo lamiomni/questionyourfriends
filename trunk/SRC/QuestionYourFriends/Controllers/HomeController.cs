@@ -27,12 +27,6 @@ namespace QuestionYourFriends.Controllers
                 dynamic currentUser = Models.Facebook.GetUserInfo();
                 fid = long.Parse(currentUser.id);
                 QuestionYourFriendsDataAccess.User u = Models.User.Get(fid);
-                if (u == null)
-                {
-                    Models.User.Create(fid);
-                    u = Models.User.Get(fid);
-                    Models.Transac.EarningStartup(u);
-                }
 
                 if (!u.activated)
                     return View();

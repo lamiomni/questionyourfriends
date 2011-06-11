@@ -102,12 +102,6 @@ namespace QuestionYourFriends.Controllers
                 if (me.credit_amount > (annonCost + privateCost))
                 {
                     QuestionYourFriendsDataAccess.User friend = Models.User.Get(ffid);
-                    if (friend == null)
-                    {
-                        Models.User.Create(ffid);
-                        friend = Models.User.Get(ffid);
-                        Transac.EarningStartup(friend);
-                    }
                     int qid = Question.Create(me.id, friend.id, askedQuestion, annonCost, privateCost, DateTime.Now);
                     QuestionYourFriendsDataAccess.Question q = Question.Get(qid);
                     Transac.SpendAndQuestion(q, me);

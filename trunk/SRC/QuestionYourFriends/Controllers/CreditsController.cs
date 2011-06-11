@@ -42,8 +42,8 @@ namespace QuestionYourFriends.Controllers
             if (func == "payments_status_update")
             {
                 string order_details = payload.order_details;
-                string[] detail_tab = order_details.Split(new char[] { ',' });
-                string[] buyer_tab = detail_tab[1].Split(new char[] { ':' });
+                string[] detail_tab = order_details.Split(new [] { ',' });
+                string[] buyer_tab = detail_tab[1].Split(new [] { ':' });
                 long buyer = long.Parse(buyer_tab[1]);
 
                 string status = payload.status;

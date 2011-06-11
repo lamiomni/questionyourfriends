@@ -66,7 +66,15 @@ namespace QuestionYourFriends.Models
         /// <returns>Requested user</returns>
         public static QuestionYourFriendsDataAccess.User Get(long fid)
         {
-            return QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, fid);
+            var res = QuestionYourFriendsDataAccess.DataAccess.User.Get(Context.QyfEntities, fid);
+            if (res == null)
+            {
+                Create(fid);
+                res = Get(fid);
+                Transac.EarningStartup(res);
+                UpdateMoney(res.id);
+            }
+            return res;
         }
 
         /// <summary>

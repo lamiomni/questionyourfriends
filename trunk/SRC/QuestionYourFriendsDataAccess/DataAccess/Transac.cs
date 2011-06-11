@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Objects;
 using System.Linq;
 using System.Reflection;
@@ -39,21 +38,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 transac.SetTransacType(type);
                 transac.questionId = questionId;
                 qyfEntities.Transacs.AddObject(transac);
-                try
-                {
-                    qyfEntities.SaveChanges();
-                }
-                catch (OptimisticConcurrencyException e)
-                {
-                    _logger.Error("Concurrency error:", e);
-
-                    // Resolve the concurrency conflict by refreshing the 
-                    // object context before re-saving changes. 
-                    qyfEntities.Refresh(RefreshMode.ClientWins, transac);
-
-                    // Save changes.
-                    qyfEntities.SaveChanges();
-                }
+                qyfEntities.SaveChanges();
                 _logger.InfoFormat("New transaction id: {0}", transac.id);
                 return transac.id;
             }
@@ -76,21 +61,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             {
                 _logger.InfoFormat("New transaction creation: amount({0}), userId({1}), type({2})", t.amount, t.userId, t.type);
                 qyfEntities.Transacs.AddObject(t);
-                try
-                {
-                    qyfEntities.SaveChanges();
-                }
-                catch (OptimisticConcurrencyException e)
-                {
-                    _logger.Error("Concurrency error:", e);
-
-                    // Resolve the concurrency conflict by refreshing the 
-                    // object context before re-saving changes. 
-                    qyfEntities.Refresh(RefreshMode.ClientWins, t);
-
-                    // Save changes.
-                    qyfEntities.SaveChanges();
-                }
+                qyfEntities.SaveChanges();
                 _logger.InfoFormat("New transaction id: {0}", t.id);
                 return t.id;
             }
@@ -122,9 +93,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 
@@ -165,9 +136,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 
@@ -212,9 +183,9 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                     {
                         qyfEntities.SaveChanges();
                     }
-                    catch (OptimisticConcurrencyException e)
+                    catch (Exception e)
                     {
-                        _logger.Error("Concurrency error:", e);
+                        _logger.Error("Context error:", e);
 
                         // Resolve the concurrency conflict by refreshing the 
                         // object context before re-saving changes. 
