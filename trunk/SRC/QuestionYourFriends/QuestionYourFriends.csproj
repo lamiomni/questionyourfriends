@@ -132,6 +132,7 @@
     <Content Include="Views\Credits\Index.aspx" />
     <Content Include="Views\FriendsQuestions\Index.aspx" />
     <Content Include="Views\MyQuestions\Index.aspx" />
+    <Content Include="Views\MyQuestions\IndexSent.aspx" />
     <Content Include="Views\Question\Index.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
