@@ -8,3 +8,5 @@ Pour le backend, suivez les mêmes instructions avec "QyfBe".
 Creez ensuite la base de données grâce au fichier BDD/QuestionYourFriends.sql:
 
 Enfin lancez le programme de generation de données Misc/DataGen/QuestionYourFriendsDataGen.exe (optionnel).
+
+Assurez-vous d'avoir IIS d'installé et le support d'ASP.NET.
