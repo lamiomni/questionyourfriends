@@ -24,11 +24,7 @@
         {
 %>
        <div class="question-bloc">
-       <% if (question.anom_price > 0) {%>
-		    <img src="Content/annon.jpg" height="52" width="52" alt=""/>
-	    <% } else { %>
-		    <img src="http://graph.facebook.com/<%:question.Owner.fid %>/picture" height="52" width="52" alt=""/>
-	    <%} %>
+		<img src="http://graph.facebook.com/<%:question.Owner.fid %>/picture" height="52" width="52" alt=""/>
         <div class="question">
             <div class="question-status">
                 <span class="name">

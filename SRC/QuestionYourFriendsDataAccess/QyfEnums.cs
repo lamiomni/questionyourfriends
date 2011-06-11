@@ -11,7 +11,8 @@
         Deprivatize,
         Purchase,
         EarningStartup,
-        EarningAnswer
+        EarningAnswer,
+        EarningMessage
     }
 
     /// <summary>

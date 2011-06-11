@@ -2,7 +2,8 @@
 {
     public static class QyfData
     {
-        public const int EarningAnswer = 50;
-        public const int EarningStartup = 2500;
+        public const int EarningMessage = 50;
+        public const int EarningAnswer = 100;
+        public const int EarningStartup = 1000;
     }
 }

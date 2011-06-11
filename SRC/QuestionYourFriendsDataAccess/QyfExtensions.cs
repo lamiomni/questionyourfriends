@@ -62,6 +62,8 @@
                     return TransacType.EarningStartup;
                 case 6:
                     return TransacType.EarningAnswer;
+                case 7:
+                    return TransacType.EarningMessage;
             }
             return TransacType.Anonymize;
         }

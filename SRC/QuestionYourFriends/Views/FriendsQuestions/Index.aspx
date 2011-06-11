@@ -17,28 +17,28 @@
 %>
        <div class="question-bloc">
        <% if (question.anom_price > 0) {%>
-		    <img src="Content/annon.jpg" height="52" width="52" alt=""/>
+		    <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="52" width="52" alt=""/>
 	    <% } else { %>
 		    <img src="http://graph.facebook.com/<%:question.Owner.fid %>/picture" height="52" width="52" alt=""/>
 	    <%} %>
         <div class="question">
             <div class="question-status">
             <%
-              if (question.anom_price == 0)
+              if (question.anom_price > 0)
               {
             %>
-                <span class="name">
-                <%:friends[question.Owner.fid].name%>
-                </span>
+            <form method="post" action="FriendsQuestions/Reveal">
+                <input type="hidden" name="qid" value="<%:question.id%>" />
+                <button type="submit">???</button>
+            </form>
         <%
                }
                else
                {
         %>
-            <form method="post" action="FriendsQuestions/Reveal">
-                <input type="hidden" name="qid" value="<%:question.id%>" />
-                <button type="submit">???</button>
-            </form>
+                <span class="name">
+                <%:friends[question.Owner.fid].name%>
+                </span>
         <%
                 }
         %>
