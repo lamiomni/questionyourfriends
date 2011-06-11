@@ -85,7 +85,7 @@
             <%
               }%>
             <div class="fb-header">
-                <fb:like href="http://apps.facebook.com/questionyourfriends/" send="false" layout="button_count" width="450" show_faces="false" font=""></fb:like>
+                <fb:like href="http://www.facebook.com/apps/application.php?id=131910193550231" send="false" layout="button_count" width="450" show_faces="false" font=""></fb:like>
             </div>
             <ul id="menu">
                 <%if (ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString() == "MyQuestions")
