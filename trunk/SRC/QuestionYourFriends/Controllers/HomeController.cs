@@ -49,12 +49,10 @@ namespace QuestionYourFriends.Controllers
             return RedirectToAction("Index", "MyQuestions");
         }
 
-#if DEBUG
         public ActionResult Clear()
         {
             Session.Clear();
             return View("Index");
         }
-#endif
     }
 }

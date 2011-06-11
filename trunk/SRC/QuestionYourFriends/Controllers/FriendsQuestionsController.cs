@@ -16,6 +16,16 @@ namespace QuestionYourFriends.Controllers
     public class FriendsQuestionsController : Controller
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static string _info;
+        public static string Info
+        {
+            get { 
+                string res = _info;
+                _info = null;
+                return res;
+            }
+            set { _info = value; }
+        }
 
         /// <summary>
         /// GET: /FriendsQuestions/
@@ -60,6 +70,9 @@ namespace QuestionYourFriends.Controllers
                 }
                 var questions = Question.GetFriendsQuestions(friendsId.ToArray());
                 ViewData["questions"] = questions;
+                string info = Info;
+                if (!string.IsNullOrWhiteSpace(info))
+                    ViewData["Info"] = info;
             }
             catch (ApplicationException e)
             {
@@ -96,36 +109,14 @@ namespace QuestionYourFriends.Controllers
                 var question = Question.Get(qid);
                 var user = Models.User.Get(uid);
                 Transac.DesanonymizeQuestion(question, user);
-                ViewData["Info"] = "The user has been successfully revealed.";
-
-                // Fetch parameters
-                dynamic result = RequestCache.Get(fid + "user");
-                dynamic friends = RequestCache.Get(fid + "friends");
-                dynamic dict = RequestCache.Get(fid + "fid2uid");
-                dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
-                if (result == null || friends == null || dict == null || friendsDict == null)
-                    return RedirectToAction("Index", "Home");
-
-                // Compute data
-                ViewData["friends"] = friendsDict;
-                ViewData["Firstname"] = result.first_name;
-                ViewData["Lastname"] = result.last_name;
-                var friendsId = new List<int>();
-                foreach (var friend in friends.data)
-                {
-                    var id = long.Parse(friend.id);
-                    if (dict.ContainsKey(id))
-                        friendsId.Add(dict[id]);
-                }
-                var questions = Question.GetFriendsQuestions(friendsId.ToArray());
-                ViewData["questions"] = questions;
+                Info = "The user has been successfully revealed.";
             }
             catch (ApplicationException e)
             {
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
