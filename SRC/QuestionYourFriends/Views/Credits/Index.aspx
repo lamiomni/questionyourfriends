@@ -10,7 +10,7 @@
     <h2>Index</h2>
     <h2> Facebook Credits Demo Application</h2>
 
-  <p> Create an order by specifying the following attributes:</br>
+  <p> Create an order by specifying the following attributes: <br/>
   <i>Title, price, description, image URL and product URL</i></p>
   
   <!-- Please note that user can change any information in order_info through 
@@ -19,17 +19,17 @@
 	here only for end-to-end flow testing purpose!! -->
   <form name ="place_order" id="order_form" action="#">
   Title:       <input type="text" name="title" value="BFF Locket"
-                id="title_el"> </br></br>
+                id="title_el"> <br/><br/>
   Price:       <input type="text" name="price" value="10"
-                id="price_el"> </br></br>
+                id="price_el">  <br/><br/>
   Description: <input type="text" name="description" size="64"
-                value="This is a BFF Locket..." id="desc_el"> </br></br>
+                value="This is a BFF Locket..." id="desc_el">  <br/><br/>
   Image URL:   <input type="text" name="image_url" size="64"
                 value="http://www.facebook.com/images/gifts/21.png"
-                id="img_el"> </br></br>
+                id="img_el">  <br/><br/>
   Product URL: <input type="text" name="product_url" size="64"
                 value="http://www.facebook.com/images/gifts/21.png"
-                id="product_el"> </br></br>
+                id="product_el"> <br/><br/>
   <a onclick="placeOrder(); return false;">
     <img src="http://www.facebook.com/connect/button.php?app_id=131910193550231&feature=payments&type=light_l">
   </a>
@@ -37,7 +37,7 @@
 
 
   
-  <div id="output">  </div> </br></br>
+  <div id="output">  </div>  <br/><br/>
     <script type="text/javascript">
        
     function placeOrder() {
