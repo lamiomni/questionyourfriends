@@ -259,6 +259,18 @@ namespace QuestionYourFriends.Models
             return Create(QyfData.EarningStartup, user.id, TransacType.EarningStartup, 0) != -1;
         }
 
+
+        /// <summary>
+        /// Get earning 
+        /// </summary>
+        /// <param name="user">Concerned user</param>
+        /// <param name="amount">Concerned Amount</param>
+        /// <returns>True if the process is ok</returns>
+        public static bool Earning(QuestionYourFriendsDataAccess.User user, int amount)
+        {
+            return Create(amount, user.id, TransacType.Purchase, 0) != -1;
+        }
+
         /// <summary>
         /// Get earning from an answer
         /// </summary>
