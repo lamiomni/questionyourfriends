@@ -200,7 +200,7 @@ namespace QuestionYourFriends.Models
             // Update Question's price
             if (check)
             {
-                question.anom_price = bid;
+                question.anom_price = 0;
                 Question.Update(question);
             }
             return check;
@@ -235,7 +235,7 @@ namespace QuestionYourFriends.Models
             // Update Question's price
             if (check)
             {
-                question.anom_price = bid;
+                question.anom_price = 0;
                 Question.Update(question);
             }
             return check;
