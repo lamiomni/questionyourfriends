@@ -1,0 +1,6 @@
+- Lancer le raccourci "Test de déployement Qyf" en administrateur.
+- Si aucun problème n'est affiché:
+- Lancer "Déployer Qyf" toujours en administrateur.
+- Sinon, résoudre les problèmes grâce aux messages d'erreurs affichés dans la console.
+
+Pour le backend, suivez les mêmes instructions avec "QyfBe".
