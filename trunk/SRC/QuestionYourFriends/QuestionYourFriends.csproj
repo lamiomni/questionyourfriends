@@ -120,8 +120,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebService.asmx.cs">
+      <DependentUpon>WebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\annon.jpg" />
+    <Content Include="Content\header-bg.jpg" />
+    <Content Include="Content\logo.png" />
+    <Content Include="Content\logo_small.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Views\Ask\Index.aspx" />
     <Content Include="Views\Credits\CallBack.aspx" />
@@ -158,6 +166,7 @@
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebService.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
