@@ -14,8 +14,8 @@
         var received = ((string) ViewData["tab"] == "toMe") ? "class=actif" : "";
         var sent = ((string) ViewData["tab"] == "fromMe") ? "class=actif" : "";
     %>
-        <li <%:received %>><%:Html.ActionLink("Questions received", "ToMe", "MyQuestions")%></li>
-        <li <%:sent %>><%:Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>
+        <li <%:received %>><%:Html.ActionLink("Questions received", "Index", "MyQuestions")%></li>
+        <li <%:sent %>><%:Html.ActionLink("Questions sent", "FromMe", "MyQuestions")%></li>
     </ul>
     <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];

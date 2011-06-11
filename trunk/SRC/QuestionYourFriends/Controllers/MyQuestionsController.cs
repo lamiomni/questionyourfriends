@@ -21,14 +21,6 @@ namespace QuestionYourFriends.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return RedirectToAction("ToMe", "MyQuestions");
-        }
-
-        /// <summary>
-        /// GET: /MyQuestions/ToMe
-        /// </summary>
-        public ActionResult ToMe()
-        {
             try
             {
                 // Fetch data
@@ -151,7 +143,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return RedirectToAction("ToMe");
+            return View("Index");
         }
 
         /// <summary>
@@ -184,7 +176,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return RedirectToAction("ToMe");
+            return View("Index");
         }
 
         /// <summary>
@@ -216,7 +208,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return RedirectToAction("ToMe");
+            return View("Index");
         }
 
         /// <summary>
@@ -252,7 +244,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return RedirectToAction("ToMe");
+            return View("Index");
         }
 
         /// <summary>
@@ -288,7 +280,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return RedirectToAction("ToMe");
+            return View("Index");
         }
     }
 }
