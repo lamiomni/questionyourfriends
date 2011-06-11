@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
@@ -122,6 +123,7 @@ namespace QuestionYourFriendsDataAccess
         #region Propriétés de navigation
     
         [DataMember]
+        [XmlIgnore]
         public TrackableCollection<Question> MyQuestions
         {
             get
@@ -157,6 +159,7 @@ namespace QuestionYourFriendsDataAccess
         private TrackableCollection<Question> _myQuestions;
     
         [DataMember]
+        [XmlIgnore]
         public TrackableCollection<Question> QuestionsToMe
         {
             get
@@ -192,6 +195,7 @@ namespace QuestionYourFriendsDataAccess
         private TrackableCollection<Question> _questionsToMe;
     
         [DataMember]
+        [XmlIgnore]
         public TrackableCollection<Transac> Transacs
         {
             get

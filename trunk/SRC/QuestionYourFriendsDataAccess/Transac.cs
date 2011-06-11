@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
@@ -138,6 +139,7 @@ namespace QuestionYourFriendsDataAccess
         #region Propriétés de navigation
     
         [DataMember]
+        [XmlIgnore]
         public Question Question
         {
             get { return _question; }
@@ -155,6 +157,7 @@ namespace QuestionYourFriendsDataAccess
         private Question _question;
     
         [DataMember]
+        [XmlIgnore]
         public User User
         {
             get { return _user; }

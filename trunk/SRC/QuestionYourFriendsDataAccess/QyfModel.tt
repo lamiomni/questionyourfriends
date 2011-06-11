@@ -209,6 +209,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
 #>
 
     [DataMember]
+    [XmlIgnore]
 <#
         if (navProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
         {
@@ -1290,6 +1291,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 <#=String.Join(String.Empty, extraUsings.Select(u => "using " + u + ";" + Environment.NewLine).ToArray())#>
 <#+
     fileManager.EndBlock();
@@ -1472,6 +1474,7 @@ public class ObjectChangeTracker
 
     // Retourne les objets supprimés aux propriétés de collection qui ont été modifiées.
     [DataMember]
+	[XmlIgnore]
     public ObjectsRemovedFromCollectionProperties ObjectsRemovedFromCollectionProperties
     {
         get
@@ -1486,6 +1489,7 @@ public class ObjectChangeTracker
 
     // Retourne les valeurs d'origine pour les propriétés qui ont été modifiées.
     [DataMember]
+	[XmlIgnore]
     public OriginalValuesDictionary OriginalValues
     {
         get
@@ -1502,6 +1506,7 @@ public class ObjectChangeTracker
     // Cela inclut les valeurs de clé pour les associations indépendantes, requises pour le
     // modèle de concurrence dans Entity Framework
     [DataMember]
+	[XmlIgnore]
     public ExtendedPropertiesDictionary ExtendedProperties
     {
         get
@@ -1516,6 +1521,7 @@ public class ObjectChangeTracker
 
     // Retourne les objets ajoutés aux propriétés de collection qui ont été modifiées.
     [DataMember]
+	[XmlIgnore]
     public ObjectsAddedToCollectionProperties ObjectsAddedToCollectionProperties
     {
         get
