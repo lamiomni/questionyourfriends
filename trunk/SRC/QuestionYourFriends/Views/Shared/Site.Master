@@ -63,6 +63,7 @@
             };
 
             function writeback(str) {
+                alert(str);
                 //document.getElementById('output').innerHTML=str;
             }
 
