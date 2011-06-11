@@ -114,7 +114,7 @@
                 }
                 else
                 {%>
-                                <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" alt="This action will cost you <%:i.anom_price %> credits." >???</a>
+                                <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" alt="This action will cost you <%:i.anom_price %> credits." title="This action will cost you <%:i.anom_price %> credits.">???</a>
                            <%
                 }%> 
                         </span> asked you a 
@@ -131,12 +131,8 @@
                 }%>
                         question.
                         <%
-                if (i.anom_price > 0)
-                {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" alt="This action will cost you <%:i.anom_price %> credits.">Reveal.</a><%
-                }%>
-                        <%
                 if (i.private_price > 0)
-                {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id%>" alt="This action will cost you <%:i.private_price %> credits.">Make public.</a> <%
+                {%> <a href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id%>" title="This action will cost you <%:i.private_price %> credits." alt="This action will cost you <%:i.private_price %> credits.">Make public.</a> <%
                 }%>
                         </div>
                         <div class="question-sentence"><%:i.text%></div>
