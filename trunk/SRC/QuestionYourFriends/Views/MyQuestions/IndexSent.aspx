@@ -20,56 +20,80 @@
     <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
         var friends = (Dictionary<long, dynamic>) ViewData["friends"];
-        foreach (var question in questions)
+        if (questions == null || questions.Count == 0)
         {
+        %>
+        <div class="fbinfobox">  
+            You did not send any question, go ask some to your friends!
+        </div>
+   <%
+}
+        else
+        {
+            foreach (var question in questions)
+            {
 %>
        <div class="question-bloc">
-		<img src="http://graph.facebook.com/<%:question.Owner.fid %>/picture" height="52" width="52" alt=""/>
+		<img src="http://graph.facebook.com/<%:question.Owner.fid%>/picture" height="52" width="52" alt=""/>
         <div class="question">
             <div class="question-status">
                 <span class="name">
                 You
                 </span>
         asked <span class="name">
-        <% if(!friends.ContainsKey(question.Receiver.fid))
-        {
-        %>
+        <%
+                if (!friends.ContainsKey(question.Receiver.fid))
+                {
+%>
             Qyf
         <%
-        } else
-        {%>
+                }
+                else
+                {%>
             <%:friends[question.Receiver.fid].name%><%
-        }%>
+                }%>
         </span> a
-        <% if (question.private_price > 0) {%>
+        <%
+                if (question.private_price > 0)
+                {%>
             <span class="privacy">private</span>
-        <% } else { %>
+        <%
+                }
+                else
+                {%>
             <span class="privacy">public</span>
-        <% } %>
+        <%
+                }%>
             question.
             <div class="question-sentence"><%:question.text%></div>
-            <% if (question.answer != null) {%>
+            <%
+                if (question.answer != null)
+                {%>
 		    <div class="answer-bloc">
-			<img src="http://graph.facebook.com/<%:question.Receiver.fid %>/picture" height="33" width="33" alt=""/>
+			<img src="http://graph.facebook.com/<%:question.Receiver.fid%>/picture" height="33" width="33" alt=""/>
 			<div class="answer">
 				<div class="answer-status">
-                <% if(!friends.ContainsKey(question.Receiver.fid))
+                <%
+                    if (!friends.ContainsKey(question.Receiver.fid))
                     {
-                    %>
+%>
                         Qyf
                     <%
-                    } else
+                    }
+                    else
                     {%>
                         <%:friends[question.Receiver.fid].name%> <%
                     }%> answered:</div>
 				<%:question.answer%> <br/> <%:question.date_pub%>
 			</div>
 			</div>
-            <% } %>
+            <%
+                }%>
 		</div>
         </div>
     </div>
     <%
-    }
-    %>
+            }
+        }
+%>
 </asp:Content>
