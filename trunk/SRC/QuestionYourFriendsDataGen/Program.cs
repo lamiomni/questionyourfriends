@@ -53,8 +53,8 @@ namespace QuestionYourFriendsDataGen
                     .Setup(q => q.date_pub).Use<DateOfBirthSource>()
                     .Setup(q => q.Owner).Use<RandomListSource<User>>(_qyfe.Users)
                     .Setup(q => q.Receiver).Use<RandomListSource<User>>(_qyfe.Users)
-                    .Setup(q => q.private_price).Use<RandomIntegerSource>(250)
-                    .Setup(q => q.anom_price).Use<RandomIntegerSource>(250)
+                    .Setup(q => q.private_price).Use<RandomIntegerSource>(200)
+                    .Setup(q => q.anom_price).Use<RandomIntegerSource>(200)
                     .Setup(q => q.undesirable).Use<ValueSource<bool>>(false)
                     .Setup(q => q.deleted).Use<ValueSource<bool>>(false)
                     .Setup(q => q.text).Use<RandomListSource<string>>(Data.DataGen.Questions)
@@ -75,8 +75,7 @@ namespace QuestionYourFriendsDataGen
                 // Impose user informations
                 x.AddFromAssemblyContainingType<User>();
                 x.Include<User>()
-                    .Setup(u => u.activated).Use<ValueSource<bool>>(true)
-                    .Setup(u => u.credit_amount).Use<ValueSource<int>>(2500);
+                    .Setup(u => u.activated).Use<ValueSource<bool>>(true);
             });
 
             // Generate one of these per test (factory will be a static variable most likely)
@@ -148,7 +147,7 @@ namespace QuestionYourFriendsDataGen
         {
             const int nbUser = 5;
             const int nbTransac = 4;
-            const int nbQuestion = 64;
+            const int nbQuestion = 128;
             int i = 0;
 
 
