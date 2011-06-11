@@ -58,7 +58,7 @@ namespace QuestionYourFriends.Controllers
 #if DEBUG
         public ActionResult Clear()
         {
-            RequestCache.Flush();
+            Session.Clear();
             return View("Index");
         }
 #endif

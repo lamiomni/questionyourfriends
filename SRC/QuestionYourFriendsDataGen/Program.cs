@@ -233,6 +233,21 @@ namespace QuestionYourFriendsDataGen
             Console.WriteLine(string.Format(". {0} questions deleted.", i));
 
 
+            // Anti-questions-to-Qyf feature
+            User qyf = BusinessManagement.User.Get((long)0);
+            Console.Write(@"      - Anti-questions-to-Qyf check.");
+            i = 0;
+            foreach (var question in qs.Where(question => qyf.id == question.id_receiver))
+            {
+                _qyfe.Questions.DeleteObject(question);
+                i++;
+            }
+            Console.Write(@".");
+            _qyfe.SaveChanges();
+            _logger.InfoFormat(string.Format("  - {0} questions deleted.", i));
+            Console.WriteLine(string.Format(". {0} questions deleted.", i));
+
+
             // Add transactions
             int jrid = BusinessManagement.User.Get(FidJr).id;
             int tonyid = BusinessManagement.User.Get(FidTony).id;

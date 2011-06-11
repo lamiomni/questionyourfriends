@@ -54,13 +54,19 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 catch (OptimisticConcurrencyException e)
                 {
                     _logger.Error("Concurrency error:", e);
+                    try
+                    {
+                        // Resolve the concurrency conflict by refreshing the 
+                        // object context before re-saving changes. 
+                        qyfEntities.Refresh(RefreshMode.ClientWins, question);
 
-                    // Resolve the concurrency conflict by refreshing the 
-                    // object context before re-saving changes. 
-                    qyfEntities.Refresh(RefreshMode.ClientWins, question);
-
-                    // Save changes.
-                    qyfEntities.SaveChanges();
+                        // Save changes.
+                        qyfEntities.SaveChanges();
+                    }
+                    catch (UpdateException ex)
+                    {
+                        _logger.Error("Update error:", ex);
+                    }
                 }
                 _logger.InfoFormat("New question id: {0}", question.id);
                 return question.id;

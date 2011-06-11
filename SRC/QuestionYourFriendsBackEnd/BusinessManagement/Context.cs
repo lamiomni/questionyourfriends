@@ -1,4 +1,7 @@
-﻿using QuestionYourFriendsDataAccess;
+﻿using System.Data.Objects;
+using System.Reflection;
+using log4net;
+using QuestionYourFriendsDataAccess;
 
 namespace QuestionYourFriendsBackEnd.BusinessManagement
 {
@@ -7,9 +10,23 @@ namespace QuestionYourFriendsBackEnd.BusinessManagement
     /// </summary>
     public static class Context
     {
+        private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Static instance of our Entity context
         /// </summary>
-        public static readonly QuestionYourFriendsEntities QyfEntities = new QuestionYourFriendsEntities();
+        public static readonly QuestionYourFriendsEntities QyfEntities;
+
+        /// <summary>
+        /// Static constructor
+        /// </summary>
+        static Context()
+        {
+            QyfEntities = new QuestionYourFriendsEntities();
+            QyfEntities.Users.MergeOption = MergeOption.OverwriteChanges;
+            QyfEntities.Transacs.MergeOption = MergeOption.OverwriteChanges;
+            QyfEntities.Questions.MergeOption = MergeOption.OverwriteChanges;
+            _logger.Info("Context initialized.");
+        }
     }
 }
