@@ -72,7 +72,6 @@ namespace QuestionYourFriends.Models
                 Create(fid);
                 res = Get(fid);
                 Transac.EarningStartup(res);
-                UpdateMoney(res.id);
             }
             return res;
         }
