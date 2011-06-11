@@ -244,7 +244,7 @@ namespace QuestionYourFriends.Models
             int amount)
         {
             // Creation of the transaction
-            return Create(amount, user.id, TransacType.Purchase, 0) != -1;
+            return Create(amount, user.id, TransacType.Purchase,null) != -1;
         }
 
         /// <summary>
