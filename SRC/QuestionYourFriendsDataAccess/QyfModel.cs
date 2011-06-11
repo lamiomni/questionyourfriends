@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace QuestionYourFriendsDataAccess
 {
@@ -70,6 +71,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Retourne les objets supprimés aux propriétés de collection qui ont été modifiées.
         [DataMember]
+    	[XmlIgnore]
         public ObjectsRemovedFromCollectionProperties ObjectsRemovedFromCollectionProperties
         {
             get
@@ -84,6 +86,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Retourne les valeurs d'origine pour les propriétés qui ont été modifiées.
         [DataMember]
+    	[XmlIgnore]
         public OriginalValuesDictionary OriginalValues
         {
             get
@@ -100,6 +103,7 @@ namespace QuestionYourFriendsDataAccess
         // Cela inclut les valeurs de clé pour les associations indépendantes, requises pour le
         // modèle de concurrence dans Entity Framework
         [DataMember]
+    	[XmlIgnore]
         public ExtendedPropertiesDictionary ExtendedProperties
         {
             get
@@ -114,6 +118,7 @@ namespace QuestionYourFriendsDataAccess
     
         // Retourne les objets ajoutés aux propriétés de collection qui ont été modifiées.
         [DataMember]
+    	[XmlIgnore]
         public ObjectsAddedToCollectionProperties ObjectsAddedToCollectionProperties
         {
             get
