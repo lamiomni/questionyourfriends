@@ -45,7 +45,7 @@
 %>
             <form method="post" action="FriendsQuestions/Reveal">
                 <input type="hidden" name="qid" value="<%:question.id%>" />
-                <button class="friendAnonymous " type="submit">???</button>
+                <button class="friendAnonymous" type="submit">???</button>
             </form>
         <%
                 }

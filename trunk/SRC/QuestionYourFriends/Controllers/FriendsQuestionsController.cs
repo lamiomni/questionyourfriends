@@ -17,6 +17,7 @@ namespace QuestionYourFriends.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string _info;
+        private static string _error;
         public static string Info
         {
             get { 
@@ -25,6 +26,16 @@ namespace QuestionYourFriends.Controllers
                 return res;
             }
             set { _info = value; }
+        }
+        public static string Error
+        {
+            get
+            {
+                string res = _error;
+                _error = null;
+                return res;
+            }
+            set { _error = value; }
         }
 
         /// <summary>
@@ -73,6 +84,9 @@ namespace QuestionYourFriends.Controllers
                 string info = Info;
                 if (!string.IsNullOrWhiteSpace(info))
                     ViewData["Info"] = info;
+                string error = Error;
+                if (!string.IsNullOrWhiteSpace(error))
+                    ViewData["Error"] = error;
             }
             catch (ApplicationException e)
             {
@@ -113,7 +127,7 @@ namespace QuestionYourFriends.Controllers
             }
             catch (ApplicationException e)
             {
-                ViewData["Error"] = e.Message;
+                Error = e.Message;
                 _logger.Error(e.Message);
             }
             return RedirectToAction("Index");
