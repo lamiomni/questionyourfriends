@@ -37,7 +37,7 @@
     .question-bloc .question .answer-bloc .answer .answer-sentence{font-size:11px;color:black;}
     .question-bloc .delete-cross { float: right;}
     </style>
-   <fb:like-box href="" send="false" layout="button_count" width="450" show_faces="false" font=""></fb:like-box>
+   
     <% foreach(var i in (List<QuestionYourFriendsDataAccess.Question>)ViewData["questions"])
        {
            %>
