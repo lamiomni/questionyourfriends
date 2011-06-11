@@ -118,7 +118,7 @@ namespace QuestionYourFriends.Controllers
                 try
                 {
                     if (annonCost == 0)
-                        Models.Facebook.Publish(ffid, askedQuestion, "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif");
+                        Models.Facebook.Publish(ffid, askedQuestion, "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif", "http://apps.facebook.com/questionyourfriends/", "Question Your Friend", QuestionYourFriends.Models.Facebook.GetFriendName(fid) + " just asked you a question on Question Your Friends! Come on and answer the question!");
                 }
                 catch (Facebook.FacebookApiException e)
                 {
