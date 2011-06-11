@@ -17,7 +17,7 @@ string namespaceName = code.VsNamespaceSuggestion();
 
 EntityFrameworkTemplateFileManager fileManager = EntityFrameworkTemplateFileManager.Create(this);
 
-// Write out support code to primary template output file
+// Écrire du code de prise en charge dans le fichier de sortie du modèle principal
 WriteHeader(fileManager);
 BeginNamespace(namespaceName, code);
 WriteObjectChangeTracker();
@@ -27,20 +27,17 @@ WriteINotifyComplexPropertyChanging();
 WriteEqualityComparer();
 EndNamespace(namespaceName);
 
-// Emit Entity Types
+// Émettre des types d'entité
 foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e => e.Name))
 {
     fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(namespaceName, code);
-#>
-[Serializable]
-<#
     WriteEntityTypeSerializationInfo(entity, ItemCollection, code, ef);
 #>
 <#=Accessibility.ForType(entity)#> <#=code.SpaceAfter(code.AbstractOption(entity))#>partial class <#=code.Escape(entity)#><#=code.StringBefore(" : ", code.Escape(entity.BaseType))#><#=entity.BaseType == null ? ": " : ", "#>IObjectWithChangeTracker, INotifyPropertyChanged
 {
 <#
-    region.Begin("Primitive Properties");
+    region.Begin("Propriétés primitives");
 
     foreach (EdmProperty edmProperty in entity.Properties.Where(p => p.TypeUsage.EdmType is PrimitiveType && p.DeclaringType == entity))
     {
@@ -71,7 +68,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
 <#
         if (ef.IsKey(edmProperty))
         {
-            string errorMessage = String.Format("The property '{0}' is part of the object's key and cannot be changed. Changes to key properties can only be made when the object is not being tracked or is in the Added state.", edmProperty.Name);
+            string errorMessage = String.Format("La propriété '{0}' fait partie de la clé de l'objet et ne peut pas être modifiée. Les modifications des propriétés de clés sont possibles à condition que l'objet ne soit pas suivi ou qu'il soit dans l'état ajouté.", edmProperty.Name);
 #>
                 if (ChangeTracker.ChangeTrackingEnabled && ChangeTracker.State != ObjectState.Added)
                 {
@@ -149,7 +146,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
     }
     region.End();
 
-    region.Begin("Complex Properties");
+    region.Begin("Propriétés complexes");
 
     foreach(EdmProperty edmProperty in entity.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.DeclaringType == entity))
     {
@@ -197,14 +194,13 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
     region.End();
 
     ////////
-    //////// Write Navigation properties -------------------------------------------------------------------------------------------
+    //////// Écrire les propriétés de navigation -------------------------------------------------------------------------------------------
     ////////
 
-    region.Begin("Navigation Properties");
+    region.Begin("Propriétés de navigation");
 
     foreach (NavigationProperty navProperty in entity.NavigationProperties.Where(np => np.DeclaringType == entity))
     {
-		
         NavigationProperty inverse = ef.Inverse(navProperty);
         if (inverse != null &&  !IsReadWriteAccessibleProperty(inverse))
         {
@@ -212,7 +208,6 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         }
 #>
 
-	[XmlIgnore]
     [DataMember]
 <#
         if (navProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
@@ -235,7 +230,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
             {
                 if (ChangeTracker.ChangeTrackingEnabled)
                 {
-                    throw new InvalidOperationException("Cannot set the FixupChangeTrackingCollection when ChangeTracking is enabled");
+                    throw new InvalidOperationException("Impossible de définir FixupChangeTrackingCollection lorsque ChangeTracking est activé");
                 }
                 if (<#=code.FieldName(navProperty)#> != null)
                 {
@@ -244,8 +239,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         if (ef.IsCascadeDeletePrincipal(navProperty))
         {
 #>
-                    // This is the principal end in an association that performs cascade deletes.
-                    // Remove the cascade delete event handler for any entities in the current collection.
+                    // Il s'agit de l'extrémité principale dans une association qui effectue des suppressions en cascade.
+                    // Supprimez le gestionnaire d'événements des suppressions en cascade pour toutes les entités dans la collection actuelle.
                     foreach (<#=code.Escape(navProperty.ToEndMember.GetEntityType())#> item in <#=code.FieldName(navProperty)#>)
                     {
                         ChangeTracker.ObjectStateChanging -= item.HandleCascadeDelete;
@@ -262,8 +257,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         if (ef.IsCascadeDeletePrincipal(navProperty))
         {
 #>
-                    // This is the principal end in an association that performs cascade deletes.
-                    // Add the cascade delete event handler for any entities that are already in the new collection.
+                    // Il s'agit de l'extrémité principale dans une association qui effectue des suppressions en cascade.
+                    // Ajoutez le gestionnaire d'événements des suppressions en cascade pour toutes les entités qui figurent déjà dans la nouvelle collection.
                     foreach (<#=code.Escape(navProperty.ToEndMember.GetEntityType())#> item in <#=code.FieldName(navProperty)#>)
                     {
                         ChangeTracker.ObjectStateChanging += item.HandleCascadeDelete;
@@ -290,7 +285,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
             if (!ReferenceEquals(<#=code.FieldName(navProperty)#>, value))
             {
 <#
-            // If this is the dependent end of an identifying relationship, the principal end can only be changed if the dependent is in the Added state and the principal's key matches the foreign key on the dependent
+            // S'il s'agit de l'extrémité dépendante d'une relation d'identification, l'extrémité principale ne peut être modifiée que si le dépendant est dans l'état Added et que la clé du principal correspond à la clé étrangère du dépendant
             if (ef.IsPrincipalEndOfIdentifyingRelationship((AssociationEndMember)navProperty.ToEndMember))
             {
 #>
@@ -324,11 +319,11 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
                     keyMatchCondition.AppendFormat(CultureInfo.InvariantCulture, equality, escapedDependent, escapedPrincipal);
                 }
 #>
-                    // This the dependent end of an identifying relationship, so the principal end cannot be changed if it is already set,
-                    // otherwise it can only be set to an entity with a primary key that is the same value as the dependent's foreign key.
+                    // Comme il s'agit de l'extrémité dépendante d'une relation d'identification, l'extrémité principale ne peut pas être modifiée si elle est déjà définie,
+                    // sinon elle ne peut prendre pour valeur qu'une entité avec une clé primaire de la même valeur que la clé étrangère du dépendant.
                     if (<#=keyMatchCondition.ToString()#>)
                     {
-                        throw new InvalidOperationException("The principal end of an identifying relationship can only be changed when the dependent end is in the Added state.");
+                        throw new InvalidOperationException("L'extrémité principale d'une relation d'identification ne peut être modifiée que lorsque l'extrémité dépendante est dans l'état Added.");
                     }
                 }
 <#
@@ -347,7 +342,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
     }
     region.End();
 
-    region.Begin("ChangeTracking");
+    region.Begin("Suivi des modifications");
     if (entity.BaseType == null)
     {
 #>
@@ -410,17 +405,17 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         }
     }
 <#
-    // If this entity type participates in any relationships where the other end has an OnDelete
-    // cascade delete defined, or if it is the dependent in any identifying relationships, it needs
-    // an event handler to handle notifications that are fired when the parent is deleted.
+    // Si ce type d'entité participe à une relation dans laquelle une suppression en cascade OnDelete pour l'autre extrémité
+    // est définie, ou s'il s'agit du dépendant dans une relation d'identification, il nécessite
+    // un gestionnaire d'événements pour gérer les notifications qui sont déclenchées lorsque le parent est supprimé.
     if (ItemCollection.GetItems<AssociationType>().Where(a =>
         ((RefType)a.AssociationEndMembers[0].TypeUsage.EdmType).ElementType == entity && ef.IsCascadeDeletePrincipal(a.AssociationEndMembers[1]) ||
         ((RefType)a.AssociationEndMembers[1].TypeUsage.EdmType).ElementType == entity && ef.IsCascadeDeletePrincipal(a.AssociationEndMembers[0])).Any())
     {
 #>
 
-    // This entity type is the dependent end in at least one association that performs cascade deletes.
-    // This event handler will process notifications that occur when the principal end is deleted.
+    // Ce type d'entité est l'extrémité dépendante dans au moins une association qui effectue des suppressions en cascade.
+    // Ce gestionnaire d'événements traitera les notifications qui se produisent lors de la suppression de l'extrémité principale.
     internal void HandleCascadeDelete(object sender, ObjectStateChangingEventArgs e)
     {
         if (e.NewState == ObjectState.Deleted)
@@ -452,7 +447,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
     foreach(EdmProperty edmProperty in entity.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.DeclaringType == entity))
     {
 #>
-    // <#=String.Format(CultureInfo.CurrentCulture, "Records the original values for the complex property {0}", edmProperty.Name)#>
+    // <#=String.Format(CultureInfo.CurrentCulture, "Enregistre les valeurs originales pour la propriété complexe {0}", edmProperty.Name)#>
     private void Handle<#=edmProperty.Name#>Changing(object sender, EventArgs args)
     {
         if (ChangeTracker.State != ObjectState.Added && ChangeTracker.State != ObjectState.Deleted)
@@ -538,7 +533,7 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
 <#
     region.End();
 
-    region.Begin("Association Fixup");
+    region.Begin("Correction d'association");
 
     foreach (NavigationProperty navProperty in entity.NavigationProperties.Where(np => np.DeclaringType == entity))
     {
@@ -562,8 +557,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         if (ef.IsCascadeDeletePrincipal(navProperty))
         {
 #>
-        // This is the principal end in an association that performs cascade deletes.
-        // Update the event listener to refer to the new dependent.
+        // Il s'agit de l'extrémité principale dans une association qui effectue des suppressions en cascade.
+        // Mettez à jour l'écouteur d'événement pour faire référence au nouveau dépendant.
         if (previousValue != null)
         {
             ChangeTracker.ObjectStateChanging -= previousValue.HandleCascadeDelete;
@@ -579,10 +574,10 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         else if (inverse == null && ef.IsCascadeDeletePrincipal((AssociationEndMember)navProperty.ToEndMember))
         {
 #>
-        // This is the dependent end in an association that performs cascade deletes.
-        // Update the principal's event listener to refer to the new dependent.
-        // This is a unidirectional relationship from the dependent to the principal, so the dependent end is
-        // responsible for managing the cascade delete event handler. In all other cases the principal end will manage it.
+        // Il s'agit de l'extrémité dépendante dans une association qui effectue des suppressions en cascade.
+        // Mettez à jour l'écouteur d'événement du principal pour faire référence au nouveau dépendant.
+        // Comme il s'agit d'une relation unidirectionnelle entre le dépendant et le principal, l'extrémité dépendante est
+        // chargée de la gestion du gestionnaire d'événements des suppressions en cascade. Dans tous les autres cas, l'extrémité principale en assurera la gestion.
         if (previousValue != null)
         {
             previousValue.ChangeTracker.ObjectStateChanging -= HandleCascadeDelete;
@@ -751,8 +746,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         if (ef.IsPrincipalEndOfIdentifyingRelationship((AssociationEndMember)navProperty.FromEndMember))
         {
 #>
-                // This is the principal end of an identifying association, so the dependent must be deleted when the relationship is removed.
-                // If the current state of the dependent is Added, the relationship can be changed without causing the dependent to be deleted.
+                // Comme il s'agit de l'extrémité principale d'une association d'identification, le dépendant doit être supprimé lorsque la relation est supprimée.
+                // Si l'état actuel du dépendant est Added, la relation peut être modifiée sans provoquer la suppression du dépendant.
                 if (previousValue != null && previousValue.ChangeTracker.State != ObjectState.Added)
                 {
                     previousValue.MarkAsDeleted();
@@ -762,10 +757,10 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
         else if (inverse == null && ef.IsPrincipalEndOfIdentifyingRelationship((AssociationEndMember)navProperty.ToEndMember))
         {
 #>
-                // This is the dependent end of an identifying association, so it must be deleted when the relationship is
-                // removed. If the current state is Added, the relationship can be changed without causing the dependent to be deleted.
-                // This is a unidirectional relationship from the dependent to the principal, so the dependent end is
-                // responsible for cascading the delete. In all other cases the principal end will manage it.
+                // Comme il s'agit de l'extrémité dépendante d'une association d'identification, elle doit être supprimée lorsque la relation est
+                // supprimée. Si l'état actuel est Added, la relation peut être modifiée sans provoquer la suppression du dépendant.
+                // Comme il s'agit d'une relation unidirectionnelle entre le dépendant et le principal, l'extrémité dépendante est
+                // chargée de la cascade des suppressions. Dans tous les autres cas, l'extrémité principale en assurera la gestion.
                 if (previousValue != null && ChangeTracker.State != ObjectState.Added)
                 {
                     this.MarkAsDeleted();
@@ -938,8 +933,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
                 if (ef.IsCascadeDeletePrincipal(navProperty))
                 {
 #>
-                // This is the principal end in an association that performs cascade deletes.
-                // Update the event listener to refer to the new dependent.
+                // Il s'agit de l'extrémité principale dans une association qui effectue des suppressions en cascade.
+                // Mettez à jour l'écouteur d'événement pour faire référence au nouveau dépendant.
                 ChangeTracker.ObjectStateChanging += item.HandleCascadeDelete;
 <#
                 }
@@ -1000,8 +995,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
                 if (ef.IsPrincipalEndOfIdentifyingRelationship((AssociationEndMember)navProperty.FromEndMember))
                 {
 #>
-                    // Delete the dependent end of this identifying association. If the current state is Added,
-                    // allow the relationship to be changed without causing the dependent to be deleted.
+                    // Supprimez l'extrémité dépendante de cette association d'identification. Si l'état actuel est Added,
+                    // autorisez la modification de la relation sans provoquer la suppression du dépendant.
                     if (item.ChangeTracker.State != ObjectState.Added)
                     {
                         item.MarkAsDeleted();
@@ -1014,8 +1009,8 @@ foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e =>
                 if (ef.IsCascadeDeletePrincipal(navProperty))
                 {
 #>
-                // This is the principal end in an association that performs cascade deletes.
-                // Remove the previous dependent from the event listener.
+                // Il s'agit de l'extrémité principale dans une association qui effectue des suppressions en cascade.
+                // Supprimez le dépendant précédent de l'écouteur d'événement.
                 ChangeTracker.ObjectStateChanging -= item.HandleCascadeDelete;
 <#
                 }
@@ -1118,7 +1113,7 @@ foreach (ComplexType complex in ItemCollection.GetItems<ComplexType>().OrderBy(e
 <#=Accessibility.ForType(complex)#> partial class <#=code.Escape(complex)#> : INotifyComplexPropertyChanging, INotifyPropertyChanged
 {
 <#
-    region.Begin("Primitive Properties");
+    region.Begin("Propriétés primitives");
 
     foreach(EdmProperty edmProperty in complex.Properties.Where(p => p.TypeUsage.EdmType is PrimitiveType && p.DeclaringType == complex))
     {
@@ -1144,7 +1139,7 @@ foreach (ComplexType complex in ItemCollection.GetItems<ComplexType>().OrderBy(e
 
     region.End();
 
-    region.Begin("Complex Properties");
+    region.Begin("Propriétés complexes");
 
     foreach(EdmProperty edmProperty in complex.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.DeclaringType == complex))
     {
@@ -1191,7 +1186,7 @@ foreach (ComplexType complex in ItemCollection.GetItems<ComplexType>().OrderBy(e
 
     region.End();
 
-    region.Begin("ChangeTracking");
+    region.Begin("Suivi des modifications");
 #>
 
     private void OnComplexPropertyChanging()
@@ -1222,7 +1217,7 @@ foreach (ComplexType complex in ItemCollection.GetItems<ComplexType>().OrderBy(e
 
     private void HandleComplexPropertyChanging(object sender, EventArgs args)
     {
-        // Bubble the event to all listeners because something changed in a nested complex property
+        // Propager l'événement à tous les écouteurs, car un élément a changé dans une propriété complexe imbriquée
         OnComplexPropertyChanging();
     }
 <#
@@ -1233,7 +1228,7 @@ foreach (ComplexType complex in ItemCollection.GetItems<ComplexType>().OrderBy(e
     {
         if (String.IsNullOrEmpty(parentPropertyName))
         {
-            throw new ArgumentException("String parameter cannot be null or empty.", "parentPropertyName");
+            throw new ArgumentException("Le paramètre de chaîne ne peut pas posséder la valeur null ou être vide.", "parentPropertyName");
         }
 
         if (changeTracker == null)
@@ -1281,10 +1276,10 @@ void WriteHeader(EntityFrameworkTemplateFileManager fileManager, params string[]
 #>
 //------------------------------------------------------------------------------
 // <auto-generated>
-//     This code was generated from a template.
+//     Ce code a été généré à partir d'un modèle.
 //
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
+//     Les modifications apportées à ce fichier peuvent provoquer un comportement incorrect et seront perdues si
+//     le code est régénéré.
 // </auto-generated>
 //------------------------------------------------------------------------------
 
@@ -1295,7 +1290,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 <#=String.Join(String.Empty, extraUsings.Select(u => "using " + u + ";" + Environment.NewLine).ToArray())#>
 <#+
     fileManager.EndBlock();
@@ -1374,8 +1368,8 @@ void WriteEntityTypeSerializationInfo(EntityType type, ItemCollection itemCollec
 bool IsSaveReference(MetadataTools tools, NavigationProperty navProperty)
 {
     return !IsForeignKeyOrIdentifyingRelationship(tools, navProperty) &&
-           navProperty.ToEndMember.RelationshipMultiplicity != RelationshipMultiplicity.Many &&         // Target is a reference
-           navProperty.FromEndMember.RelationshipMultiplicity != RelationshipMultiplicity.One;          // Source is nullable (i.e. not a PK)
+           navProperty.ToEndMember.RelationshipMultiplicity != RelationshipMultiplicity.Many &&         // La cible est une référence
+           navProperty.FromEndMember.RelationshipMultiplicity != RelationshipMultiplicity.One;          // La source autorise la valeur Null (pas un PK, par exemple)
 }
 
 string CreateFixupMethodName(RelationshipEndMember endMember)
@@ -1402,8 +1396,8 @@ void WriteCustomObservableCollection()
 {
 #>
 
-// An System.Collections.ObjectModel.ObservableCollection that raises
-// individual item removal notifications on clear and prevents adding duplicates.
+// System.Collections.ObjectModel.ObservableCollection qui déclenche
+// des notifications de suppression d'élément individuel lors d'un effacement et évite l'ajout de doublons.
 public class TrackableCollection<T> : ObservableCollection<T>
 {
     protected override void ClearItems()
@@ -1425,8 +1419,8 @@ public class TrackableCollection<T> : ObservableCollection<T>
 void WriteObjectChangeTracker()
 {
 #>
-// Helper class that captures most of the change tracking work that needs to be done
-// for self tracking entities.
+// Classe d'assistance qui capture la plupart du travail de suivi des modifications qui doit être effectué
+// pour les entités de suivi automatique.
 [DataContract(IsReference = true)]
 public class ObjectChangeTracker
 {
@@ -1435,7 +1429,7 @@ public class ObjectChangeTracker
     private bool _isDeserializing;
     private ObjectState _objectState = ObjectState.Added;
     private bool _changeTrackingEnabled;
-	private OriginalValuesDictionary _originalValues;
+    private OriginalValuesDictionary _originalValues;
     private ExtendedPropertiesDictionary _extendedProperties;
     private ObjectsAddedToCollectionProperties _objectsAddedToCollections = new ObjectsAddedToCollectionProperties();
     private ObjectsRemovedFromCollectionProperties _objectsRemovedFromCollections = new ObjectsRemovedFromCollectionProperties();
@@ -1476,9 +1470,8 @@ public class ObjectChangeTracker
         set { _changeTrackingEnabled = value; }
     }
 
-    // Returns the removed objects to collection valued properties that were changed.
+    // Retourne les objets supprimés aux propriétés de collection qui ont été modifiées.
     [DataMember]
-	[XmlIgnore]
     public ObjectsRemovedFromCollectionProperties ObjectsRemovedFromCollectionProperties
     {
         get
@@ -1491,9 +1484,8 @@ public class ObjectChangeTracker
         }
     }
 
-    // Returns the original values for properties that were changed.
+    // Retourne les valeurs d'origine pour les propriétés qui ont été modifiées.
     [DataMember]
-	[XmlIgnore]
     public OriginalValuesDictionary OriginalValues
     {
         get
@@ -1506,11 +1498,10 @@ public class ObjectChangeTracker
         }
     }
 
-    // Returns the extended property values.
-    // This includes key values for independent associations that are needed for the
-    // concurrency model in the Entity Framework
+    // Retourne les valeurs de propriétés étendues.
+    // Cela inclut les valeurs de clé pour les associations indépendantes, requises pour le
+    // modèle de concurrence dans Entity Framework
     [DataMember]
-	[XmlIgnore]
     public ExtendedPropertiesDictionary ExtendedProperties
     {
         get
@@ -1523,9 +1514,8 @@ public class ObjectChangeTracker
         }
     }
 
-    // Returns the added objects to collection valued properties that were changed.
+    // Retourne les objets ajoutés aux propriétés de collection qui ont été modifiées.
     [DataMember]
-	[XmlIgnore]
     public ObjectsAddedToCollectionProperties ObjectsAddedToCollectionProperties
     {
         get
@@ -1552,9 +1542,9 @@ public class ObjectChangeTracker
         _isDeserializing = false;
     }
 
-    // Resets the ObjectChangeTracker to the Unchanged state and
-    // clears the original values as well as the record of changes
-    // to collection properties
+    // Réinitialise ObjectChangeTracker avec l'état Unchanged et
+    // efface les valeurs d'origine, ainsi que l'enregistrement des modifications
+    // apportées aux propriétés de collection
     public void AcceptChanges()
     {
         OnObjectStateChanging(ObjectState.Unchanged);
@@ -1565,7 +1555,7 @@ public class ObjectChangeTracker
         _objectState = ObjectState.Unchanged;
     }
 
-    // Captures the original value for a property that is changing.
+    // Capture la valeur d'origine pour une propriété en cours de changement.
     internal void RecordOriginalValue(string propertyName, object value)
     {
         if (_changeTrackingEnabled && _objectState != ObjectState.Added)
@@ -1577,12 +1567,12 @@ public class ObjectChangeTracker
         }
     }
 
-    // Records an addition to collection valued properties on SelfTracking Entities.
+    // Enregistre un ajout aux propriétés de collection sur les entités de suivi automatique.
     internal void RecordAdditionToCollectionProperties(string propertyName, object value)
     {
         if (_changeTrackingEnabled)
         {
-            // Add the entity back after deleting it, we should do nothing here then
+            // Ajouter à nouveau l'entité après sa suppression, nous ne devons donc pas intervenir
             if (ObjectsRemovedFromCollectionProperties.ContainsKey(propertyName)
                 && ObjectsRemovedFromCollectionProperties[propertyName].Contains(value))
             {
@@ -1606,12 +1596,12 @@ public class ObjectChangeTracker
         }
     }
 
-    // Records a removal to collection valued properties on SelfTracking Entities.
+    // Enregistre une suppression dans les propriétés de collection sur des entités de suivi automatique.
     internal void RecordRemovalFromCollectionProperties(string propertyName, object value)
     {
         if (_changeTrackingEnabled)
         {
-            // Delete the entity back after adding it, we should do nothing here then
+            // Supprimer à nouveau l'entité après son ajout, nous ne devons donc pas intervenir
             if (ObjectsAddedToCollectionProperties.ContainsKey(propertyName)
                 && ObjectsAddedToCollectionProperties[propertyName].Contains(value))
             {
@@ -1676,9 +1666,9 @@ void WriteINotifyComplexPropertyChanging()
 {
 #>
 
-// An interface that provides an event that fires when complex properties change.
-// Changes can be the replacement of a complex property with a new complex type instance or
-// a change to a scalar property within a complex type instance.
+// Interface qui fournit un événement qui se déclenche lors de la modification de propriétés complexes.
+// Les modifications peuvent concerner le remplacement d'une propriété complexe par une nouvelle instance de type complexe ou
+// la modification d'une propriété scalaire au sein d'une instance de type complexe.
 public interface INotifyComplexPropertyChanging
 {
     event EventHandler ComplexPropertyChanging;
@@ -1689,12 +1679,12 @@ public interface INotifyComplexPropertyChanging
 void WriteIObjectWithChangeTracker()
 {
 #>
-// The interface is implemented by the self tracking entities that EF will generate.
-// We will have an Adapter that converts this interface to the interface that the EF expects.
-// The Adapter will live on the server side.
+// L'interface est implémentée par les entités de suivi automatique générées par EF.
+// Nous disposerons d'un adaptateur qui convertit cette interface en interface attendue par EF.
+// L'adaptateur résidera côté serveur.
 public interface IObjectWithChangeTracker
 {
-    // Has all the change tracking information for the subgraph of a given object.
+    // Possède toutes les informations de suivi des modifications pour le sous-graphique d'un objet spécifique.
     ObjectChangeTracker ChangeTracker { get; }
 }
 
@@ -1792,7 +1782,7 @@ void WriteEqualityComparer()
 
 public static class EqualityComparer
 {
-    // Helper method to determine if two byte arrays are the same value even if they are different object references
+    // Méthode d'assistance pour déterminer si les tableaux à deux octets sont de même valeur même s'il s'agit de références d'objets différentes
     public static bool BinaryEquals(object binaryValue1, object binaryValue2)
     {
         if (Object.ReferenceEquals(binaryValue1, binaryValue2))
@@ -1839,7 +1829,7 @@ bool VerifyTypesAreCaseInsensitiveUnique(EdmItemCollection itemCollection)
 
         if (alreadySeen.ContainsKey(type.FullName))
         {
-            Error(String.Format(CultureInfo.CurrentCulture, "This template does not support types that differ only by case, the types {0} are not supported", type.FullName));
+            Error(String.Format(CultureInfo.CurrentCulture, "Ce modèle ne prend pas en charge les types dont seule la casse diffère, les types {0} ne sont pas pris en charge", type.FullName));
             return false;
         }
         else
@@ -1852,7 +1842,7 @@ bool VerifyTypesAreCaseInsensitiveUnique(EdmItemCollection itemCollection)
     return true;
 }
 
-// True if the association for the specified navigation property is an identifying relationship or a foreign key relationship.
+// True si l'association pour la propriété de navigation spécifiée est une relation d'identification ou une relation de clé étrangère.
 private bool IsForeignKeyOrIdentifyingRelationship(MetadataTools tools, NavigationProperty navProperty)
 {
     if (tools == null)
@@ -1868,7 +1858,7 @@ private bool IsForeignKeyOrIdentifyingRelationship(MetadataTools tools, Navigati
     return IsForeignKeyOrIdentifyingRelationship(tools, (AssociationType)navProperty.RelationshipType);
 }
 
-// True if the specified association is an identifying relationship or a foreign key relationship.
+// True si l'association spécifiée est une relation d'identification ou une relation de clé étrangère.
 private bool IsForeignKeyOrIdentifyingRelationship(MetadataTools tools, AssociationType association)
 {
     if (tools == null)
@@ -1884,7 +1874,7 @@ private bool IsForeignKeyOrIdentifyingRelationship(MetadataTools tools, Associat
     return association.IsForeignKey || tools.IsIdentifyingRelationship(association);
 }
 
-// Set recordRequiredOriginalValuesOnly to false in the OriginalValueMembers constructor in order to always record all original values
+// Définir recordRequiredOriginalValuesOnly avec la valeur false dans le constructeur OriginalValueMembers, afin de toujours enregistrer toutes les valeurs originales
 public class OriginalValueMembers
 {
     private readonly HashSet<EdmProperty> _concurrencyMembers;
@@ -1913,7 +1903,7 @@ public class OriginalValueMembers
                     }
                 }
 
-                // GetRequiredOriginalValueMembers will not always return foreign key properties, but they are required
+                // GetRequiredOriginalValueMembers ne retournera pas toujours des propriétés de clé étrangère, mais elles sont requises
                 foreach (AssociationType assoc in metadataWorkspace.GetItems<AssociationType>(DataSpace.CSpace).Where(a => a.IsForeignKey))
                 {
                     foreach (EdmProperty toProperty in assoc.ReferentialConstraints[0].ToProperties)
@@ -1924,7 +1914,7 @@ public class OriginalValueMembers
             }
             catch (Exception)
             {
-                // If any exceptions occur, fall back to always recording original values for all properties
+                // Si des exceptions se produisent, revenir à l'enregistrement permanent des valeurs d'origine pour toutes les propriétés
                 _concurrencyMembers = null;
             }
         }
