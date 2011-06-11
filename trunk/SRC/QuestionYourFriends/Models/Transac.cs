@@ -111,9 +111,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            bool check = question != null && user != null;
-
-            if (!check)
+            if (question == null || user == null)
                 return false;
 
             // Get the user and check his wallet
@@ -124,15 +122,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            check = Create(-bid, user.id, TransacType.Anonymize, question.id) != -1;
+            Create(-bid, user.id, TransacType.Anonymize, question.id);
 
             // Update Question's price
-            if (check)
-            {
-                question.anom_price = bid;
-                Question.Update(question);
-            }
-            return check;
+            question.anom_price = bid;
+            Question.Update(question);
+            return true;
         }
 
         /// <summary>
@@ -147,9 +142,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user,
             int bid)
         {
-            bool check = question != null && user != null;
-
-            if (!check)
+            if (question == null || user == null)
                 return false;
 
             // Get the user and check his wallet
@@ -160,15 +153,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            check = Create(-bid, question.id_owner, TransacType.Privatize, question.id) != -1;
+            Create(-bid, question.id_owner, TransacType.Privatize, question.id);
 
             // Update Question's price
-            if (check)
-            {
-                question.anom_price = bid;
-                Question.Update(question);
-            }
-            return check;
+            question.private_price = bid;
+            Question.Update(question);
+            return true;
         }
 
         /// <summary>
@@ -181,9 +171,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            bool check = question != null && user != null;
-
-            if (!check)
+            if (question == null || user == null)
                 return false;
 
             // Get the user and check his wallet
@@ -195,15 +183,12 @@ namespace QuestionYourFriends.Models
             }
                 
             // Creation of the transaction
-            check = Create(-bid, user.id, TransacType.Desanonymize, question.id) != -1;
+            Create(-bid, user.id, TransacType.Desanonymize, question.id);
 
             // Update Question's price
-            if (check)
-            {
-                question.anom_price = 0;
-                Question.Update(question);
-            }
-            return check;
+            question.anom_price = 0;
+            Question.Update(question);
+            return true;
         }
 
         /// <summary>
@@ -216,9 +201,7 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.Question question,
             QuestionYourFriendsDataAccess.User user)
         {
-            bool check = question != null && user != null;
-
-            if (!check)
+            if (question == null || user == null)
                 return false;
 
             // Get the user and check his wallet
@@ -230,15 +213,12 @@ namespace QuestionYourFriends.Models
             }
 
             // Creation of the transaction
-            check &= Create(-bid, user.id, TransacType.Deprivatize, question.id) != -1;
+            Create(-bid, user.id, TransacType.Deprivatize, question.id);
 
             // Update Question's price
-            if (check)
-            {
-                question.anom_price = 0;
-                Question.Update(question);
-            }
-            return check;
+            question.private_price = 0;
+            Question.Update(question);
+            return true;
         }
 
         /// <summary>
@@ -302,21 +282,9 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            int transacId = Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
-            bool check = transacId != -1;
-            if (check)
-            {
-                transacId = Create(-question.private_price, user.id, TransacType.Privatize, question.id);
-                check &= transacId != -1;
-            }
-            else
-            {
-                var transac = Get(transacId);
-                transac.SetTransacStatus(TransacStatus.Ko);
-                Update(transac);
-            }
-
-            return check;
+            Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
+            Create(-question.private_price, user.id, TransacType.Privatize, question.id);
+            return true;
         }
 
         #endregion
