@@ -1,11 +1,11 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<System.Web.Mvc.HandleErrorInfo>" %>
 
 <asp:Content ID="errorTitle" ContentPlaceHolderID="TitleContent" runat="server">
-    Erreur
+    Error
 </asp:Content>
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        Désolé, une erreur s'est produite lors du traitement de votre demande.
+        Sorry, an error occurred during the treatment of your request.
     </h2>
 </asp:Content>

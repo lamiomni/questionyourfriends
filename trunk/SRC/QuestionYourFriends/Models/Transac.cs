@@ -268,7 +268,7 @@ namespace QuestionYourFriends.Models
         /// <returns>True if the process is ok</returns>
         public static bool Earning(QuestionYourFriendsDataAccess.User user, int amount)
         {
-            return Create(amount, user.id, TransacType.Purchase, 0) != -1;
+            return Create(amount, user.id, TransacType.Purchase, null) != -1;
         }
 
         /// <summary>
