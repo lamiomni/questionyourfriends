@@ -29,7 +29,6 @@
         else
         {
 %>
-
     <fb:serverFbml  width="670px" >
     <script type="text/fbml">
     <style>
@@ -94,13 +93,13 @@
                         <input type="hidden" value="<%:i.id%>" name="qid"/>
                         <fb:dialog id="my_dialog-reveal<%:i.id%>" cancel_button=1>
                             <fb:dialog-title>Confirmation</fb:dialog-title>	
-                            <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
+                            <fb:dialog-content><form id="my_dialog-reveal<%:i.id%>">Are you sure?</form></fb:dialog-content>
                             <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" /> 
                         </fb:dialog>
                         <fb:dialog id="my_dialog-topublic<%:i.id%>" cancel_button=1>
                             <fb:dialog-title>Confirmation</fb:dialog-title>	
-                            <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
-                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" /> 
+                            <fb:dialog-content><form id="my_dialog-topublic<%:i.id%>">Are you sure?</form></fb:dialog-content>
+                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/ToPublic?qid=<%:i.id%>" /> 
                         </fb:dialog>
                         <div class="question-status"><span class="name">
                          <%

@@ -128,8 +128,10 @@ namespace QuestionYourFriends.Models
 
             // Update Question's price
             if (check)
+            {
                 question.anom_price = bid;
-
+                Question.Update(question);
+            }
             return check;
         }
 
@@ -162,8 +164,10 @@ namespace QuestionYourFriends.Models
 
             // Update Question's price
             if (check)
-                question.private_price = bid;
-
+            {
+                question.anom_price = bid;
+                Question.Update(question);
+            }
             return check;
         }
 
@@ -195,8 +199,10 @@ namespace QuestionYourFriends.Models
 
             // Update Question's price
             if (check)
-                question.anom_price = 0;
-
+            {
+                question.anom_price = bid;
+                Question.Update(question);
+            }
             return check;
         }
 
@@ -228,8 +234,10 @@ namespace QuestionYourFriends.Models
 
             // Update Question's price
             if (check)
-                question.private_price = 0;
-
+            {
+                question.anom_price = bid;
+                Question.Update(question);
+            }
             return check;
         }
 
@@ -244,7 +252,7 @@ namespace QuestionYourFriends.Models
             int amount)
         {
             // Creation of the transaction
-            return Create(amount, user.id, TransacType.Purchase,null) != -1;
+            return Create(amount, user.id, TransacType.Purchase, null) != -1;
         }
 
         /// <summary>
