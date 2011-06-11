@@ -118,7 +118,7 @@ namespace QuestionYourFriends.Controllers
                 try
                 {
                     if (annonCost == 0)
-                        Models.Facebook.Publish(ffid, askedQuestion, "http://www.pierreferrari2011.com/wp-content/uploads/2011/01/question-mark.jpg");
+                        Models.Facebook.Publish(ffid, askedQuestion, "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif");
                 }
                 catch (Facebook.FacebookApiException e)
                 {
