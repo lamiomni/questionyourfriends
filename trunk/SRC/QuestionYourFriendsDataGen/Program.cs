@@ -235,6 +235,7 @@ namespace QuestionYourFriendsDataGen
 
             // Anti-questions-to-Qyf feature
             User qyf = BusinessManagement.User.Get((long)0);
+            qs = _qyfe.Questions;
             Console.Write(@"      - Anti-questions-to-Qyf check.");
             i = 0;
             foreach (var question in qs.Where(question => qyf.id == question.id_receiver))
