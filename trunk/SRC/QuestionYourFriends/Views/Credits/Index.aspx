@@ -82,7 +82,7 @@
     };
 
     function writeback(str) {
-      document.getElementById('output').innerHTML=str;
+      //document.getElementById('output').innerHTML=str;
     }
 
   </script>

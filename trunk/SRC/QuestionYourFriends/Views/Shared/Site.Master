@@ -23,7 +23,50 @@
               '//connect.facebook.net/en_US/all.js';
                 document.getElementById('fb-root').appendChild(e);
             } ());
-        </script>
+        
+
+            function placeOrder() {
+  
+
+
+                // calling the API ...
+                var order_info = { "title": "buy credits",
+                    "description": "fezfze",
+                    "price": "1",
+                    "image_url": "http://www.facebook.com/images/gifts/21.png",
+                    "product_url": "http://www.facebook.com/images/gifts/21.png"
+                };
+
+                var obj = {
+                    method: 'pay',
+                    order_info: order_info,
+                    purchase_type: 'item'
+                };
+
+                FB.ui(obj, callback);
+            }
+
+
+            var callback = function (data) {
+                if (data['order_id']) {
+                    writeback("Transaction Completed! </br></br>"
+        + "Data returned from Facebook: </br>"
+        + "<b>Order ID: </b>" + data['order_id'] + "</br>"
+        + "<b>Status: </b>" + data['status']);
+                } else if (data['error_code']) {
+                    writeback("Transaction Failed! </br></br>"
+        + "Error message returned from Facebook:</br>"
+        + data['error_message']);
+                } else {
+                    writeback("Transaction failed!");
+                }
+            };
+
+            function writeback(str) {
+                //document.getElementById('output').innerHTML=str;
+            }
+
+    </script>
     
         
         <div id="header">
@@ -35,7 +78,7 @@
               {%>
             <ul id="wallet">
                 <li>  
-                    <a href="javascript:alert('Not yet implemented')" title="Add credits">My credits: <%:QuestionYourFriends.Models.User.Get((long) Session["fid"]).credit_amount%></a>
+                    <a href="#" onclick="placeOrder(); return false;" title="Add credits">My credits: <%:QuestionYourFriends.Models.User.Get((long) Session["fid"]).credit_amount%></a>
                 </li>
             </ul>
             <%
