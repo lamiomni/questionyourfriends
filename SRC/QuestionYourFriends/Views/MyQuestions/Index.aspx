@@ -11,13 +11,26 @@
     <%
         var received = ((string) ViewData["tab"] == "toMe") ? "class=actif" : "";
         var sent = ((string) ViewData["tab"] == "fromMe") ? "class=actif" : "";
-    %>
-        <li <%:received %>><%:Html.ActionLink("Questions received", "ToMe", "MyQuestions")%></li>
-        <li <%:sent %>><%:Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>
+%>
+        <li <%:received%>><%:Html.ActionLink("Questions received", "Index", "MyQuestions")%></li>
+        <li <%:sent%>><%:Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>
     </ul>
     
+     <%
+        var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
+        if (questions == null || questions.Count == 0)
+        {
+        %>
+        <div class="fbinfobox">  
+            You did not receive any question, go ask some to your friends!
+        </div>
+   <%
+        } 
+        else
+        {
+%>
+
     <fb:serverFbml  width="670px" >
-    
     <script type="text/fbml">
     <style>
     .question-bloc{border-bottom:1px solid #dcdcdc;padding:15px 20px;}
@@ -38,9 +51,10 @@
     .question-bloc .delete-cross { float: right;}
     </style>
    
-    <% foreach(var i in (List<QuestionYourFriendsDataAccess.Question>)ViewData["questions"])
-       {
-           %>
+<%
+            foreach (var i in (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"])
+            {
+%>
            
            <div class="question-bloc">
            <fb:request-form
@@ -51,7 +65,7 @@
                     type="Demo"
                     content="Hello"
                     label='Accept' >
-            <input type="hidden" value="<%:i.id %>" name="qid"/>
+            <input type="hidden" value="<%:i.id%>" name="qid"/>
             <div class="delete-cross">
                 <fb:submit>X</fb:submit>
             </div>
@@ -65,54 +79,84 @@
                     content="Hello"
                     label='Accept' >
                
-                    <% if (i.anom_price > 0) {%>
+                    <%
+                if (i.anom_price > 0)
+                {%>
                         <img src="http://localhost/QuestionYourFriends/Content/annon.jpg" height="52" width="52" alt=""/>
-                    <% } else { %>
-                        <img src="http://graph.facebook.com/<%:i.Owner.fid %>/picture" height="52" width="52" alt=""/>
-                    <%} %> 
+                    <%
+                }
+                else
+                {%>
+                        <img src="http://graph.facebook.com/<%:i.Owner.fid%>/picture" height="52" width="52" alt=""/>
+                    <%
+                }%> 
                     <div class="question">
-                        <input type="hidden" value="<%:i.id %>" name="qid"/>
-                        <fb:dialog id="my_dialog-reveal<%:i.id %>" cancel_button=1>
+                        <input type="hidden" value="<%:i.id%>" name="qid"/>
+                        <fb:dialog id="my_dialog-reveal<%:i.id%>" cancel_button=1>
                             <fb:dialog-title>Confirmation</fb:dialog-title>	
                             <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
-                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>" /> 
+                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" /> 
                         </fb:dialog>
-                        <fb:dialog id="my_dialog-topublic<%:i.id %>" cancel_button=1>
+                        <fb:dialog id="my_dialog-topublic<%:i.id%>" cancel_button=1>
                             <fb:dialog-title>Confirmation</fb:dialog-title>	
                             <fb:dialog-content><form id="my_form">Are you sure?</form></fb:dialog-content>
-                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id %>" /> 
+                            <fb:dialog-button type="button" value="Yes" href="http://apps.facebook.com/questionyourfriends/MyQuestions/Reveal?qid=<%:i.id%>" /> 
                         </fb:dialog>
                         <div class="question-status"><span class="name">
-                         <% if (i.anom_price == 0) {%>
+                         <%
+                if (i.anom_price == 0)
+                {%>
                                 <%:QuestionYourFriends.Models.Facebook.GetFriendName(i.Owner.fid)%>
-                           <% } else { %>
-                                <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id %>">???</a>
-                           <%} %> 
+                           <%
+                }
+                else
+                {%>
+                                <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id%>">???</a>
+                           <%
+                }%> 
                         </span> asked you a 
-                        <% if (i.private_price > 0) {%>
+                        <%
+                if (i.private_price > 0)
+                {%>
                                 <span class="privacy">private</span>
-                        <% } else { %>
+                        <%
+                }
+                else
+                {%>
                                 <span class="privacy">public</span>
-                        <% } %>
+                        <%
+                }%>
                         question.
-                        <% if (i.anom_price > 0) {%> <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id %>">Reveal.</a><% } %>
-                        <% if (i.private_price > 0) {%> <a href="#" clicktoshowdialog="my_dialog-topublic<%:i.id %>">Make public.</a> <% } %>
+                        <%
+                if (i.anom_price > 0)
+                {%> <a href="#" clicktoshowdialog="my_dialog-reveal<%:i.id%>">Reveal.</a><%
+                }%>
+                        <%
+                if (i.private_price > 0)
+                {%> <a href="#" clicktoshowdialog="my_dialog-topublic<%:i.id%>">Make public.</a> <%
+                }%>
                         </div>
                         <div class="question-sentence"><%:i.text%></div>
                         <div class="answer-bloc">
-                            <img src="http://graph.facebook.com/<%:i.Receiver.fid %>/picture" height="33" width="33" alt=""/>
+                            <img src="http://graph.facebook.com/<%:i.Receiver.fid%>/picture" height="33" width="33" alt=""/>
                             <div class="answer">
-                                <% if (i.date_answer == null) {%>
+                                <%
+                if (i.date_answer == null)
+                {%>
                                 <div class="answer-status">You did not answer this question yet:</div>
                                 <div class="answer-sentence">
                                     <input type="text" value="" name="answer" />
                                     <fb:submit>
                                         Answer
                                     </fb:submit>
-                                <% } else { %>
+                                <%
+                }
+                else
+                {%>
                                     <div class="answer-status">You answered:</div>
                                     <%:i.answer%> <br/> <%:i.date_pub%>
-                                <% } %>
+                                <%
+                }%>
                                 </div>
                                 
                                   
@@ -121,8 +165,11 @@
                     </div>         
                 </fb:request-form>
             </div> 
-    <% } %>
+    <%
+            }%>
     </script>
     </fb:serverFbml>
-
+    
+    <%
+        }%>
 </asp:Content>
