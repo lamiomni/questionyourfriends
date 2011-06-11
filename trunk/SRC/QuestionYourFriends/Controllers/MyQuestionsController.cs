@@ -143,7 +143,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace QuestionYourFriends.Controllers
                 ViewData["Error"] = e.Message;
                 _logger.Error(e.Message);
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
