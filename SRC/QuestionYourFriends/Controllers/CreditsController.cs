@@ -51,7 +51,7 @@ namespace QuestionYourFriends.Controllers
                     string next_state = "settled";
                     content.Add("status",next_state);
                     QuestionYourFriendsDataAccess.User u = Models.User.Get(buyer);
-                    //if (Models.Transac.Earning(u, 10000))
+                    if (Models.Transac.Earning(u, 10000))
                         u.credit_amount += 10000;
                     Models.User.Update(u);
                 }
