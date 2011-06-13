@@ -1,0 +1,593 @@
+﻿/*----------------------------------------------------------
+La couleur de base pour ce modèle est #5c87b2. Si vous voulez
+utiliser une autre couleur, remplacez toutes les instances de
+#5c87b2 par la nouvelle couleur.
+----------------------------------------------------------*/
+*
+{
+    margin:0;
+    padding:0;
+}
+body
+{
+    border:1px solid #C8C8C8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a:link
+{
+    color: #034af3;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #505abc;
+}
+a:hover
+{
+    color: #1d60ff;
+    text-decoration: none;
+}
+a:active
+{
+    color: #12eb87;
+}
+
+p, ul
+{
+   
+}
+
+/* TITRES   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+h2
+{
+    padding: 0 0 10px 0;
+}
+h3
+{
+    font-size: 1.2em;
+}
+h4
+{
+    font-size: 1.1em;
+}
+h5, h6
+{
+    font-size: 1em;
+}
+
+/* cette règle applique les styles aux balises <h2> qui sont le 
+premier enfant des colonnes de table gauche et droite*/
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0;
+}
+
+/* ÉLÉMENTS DE MISE EN FORME PRINCIPAUX   
+----------------------------------------------------------*/
+
+/* vous pouvez spécifier un pourcentage supérieur ou inférieur pour la largeur de la  
+page. Ou bien, vous pouvez spécifier une largeur exacte en pixels. */
+.page
+{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header
+{
+    position: relative;
+    color: #000;
+    padding: 0;
+    height:126px;
+    background-image:url(header-bg.jpg);
+}
+
+#header #logo 
+{
+    float:left;
+    width: 236px;
+    height: 126px;
+    background-image:url(logo.png);
+}
+#header h1
+{
+    font-weight: bold;
+    padding: 5px 0;
+    margin: 0;
+    color: #fff;
+    border: none;
+    line-height: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px !important;
+}
+
+#header .fb-header
+{
+    padding-top: 60px;
+    margin-left: 260px;  
+}
+#main
+{
+    position:relative;
+    padding: 15px 30px 15px 30px;
+    background-color: #fff;
+    margin-bottom: 30px;
+    _height: 1px; /* seul IE6 applique des propriétés CSS en commençant par un trait de soulignement */
+}
+
+#footer
+{
+    color: #999;
+    padding: 10px 0;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
+}
+
+/* MENU DE L'ONGLET   
+----------------------------------------------------------*/
+ul#menu
+{
+    position: absolute;
+    bottom: 6px;
+    left: 250px;
+    margin:0px;
+    padding:0px;
+}
+
+ul#menu li
+{
+    
+    display: block;
+    margin-right:2px;
+    list-style: none;
+    float: left;
+}
+
+ul#menu li a
+{
+    padding: 7px 9px;
+    font-weight: bold;
+    font-size:12px;
+    text-decoration: none;
+    line-height: 12px;
+    background-color: #667cb6;
+    color: white;
+}
+
+ul#menu li a:hover
+{
+    background-color: #8495c4;
+    text-decoration: none;
+    color:white;
+}
+
+ul#menu li.green a
+{
+    background-color: #7e9f5e;
+    color: white;
+}
+
+ul#menu li.green a:hover
+{
+    background-color: #93b670;
+    color:white;
+}
+
+ul#menu li.green a:active
+{
+    background-color: white;
+    text-decoration: none;
+    color:#667cb6;
+}
+
+ul#menu li a:active
+{
+    background-color: white;
+    text-decoration: none;
+    color:#667cb6;
+}
+
+ul#menu li.selected a
+{
+    background-color: #fff;
+    color: #667cb6;
+}
+
+ul#menu li.selected.green a
+{
+    background-color: #fff;
+    color: #667cb6;
+}
+
+/* PAGE QUESTIONS */
+.question-bloc{border-bottom:1px solid #dcdcdc;padding:15px 20px;}
+.question-bloc img{float:left;border:1px solid #C8C8C8;}
+.question-bloc .question{padding-left: 60px;}
+.question-bloc .question .question-status{font-size:12px;color:#646464;}
+.question-bloc .question .question-status .name{font-weight:bold;color:#325587;}
+.question-bloc .question .question-status .privacy{font-weight:bold;color:#558a22;}
+.question-bloc .question .question-sentence{margin-top:4px;font-size:18px;color:#558a22;}
+.question-bloc .question .answer-bloc{background-color:#eeeff4;padding:5px;margin-top: 10px;}
+.question-bloc .question .answer-bloc img{float:left;border:1px solid #C8C8C8;}
+.question-bloc .question .answer-bloc .answer {padding-left: 40px;}
+.question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
+.question-bloc .question .answer-bloc .answer .answer-status{font-size:11px;color:#646464;}
+.question-bloc .question .answer-bloc .answer .answer-status .name{font-weight:bold;color:#325587;}
+.question-bloc .question .answer-bloc .answer .answer-status .privacy{font-weight:bold;color:#558a22;}
+.question-bloc .question .answer-bloc .answer .answer-sentence{font-size:11px;color:black;}
+.question-bloc .delete-cross { float: right;}
+.question-bloc button {display: inline; float:left; margin-right: 4px}
+
+/* ÉLÉMENTS DE MISE EN FORME DU FORMULAIRE   
+----------------------------------------------------------*/
+
+fieldset 
+{
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #CCC;
+}
+
+fieldset p 
+{
+    margin: 2px 12px 10px 10px;
+}
+
+legend 
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 2px 4px 8px 4px;
+}
+
+input[type="text"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+input[type="password"] 
+{
+    width: 200px;
+    border: 1px solid #CCC;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+
+table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+}
+
+table th
+{
+  padding: 6px 5px;
+  text-align: left;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
+}
+
+/* DIVERS  
+----------------------------------------------------------*/
+.clear
+{
+    clear: both;
+}
+
+.error
+{
+    color:Red;
+}
+
+#menucontainer
+{
+    margin-top:40px;
+}
+
+div#title
+{
+    display:block;
+    float:left;
+    text-align:left;
+}
+
+#logindisplay
+{
+    font-size:1.1em;
+    display:block;
+    text-align:right;
+    margin:10px;
+    color:White;
+}
+
+#logindisplay a:link
+{
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:visited
+{
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:hover
+{
+    color: white;
+    text-decoration: none;
+}
+
+/* Styles pour les programmes d'assistance de validation
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/* Styles pour les programmes d'assistance d'éditeur et d'affichage
+----------------------------------------------------------*/
+.display-label,
+.editor-label,
+.display-field,
+.editor-field
+{
+    margin: 0.5em 0;
+}
+
+.text-box
+{
+    width: 30em;
+}
+
+.text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+
+/* menu wallet */
+#wallet
+{
+    position: absolute;
+    top:10px;
+    left: 250px;
+    padding: 0px;
+    margin:0px;
+    list-style-type:none;
+}
+#wallet li
+{
+    display: block;
+    margin-right:2px;
+    list-style: none;
+    float: left;
+}
+#wallet a
+{
+    padding: 7px 9px;
+    font-weight: bold;
+    font-size:22px;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: white;
+}
+
+#wallet a:hover
+{
+    color: #5c87b2;
+}
+
+/* inbox / outbox tabs */
+#boxes
+{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+    
+    padding: 0px;
+    padding-top:4px;
+    margin:0px;
+    list-style-type:none;
+    
+    background-color: #ddDDdd;
+}
+#boxes li
+{
+    display: block;
+    list-style: none;
+    float: left;
+    width: 50%;
+    line-height: 30px;
+    text-align:center;
+}
+
+ul#boxes li a
+{
+    font-weight: bold;
+    font-size:16px;
+    text-decoration: none;
+    line-height: 16px;
+    width: 100%;
+}
+
+ul#boxes li a:hover
+{
+    color:white;
+}
+
+
+ul#boxes li.actif
+{
+    background-color: White;
+}
+
+ul#boxes li.actif a
+{
+    color: #93b670;
+}
+ul#boxes li.actif a:hover
+{
+    color: #93b670;
+}
+
+/* Default Facebook CSS */
+.fbbody
+{
+    font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    color: #333333;
+}
+/* Default Anchor Style */
+.fbbody a
+{
+    color: #3b5998;
+    outline-style: none;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: bold;
+}
+.fbbody a:hover
+{
+    text-decoration: underline;
+}
+/* Facebook Box Styles */
+.fbgreybox
+{
+    background-color: #f7f7f7;
+    border: 1px solid #cccccc;
+    color: #333333;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.fbbluebox
+{
+    background-color: #eceff6;
+    border: 1px solid #d4dae8;
+    color: #333333;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.fbinfobox
+{
+    background-color: #fff9d7;
+    border: 1px solid #e2c822;
+    color: #333333;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.fberrorbox
+{
+    background-color: #ffebe8;
+    border: 1px solid #dd3c10;
+    color: #333333;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: bold;
+}
+/* Content Divider on White Background */
+.fbcontentdivider
+{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 520px;
+    height: 1px;
+    background-color: #d8dfea;
+}
+/* Facebook Tab Style */
+.fbtab
+{
+    padding: 8px;
+    background-color: #d8dfea;
+    color: #3b5998;
+    font-weight: bold;
+    float: left;
+    margin-right: 4px;
+    text-decoration: none;
+}
+.fbtab:hover
+{
+    background-color: #3b5998;
+    color: #ffffff;
+    cursor: hand;
+}
+
+.friendAnonymous 
+{
+    background-color: White;
+    /*background-color: #EEEFF4;
+    border: 1px solid #5c87b2;
+    color: #5c87b2;
+    border-radius: 2px;
+    width:32px;*/
+    font-size: 12px;
+    border: none;
+    font-weight:bold;
+    color:#325587;
+}
+
+.friendAnonymous:hover
+{
+	text-decoration: underline;
+    /*background-color: #EEEFF4;
+    border: 1px solid #558A22;
+    color: #558A22;*/
+}
