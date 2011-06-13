@@ -1,0 +1,29 @@
+﻿<%@ Master Language="C#" CodeBehind="Site.master.cs" Inherits="QuestionYourFriendsBackEnd.Site" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Question Your Friends Back End</title>
+    <link href="~/Site.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="template">
+    <h1><span class="allcaps">Question Your Friends Back End</span></h1>
+    
+    <form id="form1" runat="server">
+
+    <div class="back">
+        <a runat="server" href="~/"><img alt="Retour à la page d'accueil" runat="server" src="DynamicData/Content/Images/back.gif" />Retour à la page d'accueil</a>
+        <asp:LoginStatus ID="LoginStatus1" runat="server"/>
+    </div>
+
+    <div>
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true"/>
+        
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
