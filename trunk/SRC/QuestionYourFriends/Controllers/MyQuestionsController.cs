@@ -3,8 +3,10 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using log4net;
 using QuestionYourFriends.Caching;
-using QuestionYourFriends.Models;
 using System;
+using QuestionYourFriendsDataAccess;
+using Question = QuestionYourFriends.Models.Question;
+using Transac = QuestionYourFriends.Models.Transac;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -28,7 +30,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -42,6 +44,12 @@ namespace QuestionYourFriends.Controllers
                 List<QuestionYourFriendsDataAccess.Question> receiver = Question.GetListOfReceiver(uid);
                 ViewData["questions"] = receiver;
                 ViewData["tab"] = "toMe";
+                var user = Models.User.Get(uid);
+                int nbRemain = QyfData.EarningMessagePerDay - Transac.GetNumberOfResponseToday(user);
+                string msg = string.Format("You can earn {0} credits each time you answer a question, {1} times a day.",
+                                           QyfData.EarningAnswer, QyfData.EarningMessagePerDay);
+                msg += nbRemain != 0 ? string.Format(" {0} more today!", nbRemain) : " No more today!";
+                ViewData["Info2"] = msg;
             }
             catch (ApplicationException e)
             {
@@ -65,7 +73,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -75,7 +83,10 @@ namespace QuestionYourFriends.Controllers
                 dynamic dict = RequestCache.Get(fid + "fid2uid");
                 dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
                 if (result == null || friends == null || dict == null || friendsDict == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
 
                 // Compute data
                 ViewData["friends"] = friendsDict;
@@ -115,7 +126,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -135,7 +146,7 @@ namespace QuestionYourFriends.Controllers
                 Question.Update(q);
 
                 // Earning answer transaction
-                QuestionYourFriendsDataAccess.User u = Models.User.Get(uid);
+                User u = Models.User.Get(uid);
                 Transac.EarningAnswer(u);
             }
             catch (ApplicationException e)
@@ -159,7 +170,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -191,7 +202,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -224,7 +235,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -236,7 +247,7 @@ namespace QuestionYourFriends.Controllers
 
                 // Compute data
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-                QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
+                User user = Models.User.Get(uid);
                 Transac.DesanonymizeQuestion(question, user);
             }
             catch (ApplicationException e)
@@ -260,7 +271,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -272,7 +283,7 @@ namespace QuestionYourFriends.Controllers
 
                 // Compute data
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
-                QuestionYourFriendsDataAccess.User user = Models.User.Get(uid);
+                User user = Models.User.Get(uid);
                 Transac.DeprivatizeQuestion(question, user);
             }
             catch (ApplicationException e)

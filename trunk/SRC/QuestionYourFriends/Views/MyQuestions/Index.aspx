@@ -22,13 +22,20 @@
         {
         %>
         <div class="fbinfobox">  
-            You did not receive any question, go ask some to your friends!
+            You did not receive any question, go ask some to your friends <%:Html.ActionLink("here", "Index", "Ask")%>!
         </div>
    <%
         } 
         else
         {
 %>
+            <%if (ViewData.ContainsKey("Info2"))
+              {%>
+                <div class="fbinfobox">
+                    <%=ViewData["Info2"]%>
+                </div> 
+                <%
+              }%>
     <fb:serverFbml  width="670px" >
     <script type="text/fbml">
     <style>

@@ -50,7 +50,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -66,7 +66,10 @@ namespace QuestionYourFriends.Controllers
                 dynamic dict = RequestCache.Get(fid + "fid2uid");
                 dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
                 if (result == null || friends == null || dict == null || friendsDict == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
 
                 // Compute data
                 ViewData["friends"] = friendsDict;
@@ -80,6 +83,15 @@ namespace QuestionYourFriends.Controllers
                         friendsId.Add(dict[id]);
                 }
                 var questions = Question.GetFriendsQuestions(friendsId.ToArray());
+                for (int i = 0; i < questions.Count; )
+                {
+                    if (!friendsDict.ContainsKey(questions[i].Owner.fid))
+                    {
+                        questions.RemoveAt(i);
+                        continue;
+                    }
+                    i++;
+                }
                 ViewData["questions"] = questions;
                 string info = Info;
                 if (!string.IsNullOrWhiteSpace(info))
@@ -109,7 +121,7 @@ namespace QuestionYourFriends.Controllers
                 dynamic fid = Session["fid"];
                 if (uid == null || fid == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
 

@@ -35,12 +35,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 var transac = new QuestionYourFriendsDataAccess.Transac
                                   {
                                       UserReference =
-                                          {EntityKey = new EntityKey("QuestionYourFriendsEntities.User", "id", userId)}
+                                          {EntityKey = new EntityKey("QuestionYourFriendsEntities.Users", "id", userId)}
                                   };
                 transac.SetTransacStatus(TransacStatus.Ok);
                 transac.SetTransacType(type);
                 if (questionId.HasValue)
-                    transac.QuestionReference.EntityKey = new EntityKey("QuestionYourFriendsEntities.Question", "id", questionId);
+                    transac.QuestionReference.EntityKey = new EntityKey("QuestionYourFriendsEntities.Questions", "id", questionId);
                 qyfEntities.AddToTransacs(transac);
                 transac.amount = amount;
                 qyfEntities.SaveChanges();

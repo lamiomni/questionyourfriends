@@ -25,7 +25,7 @@
         {
         %>
         <div class="fbinfobox">  
-            You did not send any question, go ask some to your friends!
+            You did not send any question, go ask some to your friends <%=Html.ActionLink("here", "Index", "Ask")%>!
         </div>
    <%
 }

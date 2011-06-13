@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using System.Web.Mvc;
-using Facebook;
 using log4net;
-using QuestionYourFriends.Caching;
-using QuestionYourFriends.Models;
+using QuestionYourFriendsDataAccess;
+using Question = QuestionYourFriends.Models.Question;
+using Transac = QuestionYourFriends.Models.Transac;
 
 namespace QuestionYourFriends.Controllers
 {
@@ -26,7 +26,7 @@ namespace QuestionYourFriends.Controllers
                 // Fetch data
                 if (Session["uid"] == null || Session["fid"] == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
                 var uid = (int)Session["uid"];
@@ -38,13 +38,13 @@ namespace QuestionYourFriends.Controllers
                 folder = folder.Substring(0, folder.Length - 10);
                 _logger.InfoFormat("User {0} (FbId: {1}) accessed page {2}/{3}", uid, fid, folder, mb.Name);
 
-                // Do work
-                var user = RequestCache.Get<JsonObject>(fid + "user");
-                if (user == null)
-                    return RedirectToAction("Index", "Home");
-                ViewData["Firstname"] = user["first_name"];
-                ViewData["Lastname"] = user["last_name"];
-                ViewData["Message"] = "Bienvenue sur QuestionYourFriends !";
+                // Infos
+                var user = Models.User.Get(uid);
+                int nbRemain = QyfData.FreeQuestionPerDay - Transac.GetNumberOfQuestionToday(user);
+                string msg = string.Format("You can earn {0} credits each time you ask a question, {1} times a day.",
+                                           QyfData.EarningMessage, QyfData.FreeQuestionPerDay);
+                msg += nbRemain != 0 ? string.Format(" {0} more today!", nbRemain) : " No more today!";
+                ViewData["Info"] = msg;
             }
             catch (ApplicationException e)
             {
@@ -64,7 +64,7 @@ namespace QuestionYourFriends.Controllers
                 // Fetch data
                 if (Session["uid"] == null || Session["fid"] == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
                 var uid = (int)Session["uid"];
@@ -99,21 +99,21 @@ namespace QuestionYourFriends.Controllers
                     throw new ApplicationException("Please enter valid numbers (> 0 and < 9,999,999) for the prices.");
 
                 // Do work
-                QuestionYourFriendsDataAccess.User me = Models.User.Get(fid);
+                User me = Models.User.Get(fid);
                 if (me.credit_amount > (annonCost + privateCost))
                 {
-                    QuestionYourFriendsDataAccess.User friend = Models.User.Get(ffid);
+                    User friend = Models.User.Get(ffid);
                     int qid = Question.Create(me.id, friend.id, askedQuestion, annonCost, privateCost, DateTime.Now);
                     QuestionYourFriendsDataAccess.Question q = Question.Get(qid);
                     Transac.SpendAndQuestion(q, me);
                 }
-                ViewData["Info"] = "Your question has been sent successfully.";
 
                 // Publication sur Fb
                 try
                 {
-                    if (annonCost == 0)
-                        Models.Facebook.Publish(ffid, askedQuestion, "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif", "http://apps.facebook.com/questionyourfriends/", "Question Your Friend", QuestionYourFriends.Models.Facebook.GetFriendName(fid) + " just asked you a question on Question Your Friends! Come on and answer the question!");
+                    if (annonCost == 0 && privateCost == 0)
+                        Models.Facebook.Publish(ffid, askedQuestion, "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif", "http://apps.facebook.com/questionyourfriends/", "Question Your Friend", Models.Facebook.GetFriendName(fid) + " just asked you a question on Question Your Friends! Come on and answer the question!");
+                    ViewData["Info"] = "Your question has been sent successfully.";
                 }
                 catch (Facebook.FacebookApiException e)
                 {

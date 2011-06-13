@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Mvc;
 using Facebook.Web.Mvc;
@@ -21,38 +22,47 @@ namespace QuestionYourFriends.Controllers
         [CanvasAuthorize(Permissions = "user_about_me,publish_stream")]
         public ActionResult Index()
         {
-            dynamic fid = Session["fid"];
-            if (fid == null || RequestCache.Get(fid + "user") == null)
+            try
             {
                 dynamic currentUser = Models.Facebook.GetUserInfo();
-                fid = long.Parse(currentUser.id);
-                QuestionYourFriendsDataAccess.User u = Models.User.Get(fid);
-
-                if (!u.activated)
-                    return View();
-
-                Session["fid"] = fid;
-                Session["uid"] = u.id;
-
-                RequestCache.Add(fid + "user", currentUser);
-                RequestCache.Add(fid + "friends", Models.Facebook.GetUserFriends());
-                RequestCache.Add(fid + "friendsDictionary", Models.Facebook.GetUserFriendsDictionary());
-
+                long fid = long.Parse(currentUser.id);
+                dynamic result = RequestCache.Get(fid + "user");
                 dynamic friends = RequestCache.Get(fid + "friends");
-                var friendsId = new List<long>();
-                foreach (var friend in friends.data)
-                    friendsId.Add(long.Parse(friend.id));
-                RequestCache.Add(fid + "fid2uid", Models.Facebook.GetUidFromFid(friendsId.ToArray()));
+                dynamic dict = RequestCache.Get(fid + "fid2uid");
+                dynamic friendsDict = RequestCache.Get(fid + "friendsDictionary");
 
-                _logger.InfoFormat("Fetch cache for {0} (FbId: {1}) done.", u.id, fid);
+                if (Session["fid"] == null || (long) Session["fid"] != fid || result == null || friends == null
+                    || dict == null || friendsDict == null)
+                {
+                    Session.Clear();
+                    QuestionYourFriendsDataAccess.User u = Models.User.Get(fid);
+
+                    if (!u.activated)
+                        return View();
+
+                    Session["fid"] = fid;
+                    Session["uid"] = u.id;
+
+                    friends = Models.Facebook.GetUserFriends();
+
+                    RequestCache.Add(fid + "user", currentUser);
+                    RequestCache.Add(fid + "friends", friends);
+                    RequestCache.Add(fid + "friendsDictionary", Models.Facebook.GetUserFriendsDictionary());
+                    var friendsId = new List<long>();
+                    foreach (var friend in friends.data)
+                        friendsId.Add(long.Parse(friend.id));
+                    RequestCache.Add(fid + "fid2uid", Models.Facebook.GetUidFromFid(friendsId.ToArray()));
+
+                    _logger.InfoFormat("Fetch cache for {0} (FbId: {1} - db {2}) done.", u.id, fid, u.fid);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                _logger.Error(e.Message);
+                return View();
             }
             return RedirectToAction("Index", "MyQuestions");
-        }
-
-        public ActionResult Clear()
-        {
-            Session.Clear();
-            return View("Index");
         }
     }
 }

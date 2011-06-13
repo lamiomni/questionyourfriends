@@ -15,17 +15,14 @@
         {
         %>
         <div class="fbinfobox">  
-            Your friends did not receive any question, go ask them some!
+            Your friends did not receive any question, go ask them some <%=Html.ActionLink("here", "Index", "Ask")%>!
         </div>
    <%
 }
         else
         {
             foreach (var question in questions)
-            {
-                if (!friends.ContainsKey(question.Owner.fid))
-                    continue;
-%>
+            {%>
        <div class="question-bloc">
        <%
                 if (question.anom_price > 0)
