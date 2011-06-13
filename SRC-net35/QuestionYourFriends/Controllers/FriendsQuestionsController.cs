@@ -50,7 +50,7 @@ namespace QuestionYourFriends.Controllers
                 // Fetch data
                 if (Session["uid"] == null || Session["fid"] == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
                 var uid = (int)Session["uid"];
@@ -68,7 +68,10 @@ namespace QuestionYourFriends.Controllers
                 var dict = RequestCache.Get<IDictionary<long, int>>(fid + "fid2uid");
                 var friendsDict = RequestCache.Get<IDictionary<long, JsonObject>>(fid + "friendsDictionary");
                 if (result == null || friends == null || dict == null || friendsDict == null)
+                {
+                    _logger.Info("Cache fault");
                     return RedirectToAction("Index", "Home");
+                }
 
                 // Compute data
                 ViewData["friends"] = friendsDict;
@@ -77,6 +80,15 @@ namespace QuestionYourFriends.Controllers
                 var questions = Question.GetFriendsQuestions((from friend in (JsonArray) friends[0]
                                                               select long.Parse(((JsonObject)friend)["id"].ToString())
                                                               into id where dict.ContainsKey(id) select dict[id]).ToArray());
+                for (int i = 0; i < questions.Count;)
+                {
+                    if (!friendsDict.ContainsKey(questions[i].Owner.fid))
+                    {
+                        questions.RemoveAt(i);
+                        continue;
+                    }
+                    i++;
+                }
                 ViewData["questions"] = questions;
                 string info = Info;
                 if (!string.IsNullOrEmpty(info))
@@ -104,7 +116,7 @@ namespace QuestionYourFriends.Controllers
                 // Fetch data
                 if (Session["uid"] == null || Session["fid"] == null)
                 {
-                    _logger.Info("Cache fault");
+                    _logger.InfoFormat("Session fault, uid({0}), fid({1})", Session["uid"], Session["fid"]);
                     return RedirectToAction("Index", "Home");
                 }
                 var uid = (int)Session["uid"];

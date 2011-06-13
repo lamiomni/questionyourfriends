@@ -14,7 +14,8 @@ namespace QuestionYourFriends.Controllers
         {
             string qidstring = Request.Params.Get("qid");
             int qid;
-            try {
+            try
+            {
                 qid = int.Parse(qidstring);
             }
             catch (Exception e)

@@ -25,8 +25,8 @@ namespace QuestionYourFriends.Controllers
             FacebookSignedRequest request = FacebookSignedRequest.Parse(FacebookApplication.Current.AppSecret, Request.Params.Get("signed_request"));
             var requestdata = (JsonObject)request.Data;
             
-            var data = new Dictionary<string, dynamic>();
-            var content = new Dictionary<string, dynamic>();
+            var data = new Dictionary<string, object>();
+            var content = new Dictionary<string, object>();
 
             var payload = (JsonObject)requestdata["credits"];
             string func = Request.Params.Get("method");
@@ -44,21 +44,27 @@ namespace QuestionYourFriends.Controllers
                     string next_state = "settled";
                     content.Add("status",next_state);
                     QuestionYourFriendsDataAccess.User u = Models.User.Get(buyer);
-                    if (Models.Transac.Earning(u, 10000))
-                        u.credit_amount += 10000;
-                    Models.User.Update(u);
+                    Models.Transac.Earning(u, 10000);
                 }
                 content.Add("order_id",order_id);
             }
             else if (func == "payments_get_items")
             {
-                var item = new Dictionary<string, dynamic>();
-                item.Add("title", "add credit");
-                item.Add("price", 1);
-              
-                item.Add("description", "Add some credit to qyf");
-                item.Add("product_url", "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif");
-                item.Add("image_url", "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif");
+                var item = new Dictionary<string, object>
+                               {
+                                   {"title", "Add credits"},
+                                   {"price", 1},
+                                   {"description", "Add 10000 credits to Question Your Friends"},
+                                   {
+                                       "product_url",
+                                       "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif"
+                                   },
+                                   {
+                                       "image_url",
+                                       "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif"
+                                   }
+                               };
+
                 content.Add("0", item);
             }
             data.Add("content", content);
@@ -66,8 +72,5 @@ namespace QuestionYourFriends.Controllers
             
             return Json(data);
         }
-
-        
-
     }
 }

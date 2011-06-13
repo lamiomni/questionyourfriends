@@ -40,12 +40,12 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                                        OwnerReference =
                                            {
                                                EntityKey =
-                                                   new EntityKey("QuestionYourFriendsEntities.User", "id", idOwner)
+                                                   new EntityKey("QuestionYourFriendsEntities.Users", "id", idOwner)
                                            },
                                        ReceiverReference =
                                            {
                                                EntityKey =
-                                                   new EntityKey("QuestionYourFriendsEntities.User", "id", idReceiver)
+                                                   new EntityKey("QuestionYourFriendsEntities.Users", "id", idReceiver)
                                            },
                                        text = text,
                                        answer = null,

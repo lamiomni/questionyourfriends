@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using log4net;
@@ -268,7 +269,23 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            return Create(QyfData.EarningAnswer, user.id, TransacType.EarningAnswer, null) != -1;
+            if (GetNumberOfResponseToday(user) < QyfData.EarningMessagePerDay)
+                return Create(QyfData.EarningAnswer, user.id, TransacType.EarningAnswer, null) != -1;
+            return false;
+        }
+
+        /// <summary>
+        /// Get earning from asking a question
+        /// </summary>
+        /// <param name="user">Concerned user</param>
+        /// <returns>True if the process is ok</returns>
+        public static bool EarningMessage(
+            QuestionYourFriendsDataAccess.User user)
+        {
+            // Creation of the transaction
+            if (GetNumberOfQuestionToday(user) < QyfData.FreeQuestionPerDay)
+                return Create(QyfData.EarningMessage, user.id, TransacType.EarningAnswer, null) != -1;
+            return false;
         }
 
         /// <summary>
@@ -282,9 +299,35 @@ namespace QuestionYourFriends.Models
             QuestionYourFriendsDataAccess.User user)
         {
             // Creation of the transaction
-            Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
-            Create(-question.private_price, user.id, TransacType.Privatize, question.id);
+            if (question.anom_price != 0)
+                Create(-question.anom_price, user.id, TransacType.Anonymize, question.id);
+            if (question.private_price != 0)
+                Create(-question.private_price, user.id, TransacType.Privatize, question.id);
+            EarningMessage(user);
             return true;
+        }
+
+        /// <summary>
+        /// Get the number of asked question today
+        /// </summary>
+        /// <param name="user">User to check</param>
+        /// <returns>The number of asked question today</returns>
+        public static int GetNumberOfQuestionToday(QuestionYourFriendsDataAccess.User user)
+        {
+            var questions = Question.GetList();
+            return questions.Count(q => q.Owner.id == user.id && q.date_pub.Date == DateTime.Today);
+        }
+
+        /// <summary>
+        /// Get the number of answered question today
+        /// </summary>
+        /// <param name="user">User to check</param>
+        /// <returns>The number of answered question today</returns>
+        public static int GetNumberOfResponseToday(QuestionYourFriendsDataAccess.User user)
+        {
+            var questions = Question.GetList();
+            return questions.Count(q => q.Receiver.id == user.id && q.date_answer.HasValue
+                && q.date_answer.Value.Date == DateTime.Today);
         }
 
         #endregion
