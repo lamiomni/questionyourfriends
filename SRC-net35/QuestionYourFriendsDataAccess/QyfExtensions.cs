@@ -1,4 +1,7 @@
-﻿namespace QuestionYourFriendsDataAccess
+﻿using System;
+using System.Collections.Generic;
+
+namespace QuestionYourFriendsDataAccess
 {
     /// <summary>
     /// Extensions for Transactions about enums
@@ -83,6 +86,43 @@
                     return TransacStatus.Ok;
             }
             return TransacStatus.Ko;
+        }
+    }
+
+    public class QyfComparer: IComparer<Question>
+    {
+        public static QyfComparer Instance = new QyfComparer();
+
+        public int Compare(Question x, Question y)
+        {
+            DateTime d1;
+            DateTime d2;
+
+            // Set d1
+            if (x.date_answer.HasValue)
+            {
+                DateTime ans = x.date_answer.Value;
+                DateTime pub = x.date_pub;
+                d1 = pub > ans ? pub : ans;
+            }
+            else
+                d1 = x.date_pub;
+
+            // Set d2
+            if (y.date_answer.HasValue)
+            {
+                DateTime ans = y.date_answer.Value;
+                DateTime pub = y.date_pub;
+                d2 = pub > ans ? pub : ans;
+            }
+            else
+                d2 = y.date_pub;
+
+            if (d1 < d2)
+                return 1;
+            if (d1 > d2)
+                return -1;
+            return 0;
         }
     }
 }

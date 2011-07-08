@@ -14,7 +14,7 @@
         var sent = ((string) ViewData["tab"] == "fromMe") ? "class=actif" : "";
 %>
         <li <%=received%>><%=Html.ActionLink("Questions received", "Index", "MyQuestions")%></li>
-        <li <%=sent%>><%=Html.ActionLink("Questions sent", "FromMe", "Myquestions")%></li>
+        <li <%=sent%>><%=Html.ActionLink("Questions sent", "FromMe", "MyQuestions")%></li>
     </ul>
          <%
         var questions = (List<QuestionYourFriendsDataAccess.Question>) ViewData["questions"];
@@ -147,7 +147,7 @@
                             <img src="http://graph.facebook.com/<%=i.Receiver.fid%>/picture" height="33" width="33" alt=""/>
                             <div class="answer">
                                 <%
-                if (i.date_answer == null)
+                if (i.answer == null || !i.date_answer.HasValue)
                 {%>
                                 <div class="answer-status">You did not answer this question yet:</div>
                                 <div class="answer-sentence">
@@ -160,7 +160,7 @@
                 else
                 {%>
                                     <div class="answer-status">You answered:</div>
-                                    <%=i.answer%> <br/> <%=i.date_pub%>
+                                    <%=i.answer%> <br/> <%=i.date_answer.Value%>
                                 <%
                 }%>
                                 </div>

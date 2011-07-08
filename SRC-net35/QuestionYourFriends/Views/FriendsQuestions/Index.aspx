@@ -60,13 +60,13 @@
 
             <div class="question-sentence"><%=question.text%></div>
             <%
-                if (question.answer != null)
+                if (question.answer != null && question.date_answer.HasValue)
                 {%>
 		    <div class="answer-bloc">
 			<img src="http://graph.facebook.com/<%=question.Receiver.fid%>/picture" height="33" width="33" alt=""/>
 			<div class="answer">
 				<div class="answer-status"><%=friends[question.Receiver.fid]["name"]%> answered:</div>
-				<%=question.answer%> <br/> <%=question.date_pub%>
+				<%=question.answer%> <br/> <%=question.date_answer.Value%>
 			</div>
 			</div>
             <%

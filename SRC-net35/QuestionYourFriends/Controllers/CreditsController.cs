@@ -44,7 +44,7 @@ namespace QuestionYourFriends.Controllers
                     string next_state = "settled";
                     content.Add("status",next_state);
                     QuestionYourFriendsDataAccess.User u = Models.User.Get(buyer);
-                    Models.Transac.Earning(u, 10000);
+                    Models.Transac.Earning(u, 1000);
                 }
                 content.Add("order_id",order_id);
             }
@@ -53,8 +53,8 @@ namespace QuestionYourFriends.Controllers
                 var item = new Dictionary<string, object>
                                {
                                    {"title", "Add credits"},
-                                   {"price", 1},
-                                   {"description", "Add 10000 credits to Question Your Friends"},
+                                   {"price", 5},
+                                   {"description", "Add 1000 credits to Question Your Friends"},
                                    {
                                        "product_url",
                                        "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif"

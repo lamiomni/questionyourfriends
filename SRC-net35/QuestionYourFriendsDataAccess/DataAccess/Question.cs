@@ -291,8 +291,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver").
                     Where(x => x.Receiver.id == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)
-                    .OrderBy(x => x.date_pub).ToList();
-                res.Reverse();
+                    .ToList();
+                res.Sort(QyfComparer.Instance);
                 return res;
             }
             catch (Exception ex)
@@ -313,7 +313,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
             try
             {
                 _logger.Info("Get friends questions");
-                var questions = qyfEntities.Questions.Include("Owner").Include("Receiver").OrderBy(x => x.date_pub);
+                var questions = qyfEntities.Questions.Include("Owner").Include("Receiver");
                 var res = new List<QuestionYourFriendsDataAccess.Question>();
                 foreach (var q in questions)
                 {
@@ -321,7 +321,7 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                         && q.private_price == 0 && q.date_pub < DateTime.Now)
                         res.Add(q);
                 }
-                res.Reverse();
+                res.Sort(QyfComparer.Instance);
                 return res;
             }
             catch (Exception ex)
@@ -345,8 +345,8 @@ namespace QuestionYourFriendsDataAccess.DataAccess
                 var res = qyfEntities.Questions
                     .Include("Owner").Include("Receiver")
                     .Where(x => x.Owner.id == id && x.deleted == false && x.undesirable == false && x.date_pub < DateTime.Now)
-                    .OrderBy(x => x.date_pub).ToList();
-                res.Reverse();
+                    .ToList();
+                res.Sort(QyfComparer.Instance);
                 return res;
             }
             catch (Exception ex)
