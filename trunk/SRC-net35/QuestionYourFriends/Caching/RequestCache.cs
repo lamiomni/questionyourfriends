@@ -61,7 +61,7 @@ namespace QuestionYourFriends.Caching
         {
             try
             {
-                _cache.Add(key, o, CacheItemPriority.Normal, null, new AbsoluteTime(new TimeSpan(0, 5, 0)));
+                _cache.Add(key, o, CacheItemPriority.Normal, null, new AbsoluteTime(new TimeSpan(0, 30, 0)));
                 _logger.DebugFormat("Cache add success: {0}", key);
                 return true;
             }

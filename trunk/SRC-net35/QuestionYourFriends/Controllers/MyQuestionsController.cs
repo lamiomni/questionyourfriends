@@ -47,9 +47,9 @@ namespace QuestionYourFriends.Controllers
                 ViewData["tab"] = "toMe";
                 var user = Models.User.Get(uid);
                 int nbRemain = QyfData.EarningMessagePerDay - Transac.GetNumberOfResponseToday(user);
-                string msg = string.Format("You can earn {0} credits each time you answer a question, {1} times a day.",
+                string msg = string.Format("Question Your Friends helps people find out more about each other through sharing interesting & personal responses.\n<br /><br />You can earn {0} credits each time you answer a question, {1} times a day.",
                                            QyfData.EarningAnswer, QyfData.EarningMessagePerDay);
-                msg += nbRemain != 0 ? string.Format(" {0} more today!", nbRemain) : " No more today!";
+                msg += nbRemain > 0 ? string.Format(" {0} more today!", nbRemain) : " No more today!";
                 ViewData["Info2"] = msg;
             }
             catch (ApplicationException e)
@@ -149,6 +149,22 @@ namespace QuestionYourFriends.Controllers
                 // Earning answer transaction
                 User u = Models.User.Get(uid);
                 Transac.EarningAnswer(u);
+
+                // Publication sur Fb
+                try
+                {
+                    long ffid = Models.User.Get(q.Owner.id).fid;
+                    if (q.anom_price == 0 && q.private_price == 0)
+                        Models.Facebook.Publish(ffid, "I just answered to your question.", 
+                            "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif", 
+                            "http://apps.facebook.com/questionyourfriends/", 
+                            "Question Your Friend", 
+                            Models.Facebook.GetFriendName(fid) + " just answered to your question on Question Your Friends! Come on and check the answer!");
+                }
+                catch (FacebookApiException e)
+                {
+                    _logger.Error(e.Message);
+                }
             }
             catch (ApplicationException e)
             {
@@ -250,6 +266,22 @@ namespace QuestionYourFriends.Controllers
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
                 User user = Models.User.Get(uid);
                 Transac.DesanonymizeQuestion(question, user);
+
+                // Publication sur Fb
+                try
+                {
+                    long ffid = Models.User.Get(question.Owner.id).fid;
+                    if (question.anom_price == 0 && question.private_price == 0)
+                        Models.Facebook.Publish(ffid, "I just unanonymized your question!",
+                            "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif",
+                            "http://apps.facebook.com/questionyourfriends/",
+                            "Question Your Friend",
+                            Models.Facebook.GetFriendName(fid) + " just unanonymized your question on Question Your Friends!");
+                }
+                catch (FacebookApiException e)
+                {
+                    _logger.Error(e.Message);
+                }
             }
             catch (ApplicationException e)
             {
@@ -286,6 +318,22 @@ namespace QuestionYourFriends.Controllers
                 QuestionYourFriendsDataAccess.Question question = Question.Get(qid);
                 User user = Models.User.Get(uid);
                 Transac.DeprivatizeQuestion(question, user);
+
+                // Publication sur Fb
+                try
+                {
+                    long ffid = Models.User.Get(question.Owner.id).fid;
+                    if (question.anom_price == 0 && question.private_price == 0)
+                        Models.Facebook.Publish(ffid, "I just deprivatized your question!",
+                            "https://fbcdn-photos-a.akamaihd.net/photos-ak-snc1/v27562/215/131910193550231/app_1_131910193550231_8016.gif",
+                            "http://apps.facebook.com/questionyourfriends/",
+                            "Question Your Friend",
+                            Models.Facebook.GetFriendName(fid) + " just deprivatized your question on Question Your Friends!");
+                }
+                catch (FacebookApiException e)
+                {
+                    _logger.Error(e.Message);
+                }
             }
             catch (ApplicationException e)
             {
